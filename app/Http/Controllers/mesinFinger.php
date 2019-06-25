@@ -8,8 +8,8 @@ class mesinFinger extends Controller
 {
 
     //configurasi koneksi mesin, nanti bisa dipindahkan ke database
-    public $ip = '10.10.10.20';
-	  // public $ip = '192.168.0.50';
+    //public $ip = '10.10.10.20';
+	   public $ip = '192.168.0.51';
     public $key = 0;
 
     //format pemanggilan data pada mesin finger menggunakan metode SOAP
@@ -226,7 +226,7 @@ class mesinFinger extends Controller
     }
 
     //---------------------------------------------------------------------------------------------------------------------------------
-    //menarik data pegawai di alat finger
+    //menarik data pegawai di alat finger dan disimpan dalam array //!object
     public function cekdatapegawai_finger()
     {
 
@@ -256,19 +256,40 @@ class mesinFinger extends Controller
       for($i=0;$i<count($buffer);$i++)
       {
         $data = $this->Parse_Data($buffer[$i],"<Row>","</Row>");
-        $datapegawai[$i] = array(
-                              'PIN' => $this->Parse_Data($data,"<PIN>","</PIN>"),
-                              'Name' => $this->Parse_Data($data,"<Name>","</Name>"),
-                              'Password' => $this->Parse_Data($data,"<Password>","</Password>"),
-                              'Group' => $this->Parse_Data($data,"<Group>","</Group>"),
-                              'Privilege' => $this->Parse_Data($data,"<Privilege>","</Privilege>"),
-                              'Card' => $this->Parse_Data($data,"<Card>","</Card>"),
-                              'PIN2' => $this->Parse_Data($data,"<PIN2>","</PIN2>"),
-                             );
+        if($this->Parse_Data($data,"<PIN>","</PIN>")!='')
+        {
+          $datapegawai[$i] = array(
+                                'PIN' => $this->Parse_Data($data,"<PIN>","</PIN>"),
+                                'Name' => $this->Parse_Data($data,"<Name>","</Name>"),
+                                'Password' => $this->Parse_Data($data,"<Password>","</Password>"),
+                                'Group' => $this->Parse_Data($data,"<Group>","</Group>"),
+                                'Privilege' => $this->Parse_Data($data,"<Privilege>","</Privilege>"),
+                                'Card' => $this->Parse_Data($data,"<Card>","</Card>"),
+                                'PIN2' => $this->Parse_Data($data,"<PIN2>","</PIN2>"),
+                               );
+        }
+
       }
       //dd($datapegawai[1]['PIN']);
 
-      return view('datapegawai_m',[ 'datapegawai' => $datapegawai ]);
+      return $datapegawai;
+    }
+    //END.------------------------------------------------------------------------------------------------------------------------------
+
+    //---------------------------------------------------------------------------------------------------------------------------------
+    //memanggil data Figer pegawai dari fungsi cekdatapegawai_finger() for datatable
+    public function datapegawai_finger()
+    {
+        return datatables()->of($this->cekdatapegawai_finger())->toJson();
+        //dd($this->cekdatapegawai_finger());
+    }
+    //END.------------------------------------------------------------------------------------------------------------------------------
+
+    //---------------------------------------------------------------------------------------------------------------------------------
+    //memanggil data Figer pegawai dari fungsi cekdatapegawai_finger() for datatable
+    public function datapegawai_finger_view()
+    {
+      return view('datapegawai_m');
     }
     //END.------------------------------------------------------------------------------------------------------------------------------
 
@@ -281,7 +302,6 @@ class mesinFinger extends Controller
       //  </GetUserTemplateResponse>
 
       return view('datafingerpegawai_m',[ 'ID' => $id, 'nama' => $nama ]);
-
 
     }
     //END.------------------------------------------------------------------------------------------------------------------------------
@@ -448,33 +468,47 @@ class mesinFinger extends Controller
     //END.------------------------------------------------------------------------------------------------------------------------------
 
 
-	public function tambahNamaPegawai()
+	public function tambahNamaPegawai(Request $request)
 	{
 
 
 		//dd($template);
-      $Connect = fsockopen($this->ip, "80", $errno, $errstr, 1);
+      $PIN = $request->pin;
+      $nama = $request->nama;
+      if($nama=='' || $PIN =='') {
+        $seluruh['status']="0";
+        $seluruh['pesan']='Tidak boleh ada data yang kosong!';
+        return $seluruh;
+      }
+      else
+      {
+        $Connect = fsockopen($this->ip, "80", $errno, $errstr, 1);
 
-      $soap_request= $this->SetUserInfoPass("MUHAMMAD JAYAGUNA", "", "12612");
-      $buffer="";
-      $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefiniskan sebagai variable agar menyimpan data
+        $soap_request= $this->SetUserInfoPass($nama, "", $PIN);
+        $buffer="";
+        $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefiniskan sebagai variable agar menyimpan data
 
-      $buffer= $this->Parse_Data($buffer,"<SetUserInfoResponse>","</SetUserInfoResponse>");
-      $buffer= $this->Parse_Data($buffer,"<Information>","</Information>");
-      //dd($buffer);
+        $buffer= $this->Parse_Data($buffer,"<SetUserInfoResponse>","</SetUserInfoResponse>");
+        $buffer= $this->Parse_Data($buffer,"<Information>","</Information>");
+        //dd($buffer);
 
-      $Response = $buffer; //response yang dibalikkan ke viewerblade
+        $Response = $buffer; //response yang dibalikkan ke viewerblade
 
-      //Refresh DB---------------------------------------------
-    	$Connect = fsockopen($this->ip, "80", $errno, $errstr, 1);
-    	$soap_request="<RefreshDB><ArgComKey xsi:type=\"xsd:integer\">".$this->key."</ArgComKey></RefreshDB>";
-    	$newLine="\r\n";
-    	fputs($Connect, "POST /iWsService HTTP/1.0".$newLine);
-      fputs($Connect, "Content-Type: text/xml".$newLine);
-      fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
-      fputs($Connect, $soap_request.$newLine);
+        //Refresh DB---------------------------------------------
+        $Connect = fsockopen($this->ip, "80", $errno, $errstr, 1);
+        $soap_request="<RefreshDB><ArgComKey xsi:type=\"xsd:integer\">".$this->key."</ArgComKey></RefreshDB>";
+        $newLine="\r\n";
+        fputs($Connect, "POST /iWsService HTTP/1.0".$newLine);
+        fputs($Connect, "Content-Type: text/xml".$newLine);
+        fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
+        fputs($Connect, $soap_request.$newLine);
 
-      //End.RefreshDB--------------------------------
+        //End.RefreshDB--------------------------------
+        $seluruh['status']="1";
+        $seluruh['nama']=$nama;
+        return $seluruh;
+      }
+
 	}
 
     //---------------------------------------------------------------------------------------------------------------------------------
@@ -483,7 +517,7 @@ class mesinFinger extends Controller
     {
 
       //dd($request);
-      $status_store = $request->status_store;
+      //$status_store = $request->status_store;
       $PIN = $request->ID;
       $nama = $request->nama;
 
@@ -523,16 +557,16 @@ class mesinFinger extends Controller
     {
 
       //dd($request);
-      $status_store = $request->status_store;
-      //$PIN = $request->ID;
-      //$nama = $request->nama;
+      //$status_store = $request->status_store;
+      $PIN = $request->id;
+      $nama = $request->nama;
 
 
 
       //dd($template);
       $Connect = fsockopen($this->ip, "80", $errno, $errstr, 1);
 
-      $soap_request= $this->DeleteUser("9762");
+      $soap_request= $this->DeleteUser($PIN);
       $buffer="";
       $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefiniskan sebagai variable agar menyimpan data
 
@@ -553,8 +587,11 @@ class mesinFinger extends Controller
 
       //End.RefreshDB--------------------------------
 
-      //return redirect()->route('mesin.datafingerpegawai',[$PIN, $nama])->with('warning', '<strong>Data Fingerprint</strong> berhasil di'.$request->status_store.'!');
+      //return redirect()->route('mesin.datapegawai')->with('warning', '<strong>Data '.$nama.'</strong> berhasil dihapus!');
       //return redirect()->route('adm_user.index')->with('message', '<strong>'.$request->nama.'</strong> berhasil ditambahkan!');
+      $seluruh['status']="0";
+      $seluruh['nama']=$nama;
+      return $seluruh;
     }
     //END.------------------------------------------------------------------------------------------------------------------------------
 

@@ -59,8 +59,4 @@
 @section('js')
 <!--javascript custom section   -->
 <!-- code below -->
-<script>
-//komentar?
-
-</script>
 @stop

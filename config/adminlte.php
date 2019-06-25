@@ -149,6 +149,28 @@ return [
             'url'         => 'finger/daftarfingerdb',
             'icon'        => 'thumbs-o-up',
         ],
+        [
+            'text' => 'eAbsen App',
+            'icon' => 'group',
+            'submenu' =>[
+                          [
+                          'text' => 'Download Data Pegawai',
+                          'url'  => 'eabsen/downloadpegawai',
+                          'icon' => 'group',
+                          ],
+                          [
+                          'text' => 'Upload Finger',
+                          'url'  => 'eabsen/uploadfinger',
+                          'icon' => 'user',
+                          ],
+                          [
+                          'text' => 'Download Finger',
+                          'url'  => 'eabsen/downloadfinger',
+                          'icon' => 'user',
+                          ],
+                        ]
+
+        ],
     ],
 
     /*

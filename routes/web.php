@@ -18,8 +18,12 @@ Route::get('/tes', function () {
     return view('tesview');
 });
 
-Route::get('/pegawai/daftarpegawai_m', 'mesinFinger@cekdatapegawai_finger')->name('mesin.datapegawai'); //daftar pegawai
+Route::get('/pegawai/dtdatapegawai_m', 'mesinFinger@datapegawai_finger')->name('dt.datapegawai'); //daftar pegawai
+Route::get('/pegawai/daftarpegawai_m', 'mesinFinger@datapegawai_finger_view')->name('mesin.datapegawai'); //daftar pegawai
+//Route::get('/pegawaites', 'mesinFinger@datapegawai_finger'); //untuk tes daftar pegawai, ubah fungsi yang digunakan setelah @
 Route::get('/absensi/daftarabsensi_m', 'mesinFinger@getSemuaKehadiran')->name('mesin.dataabsensi'); //daftar semua absensi
+Route::post('/pegawai/tambahpegawai', 'mesinFinger@tambahNamaPegawai')->name('mesin.tambahpegawai'); //tambah data pegawai ke finger
+Route::post('/pegawai/hapuspegawai', 'mesinFinger@hapusNamaPegawai')->name('mesin.hapuspegawai'); //hapus data pegawai di finger
 
 Route::get('/pegawai/jumlahfingerpegawai_m/{id}/{nama}', 'mesinFinger@datafinger_p')->name('mesin.datafingerpegawai');
 Route::get('/pegawai/fingerpegawai_m_v/{id}/{nama}/{jari}', 'mesinFinger@cekdatafinger_p_v')->name('mesin.datafinger_v'); //untuk edit finger

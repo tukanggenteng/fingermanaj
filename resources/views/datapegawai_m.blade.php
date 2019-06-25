@@ -19,7 +19,7 @@
             <div class="box-body">
               <button class="btn btn-primary" data-toggle="modal" id="tambah" data-target="#modal_add">Tambah Pegawai <i class="fa fa-user"></i></button>
               <hr>
-              <table class="table table-bordered thead-dark table-striped table-hover">
+              <table id="datapegawaifinger" class="table table-bordered thead-dark table-striped table-hover">
                 <thead class="bg-navy">
                   <tr>
                     <th class="col-md-1">No</th>
@@ -30,21 +30,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for($i=0;$i<count($datapegawai);$i++)
-                    @if($datapegawai[$i]['PIN']!='')
-                    <tr>
-                      <td>{{$datapegawai[$i]['PIN']}}</td>
-                      <td>{{$datapegawai[$i]['PIN2']}}</td>
-                      <td>{{$datapegawai[$i]['Name']}}</td>
-                      <td>{{$datapegawai[$i]['Privilege']}}</td>
-                      <td>
-                          <a href="{{route('mesin.datafingerpegawai',[$datapegawai[$i]['PIN2'],$datapegawai[$i]['Name']])}}" class="btn btn-primary">Cek/Tambah Finger <i class="fa fa-search"></i></a>
-                          <a href="" class="btn btn-primary">Cek Absensi <i class="fa fa-search"></i></a>
-                          <button class="hapus_{{$datapegawai[$i]['PIN2']}} btn btn-danger"><i class="fa fa-trash"></i></button>
-                      </td>
-                    </tr>
-                    @endif
-                  @endfor
+
                 </tbody>
               </table>
               <hr>
@@ -98,7 +84,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
-              <button type="button" id="simpanaddpegawai" class="btn btn-primary">Simpan</button>
+              <button type="button" id="addpegawai" class="btn btn-primary">Simpan</button>
             </div>
             </form>
           </div>
@@ -113,10 +99,115 @@
 
 <!--css custom section   -->
 <!-- code below -->
-<link rel="stylesheet" href="/css/admin_custom.css">
+<!-- <link rel="stylesheet" href="/css/admin_custom.css"> -->
 @stop
 
 @section('js')
 <!--javascript custom section   -->
 <!-- code below -->
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+//komentar?
+          $(document).ready(function() {
+            var datatabelf = $('#datapegawaifinger').DataTable( {
+                                "processing": true,
+                                "serverSide": true,
+                                "ajax": "{{route('dt.datapegawai')}}",
+                                columns: [
+                                      { data: 'PIN'},
+                                      { data: 'PIN2' },
+                                      { data: 'Name' },
+                                      { data: 'Privilege' },
+                                      { data: null }, //jika ingin mengisi data pada opsi columnDefs, parameter bagian ini harus diisi oleh null
+
+                                  ],
+                                  columnDefs: [
+                                      { targets: [0,1,3] , className: 'text-right' },
+                                      { targets: [2] , className: 'text-left' },
+                                      {
+                                        targets: [4] ,className: 'text-center',
+                                        'render': function (data, type, row) {
+                                            var aksi = '<a href="/pegawai/jumlahfingerpegawai_m/'+data.PIN2+'/'+data.Name+'" class="btn btn-primary">Cek/Tambah Finger <i class="fa fa-search"></i></a><a href="" class="btn btn-primary">Cek Absensi <i class="fa fa-search"></i></a><button class="hapus_'+data.PIN2+' hapusfinger btn btn-danger" id="hapusf"><i class="fa fa-trash"></i></button>';
+                                            return aksi;
+                                        }
+                                     },
+                                  ]
+                                } );
+              $('#refresh').click(function(){
+                datatabelf.ajax.reload();
+                console.log('reload');
+              });
+
+              //hapus data pegawai
+              $(document).on('click','.hapusfinger',function (){
+                var currentRow = $(this).closest('tr');
+                var id = currentRow.find('td:eq(1)').text();
+                var nama = currentRow.find('td:eq(2)').text();
+                var _token= $("input[name=_token]").val();
+
+                //alert("data "+nama);
+                $.ajax({
+                    type:'post',
+                    url:'{{route("mesin.hapuspegawai")}}',
+                    data : {
+                            id:id,
+                            nama:nama,
+                            _token:_token
+                            },
+                    success:function(response){
+                        if((response.error)){
+                            $('.error').addClass('hidden');
+                            //swal(response.error, "", "error");
+                            //$('#modal_add').modal('hide');
+                            console.log(response);
+                            datatabelf.ajax.reload();
+                        }
+                        else
+                        {
+                            $('.error').addClass('hidden');
+                            //swal("Sukses Menyimpan Data "+response.nama, "", "success");
+                            //$('#modal_add').modal('hide');
+                            console.log(response);
+                            datatabelf.ajax.reload();
+                        }
+                    },
+                });
+              });
+
+              // Tambah Data Pegawai
+              $(document).on('click','#addpegawai',function (){
+                var pin=$('#ID').val();
+                var nama=$('#nama').val();
+                var _token=$("input[name=_token]").val();
+                $.ajax({
+                    type:'post',
+                    url:'{{route("mesin.tambahpegawai")}}',
+                    data : {
+                            pin:pin,
+                            nama:nama,
+                            _token:_token
+                            },
+                    success:function(response){
+                        if((response.status!=0)){
+                            $('.error').addClass('hidden');
+                            swal("Sukses Menambah Data "+response.nama, "", "success");
+                            $('#modal_add').modal('hide');
+                            //console.log(response.nama);
+                            datatabelf.ajax.reload();
+                        }
+                        else
+                          {
+                            $('.error').addClass('hidden');
+                            swal(response.pesan, "", "error");
+                            $('#modal_add').modal('hide');
+                            //console.log(response);
+                            datatabelf.ajax.reload();
+                            }
+                      },
+                  });
+                });
+          } ); //END LINE FUNCTION
+
+
+</script>
 @stop

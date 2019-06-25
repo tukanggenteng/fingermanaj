@@ -176,6 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         //admin LTE service providers
         JeroenNoten\LaravelAdminLte\ServiceProvider::class,
+        //datatable
+        Yajra\DataTables\DataTablesServiceProvider::class,
 
     ],
 
@@ -204,6 +206,7 @@ return [
         'Cookie' => Illuminate\Support\Facades\Cookie::class,
         'Crypt' => Illuminate\Support\Facades\Crypt::class,
         'DB' => Illuminate\Support\Facades\DB::class,
+        'DataTables' => Yajra\DataTables\Facades\DataTables::class,
         'Eloquent' => Illuminate\Database\Eloquent\Model::class,
         'Event' => Illuminate\Support\Facades\Event::class,
         'File' => Illuminate\Support\Facades\File::class,

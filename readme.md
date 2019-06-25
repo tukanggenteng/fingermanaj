@@ -69,3 +69,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+Require Composer
+Install Jeroennoten Laravel AdminLTE (https://github.com/jeroennoten/Laravel-AdminLTE)
+Install Yajra Laravel Datatables (https://github.com/yajra/laravel-datatables)
