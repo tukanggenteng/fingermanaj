@@ -589,7 +589,7 @@ class mesinFinger extends Controller
 
       //return redirect()->route('mesin.datapegawai')->with('warning', '<strong>Data '.$nama.'</strong> berhasil dihapus!');
       //return redirect()->route('adm_user.index')->with('message', '<strong>'.$request->nama.'</strong> berhasil ditambahkan!');
-      $seluruh['status']="0";
+      $seluruh['status']="1";
       $seluruh['nama']=$nama;
       return $seluruh;
     }

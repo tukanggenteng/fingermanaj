@@ -34,9 +34,9 @@
                 </tbody>
               </table>
               <hr>
-              <a href="" class="btn btn-info form-control">Cek data Absensi <i class="fa fa-search"></i></a>
+              <a href="/absensi/daftarabsensi_m" class="btn btn-info form-control">Cek data Absensi <i class="fa fa-search"></i></a>
               <hr>
-              <button class="btn btn-danger form-control">Hapus Semua Data Pegawai <i class="fa fa-trash"></i></button>
+              <button class="btn btn-danger form-control" id="peringatanwipe">Hapus Semua Data di dalam mesin fingerscan<i class="fa fa-trash"></i></button>
             </div>
             <div class="box-footer">
             </div>
@@ -155,21 +155,21 @@
                             _token:_token
                             },
                     success:function(response){
-                        if((response.error)){
-                            $('.error').addClass('hidden');
-                            //swal(response.error, "", "error");
-                            //$('#modal_add').modal('hide');
-                            console.log(response);
-                            datatabelf.ajax.reload();
-                        }
-                        else
+                      if((response.status==1)){
+                          $('.error').addClass('hidden');
+                          swal("Sukses Menghapus Data "+response.nama, "", "warning");
+                          $('#modal_add').modal('hide');
+                          //console.log(response.nama);
+                          datatabelf.ajax.reload();
+                      }
+                      else
                         {
-                            $('.error').addClass('hidden');
-                            //swal("Sukses Menyimpan Data "+response.nama, "", "success");
-                            //$('#modal_add').modal('hide');
-                            console.log(response);
-                            datatabelf.ajax.reload();
-                        }
+                          $('.error').addClass('hidden');
+                          swal("Terjadi Kesalahan", "", "error");
+                          $('#modal_add').modal('hide');
+                          //console.log(response);
+                          datatabelf.ajax.reload();
+                          }
                     },
                 });
               });

@@ -129,7 +129,7 @@ return [
         ],
         [
             'text' => 'Data Absensi',
-            'url'  => 'log/daftarlog_m',
+            'url'  => 'absensi/daftarabsensi_m',
             'icon'        => 'calendar',
         ],
 
