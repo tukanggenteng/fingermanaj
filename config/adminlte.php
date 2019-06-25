@@ -111,20 +111,9 @@ return [
 
         'DATA DI DALAM MESIN',
         [
-            'text' => 'Data Pegawai',
+            'text' => 'Daftar Pegawai',
+            'url'  => 'pegawai/daftarpegawai_m',
             'icon' => 'group',
-            'submenu' =>[
-                          [
-                          'text' => 'Daftar Pegawai',
-                          'url'  => 'pegawai/daftarpegawai_m',
-                          'icon' => 'group',
-                          ],
-                          [
-                          'text' => 'Tambah Pegawai',
-                          'url'  => 'pegawai/tambahpegawai_m',
-                          'icon' => 'user',
-                          ],
-                        ]
 
         ],
         [

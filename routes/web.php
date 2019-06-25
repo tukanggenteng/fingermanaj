@@ -18,16 +18,16 @@ Route::get('/tes', function () {
     return view('tesview');
 });
 
-Route::get('/pegawai/dtdatapegawai_m', 'mesinFinger@datapegawai_finger')->name('dt.datapegawai'); //daftar pegawai
-Route::get('/pegawai/daftarpegawai_m', 'mesinFinger@datapegawai_finger_view')->name('mesin.datapegawai'); //daftar pegawai
+Route::get('/pegawai/dtdatapegawai_m', 'tampilData@datapegawai_finger')->name('dt.datapegawai'); //daftar pegawai
+Route::get('/pegawai/daftarpegawai_m', 'tampilData@datapegawai_finger_view')->name('mesin.datapegawai'); //daftar pegawai
 //Route::get('/pegawaites', 'mesinFinger@datapegawai_finger'); //untuk tes daftar pegawai, ubah fungsi yang digunakan setelah @
 Route::get('/absensi/daftarabsensi_m', 'mesinFinger@getSemuaKehadiran')->name('mesin.dataabsensi'); //daftar semua absensi
 Route::post('/pegawai/tambahpegawai', 'mesinFinger@tambahNamaPegawai')->name('mesin.tambahpegawai'); //tambah data pegawai ke finger
 Route::post('/pegawai/hapuspegawai', 'mesinFinger@hapusNamaPegawai')->name('mesin.hapuspegawai'); //hapus data pegawai di finger
 
-Route::get('/pegawai/jumlahfingerpegawai_m/{id}/{nama}', 'mesinFinger@datafinger_p')->name('mesin.datafingerpegawai');
-Route::get('/pegawai/fingerpegawai_m_v/{id}/{nama}/{jari}', 'mesinFinger@cekdatafinger_p_v')->name('mesin.datafinger_v'); //untuk edit finger
-Route::get('/pegawai/fingerpegawai_m_vt/{id}/{nama}/{jari}', 'mesinFinger@cekdatafinger_p_vt')->name('mesin.datafinger_vt'); //untuk tambah finger
+Route::get('/pegawai/jumlahfingerpegawai_m/{id}/{nama}', 'tampilData@datafinger_p')->name('mesin.datafingerpegawai');
+Route::get('/pegawai/fingerpegawai_m_v/{id}/{nama}/{jari}', 'tampilData@cekdatafinger_p_v')->name('mesin.datafinger_v'); //untuk edit finger
+Route::get('/pegawai/fingerpegawai_m_vt/{id}/{nama}/{jari}', 'tampilData@cekdatafinger_p_vt')->name('mesin.datafinger_vt'); //untuk tambah finger
 //post atau update kefinger dengan metode set
 //tidak berbeda antara menambahkan baru dan update, hanya beda isi data saja
 Route::post('/pegawai/fingerpegawai_m', 'mesinFinger@setDataFinger')->name('mesin.datafinger_p');
@@ -37,7 +37,12 @@ Route::post('/pegawai/fingerpegawai_d', 'mesinFinger@hapusDataFinger')->name('me
 Route::get('/pegawai/fingerpegawai_m/{id}/{jari}', 'mesinFinger@cekdatafinger_p')->name('mesin.datafinger');
 
 Route::get('/cekmac', 'mesinFinger@checkMac')->name('mesin.mac');
-Route::get('/tambahpegawai', 'mesinFinger@tambahNamaPegawai')->name('mesin.tambah');
-Route::get('/hapuspegawai', 'mesinFinger@hapusNamaPegawai')->name('mesin.hapus');
 
-Route::get('/tesfungsi', 'testing@tesFungsi')->name('tes.fungsi');
+Route::get('/tesfungsi', 'testing@tesFungsi2')->name('tes.fungsi');
+
+//fungsi eabsen
+Route::get('/cekpegawai_f_eabsen/{id}', 'eabsenController@dteabsen_dp_af')->name('eabsen.dp_af');
+
+Route::get('/eabsen/downloadpegawai', 'eabsenController@eabsen_dp')->name('eabsen.dp');
+Route::get('/eabsen/uploadfinger', 'eabsenController@eabsen_uf')->name('eabsen.uf');
+Route::get('/eabsen/downloadfinger', 'eabsenController@eabsen_df')->name('eabsen.df');

@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class testing extends Controller
+class testing extends mesinFinger
 {
     public function tesFungsi()
     {
@@ -16,5 +16,12 @@ class testing extends Controller
         { $atts[0]->apel = 'APEL';  }
 
       dd($atts[0]->apel);
+    }
+
+    public function tesFungsi2()
+    {
+      $mesin = new mesinFinger;
+      $data = $mesin->datapegawai_finger();
+      return $data;
     }
 }

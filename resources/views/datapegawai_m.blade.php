@@ -36,7 +36,7 @@
               <hr>
               <a href="/absensi/daftarabsensi_m" class="btn btn-info form-control">Cek data Absensi <i class="fa fa-search"></i></a>
               <hr>
-              <button class="btn btn-danger form-control" id="peringatanwipe">Hapus Semua Data di dalam mesin fingerscan<i class="fa fa-trash"></i></button>
+              <button class="btn btn-danger form-control" id="peringatanwipe" data-toggle="modal" id="tambah" data-target="#modal_swipe">Hapus Semua Data di dalam mesin fingerscan <i class="fa fa-trash"></i></button>
             </div>
             <div class="box-footer">
             </div>
@@ -45,7 +45,7 @@
       </div>
     </div>
 
-    <!-- modal tambah-->
+    <!-- modal tambah data pegawai-->
     <div class="modal fade" id="modal_add">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -93,6 +93,57 @@
         <!-- /.modal-dialog -->
       </div>
       <!-- /.modal -->
+
+      <!-- modal swipe data pegawai-->
+      <div class="modal fade" id="modal_swipe">
+        <div class="modal-dialog">
+          <div class="modal-content bg bg-red">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+              <h3 class="modal-title text-center text-error"><b>Swipe semua Data Pegawai <i class="fa fa-warning"></i><b></h3>
+            </div>
+            <div class="modal-body">
+              <div class="error alert-danger alert-dismissible">
+              </div>
+              <form id="formpegawaiadd" method="post" role="form" enctype="multipart/form-data" action="">
+
+                @csrf
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="col-md-12">
+                      <div class="form-group text-center">
+                        <h3>Semua Data yang ada di dalam mesin Finger Scan akan dihapus</h3>
+                      </div>
+                      <div class="form-group text-center">
+                        <h3>Apakah anda yakin ???</h3>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="col-md-12">
+                      <div class="form-group col-md-6" >
+                        <button type="button" class="btn btn-success pull-right col-md-5" data-dismiss="modal"><b>Tidak</b></button>
+                      </div>
+                      <div class="form-group col-md-6" >
+                        <button type="button" id="swipedatapegawai" class="btn btn-warning col-md-5"><b>Ya !</b></button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="modal-footer">
+              </div>
+              </form>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
 @stop
 
 @section('css')
@@ -133,12 +184,47 @@
                                      },
                                   ]
                                 } );
+                                
               $('#refresh').click(function(){
                 datatabelf.ajax.reload();
                 console.log('reload');
               });
 
-              //hapus data pegawai
+              // Tambah Data Pegawai-----------------------------------------------------------
+              $(document).on('click','#addpegawai',function (){
+                var pin=$('#ID').val();
+                var nama=$('#nama').val();
+                var _token=$("input[name=_token]").val();
+                $.ajax({
+                    type:'post',
+                    url:'{{route("mesin.tambahpegawai")}}',
+                    data : {
+                            pin:pin,
+                            nama:nama,
+                            _token:_token
+                            },
+                    success:function(response){
+                        if((response.status!=0)){
+                            $('.error').addClass('hidden');
+                            swal("Sukses Menambah Data "+response.nama, "", "success");
+                            $('#modal_add').modal('hide');
+                            //console.log(response.nama);
+                            datatabelf.ajax.reload();
+                        }
+                        else
+                          {
+                            $('.error').addClass('hidden');
+                            swal(response.pesan, "", "error");
+                            $('#modal_add').modal('hide');
+                            //console.log(response);
+                            datatabelf.ajax.reload();
+                            }
+                      },
+                  });
+                });
+                // ./Tambah Data Pegawai-----------------------------------------------------------
+
+              //hapus data pegawai-----------------------------------------------------------
               $(document).on('click','.hapusfinger',function (){
                 var currentRow = $(this).closest('tr');
                 var id = currentRow.find('td:eq(1)').text();
@@ -173,39 +259,41 @@
                     },
                 });
               });
+              // ./hapus data pegawai-----------------------------------------------------------
 
-              // Tambah Data Pegawai
-              $(document).on('click','#addpegawai',function (){
-                var pin=$('#ID').val();
-                var nama=$('#nama').val();
-                var _token=$("input[name=_token]").val();
+              //swipe data pegawai-----------------------------------------------------------
+              $(document).on('click','.hapusfinger',function (){
+                var _token= $("input[name=_token]").val();
+
+                //alert("data "+nama);
                 $.ajax({
                     type:'post',
-                    url:'{{route("mesin.tambahpegawai")}}',
+                    //url:'{{route("mesin.hapuspegawai")}}',
                     data : {
-                            pin:pin,
-                            nama:nama,
                             _token:_token
                             },
                     success:function(response){
-                        if((response.status!=0)){
-                            $('.error').addClass('hidden');
-                            swal("Sukses Menambah Data "+response.nama, "", "success");
-                            $('#modal_add').modal('hide');
-                            //console.log(response.nama);
-                            datatabelf.ajax.reload();
-                        }
-                        else
-                          {
-                            $('.error').addClass('hidden');
-                            swal(response.pesan, "", "error");
-                            $('#modal_add').modal('hide');
-                            //console.log(response);
-                            datatabelf.ajax.reload();
-                            }
-                      },
-                  });
+                      if((response.status==1)){
+                          $('.error').addClass('hidden');
+                          swal("Sukses Menghapus Semua Data pada mesin!", "warning");
+                          $('#modal_add').modal('hide');
+                          //console.log(response.nama);
+                          datatabelf.ajax.reload();
+                      }
+                      else
+                        {
+                          $('.error').addClass('hidden');
+                          swal("Terjadi Kesalahan", "", "error");
+                          $('#modal_add').modal('hide');
+                          //console.log(response);
+                          datatabelf.ajax.reload();
+                          }
+                    },
                 });
+              });
+              // ./Swipe data pegawai-----------------------------------------------------------
+
+
           } ); //END LINE FUNCTION
 
 
