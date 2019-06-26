@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 class tampilData extends mesinFinger
 {
   //---------------------------------------------------------------------------------------------------------------------------------
-  //memanggil data Figer pegawai dari fungsi cekdatapegawai_finger() for datatable
+  //memanggil data pegawai dari fungsi cekdatapegawai_finger() for datatable
   public function datapegawai_finger()
   {
       $mesin = new mesinFinger;
@@ -17,7 +17,7 @@ class tampilData extends mesinFinger
   //END.------------------------------------------------------------------------------------------------------------------------------
 
   //---------------------------------------------------------------------------------------------------------------------------------
-  //memanggil data Figer pegawai dari fungsi cekdatapegawai_finger() for datatable
+  //menampilkan data pegawai pada view
   public function datapegawai_finger_view()
   {
     return view('datapegawai_m');
@@ -55,6 +55,115 @@ class tampilData extends mesinFinger
   {
     //dd($datafinger);
     return view('datafingerpegawai_m_vt',[ 'ID'=>$id,'nama'=>$nama, 'jari' => $jari ]);
+  }
+  //END.------------------------------------------------------------------------------------------------------------------------------
+
+  //---------------------------------------------------------------------------------------------------------------------------------
+  //memanggil data absensi dari fungsi cekdatapegawai_finger() for datatable
+  public function dtSemuaKehadiran()
+  {
+      $mesin = new mesinFinger;
+      $datapegawai = $mesin->cekdatapegawai_finger();
+      $dataabsensi = $mesin->getSemuaKehadiran();
+
+      $dataabsenbaru = array();
+
+      for($i=1; $i<=count($dataabsensi);$i++)
+      {
+          //menambahkan nama
+          for($j=1; $j<=count($datapegawai);$j++)
+          {
+              if($datapegawai[$j]['PIN2']==$dataabsensi[$i]['PIN']) { $nama = $datapegawai[$j]['Name']; break; }
+          }
+          //menambah keterangan absen
+          switch ($dataabsensi[$i]['Status']) {
+              case 0:
+                  $keteranganabsen = "Masuk";
+                  break;
+              case 1:
+                  $keteranganabsen = "Pulang";
+                  break;
+              case 2:
+                  $keteranganabsen = "Mulai Istirahat";
+                  break;
+              case 3:
+                  $keteranganabsen = "Selesai Istirahat";
+                  break;
+          }
+
+          $jam = date("H:i:s", strtotime($dataabsensi[$i]['DateTime']));
+          $tanggal = date("D d/n/Y", strtotime($dataabsensi[$i]['DateTime']));
+          $dataabsenbaru[$i] = array(
+                'no' => $i,
+                'id' => $dataabsensi[$i]['PIN'],
+                'nama' => $nama,
+                'tanggal' => $tanggal,
+                'jam' => $jam,
+                'keteranganabsen' => $keteranganabsen,
+              );
+      }
+
+      return datatables()->of($dataabsenbaru)->toJson();
+  }
+  //END.------------------------------------------------------------------------------------------------------------------------------
+
+  //---------------------------------------------------------------------------------------------------------------------------------
+  //menampilkan data absensi pada view
+  public function getSemuaKehadiran_v()
+  {
+    return view('dataabsensi_m');
+  }
+  //END.------------------------------------------------------------------------------------------------------------------------------
+
+  //---------------------------------------------------------------------------------------------------------------------------------
+  //memanggil data absensi dari fungsi cekdatapegawai_finger() for datatable
+  public function dtKehadiran_p($id)
+  {
+      $mesin = new mesinFinger;
+      $dataabsensi = $mesin->getKehadiranP($id);
+
+      $dataabsenbaru = array();
+
+      for($i=1; $i<=count($dataabsensi);$i++)
+      {
+          //menambah keterangan absen
+          switch ($dataabsensi[$i]['Status']) {
+              case 0:
+                  $keteranganabsen = "Masuk";
+                  break;
+              case 1:
+                  $keteranganabsen = "Pulang";
+                  break;
+              case 2:
+                  $keteranganabsen = "Mulai Istirahat";
+                  break;
+              case 3:
+                  $keteranganabsen = "Selesai Istirahat";
+                  break;
+              default:
+                  $keteranganabsen ='';
+                  break;
+          }
+
+          $jam = date("H:i:s", strtotime($dataabsensi[$i]['DateTime']));
+          $tanggal = date("D d/n/Y", strtotime($dataabsensi[$i]['DateTime']));
+          $dataabsenbaru[$i] = array(
+                'no' => $i,
+                'tanggal' => $tanggal,
+                'jam' => $jam,
+                'keteranganabsen' => $keteranganabsen,
+              );
+      }
+
+      return datatables()->of($dataabsenbaru)->toJson();
+  }
+  //END.------------------------------------------------------------------------------------------------------------------------------
+
+  //---------------------------------------------------------------------------------------------------------------------------------
+  //menampilkan data absensi pada view
+  public function getKehadiran_vp($id, $nama)
+  {
+    return view('dataabsensi_mp',[ 'id' => $id, 'nama' => $nama ]);
   }
   //END.------------------------------------------------------------------------------------------------------------------------------
 

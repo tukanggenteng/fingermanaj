@@ -21,9 +21,15 @@ Route::get('/tes', function () {
 Route::get('/pegawai/dtdatapegawai_m', 'tampilData@datapegawai_finger')->name('dt.datapegawai'); //daftar pegawai
 Route::get('/pegawai/daftarpegawai_m', 'tampilData@datapegawai_finger_view')->name('mesin.datapegawai'); //daftar pegawai
 //Route::get('/pegawaites', 'mesinFinger@datapegawai_finger'); //untuk tes daftar pegawai, ubah fungsi yang digunakan setelah @
-Route::get('/absensi/daftarabsensi_m', 'mesinFinger@getSemuaKehadiran')->name('mesin.dataabsensi'); //daftar semua absensi
+Route::get('/absensi/dtdaftarabsensi', 'tampilData@dtSemuaKehadiran')->name('mesin.dataabsensi'); //datatable semua absensi
+Route::get('/absensi/daftarabsensi_m', 'tampilData@getSemuaKehadiran_v')->name('mesin.dataabsensi'); //daftar semua absensi
+Route::get('/absensi/dtdaftarabsensi_p/{id}', 'tampilData@dtKehadiran_p')->name('mesin.dataabsensi'); //datatable absensi 1 pegawai
+Route::get('/absensi/daftarabsensi_mp/{id}/{nama}', 'tampilData@getKehadiran_vp')->name('mesin.dataabsensi'); //daftar absensi 1 pegawai
+
+
 Route::post('/pegawai/tambahpegawai', 'mesinFinger@tambahNamaPegawai')->name('mesin.tambahpegawai'); //tambah data pegawai ke finger
 Route::post('/pegawai/hapuspegawai', 'mesinFinger@hapusNamaPegawai')->name('mesin.hapuspegawai'); //hapus data pegawai di finger
+Route::post('/wipedata', 'mesinFinger@wipeData')->name('mesin.wipedata'); //wipe data di finger
 
 Route::get('/pegawai/jumlahfingerpegawai_m/{id}/{nama}', 'tampilData@datafinger_p')->name('mesin.datafingerpegawai');
 Route::get('/pegawai/fingerpegawai_m_v/{id}/{nama}/{jari}', 'tampilData@cekdatafinger_p_v')->name('mesin.datafinger_v'); //untuk edit finger
@@ -38,12 +44,14 @@ Route::get('/pegawai/fingerpegawai_m/{id}/{jari}', 'mesinFinger@cekdatafinger_p'
 
 Route::get('/cekmac', 'mesinFinger@checkMac')->name('mesin.mac');
 
-Route::get('/tesfungsi', 'testing@tesFungsi2')->name('tes.fungsi');
+//Route::get('/tesfungsi', 'testing@tesFungsi2')->name('tes.fungsi');
 
 //fungsi eabsen
 // -data table
 Route::get('/cekpegawai_f_eabsen/{id}', 'eabsenController@dteabsen_dp_af')->name('eabsen.dp_af'); //sudah ada data fingerprint
 Route::get('/cekpegawai_fb_eabsen/{id}', 'eabsenController@dteabsen_dp_tf')->name('eabsen.dp_tf'); //belum ada data fingerprint
+//data untuk tambah ke finger
+Route::get('/data_fb_eabsen/{id}', 'eabsenController@deabsen_dp_tf')->name('eabsen.d_tf'); //belum ada data fingerprint
 
 Route::get('/eabsen/downloadpegawai', 'eabsenController@eabsen_dp')->name('eabsen.dp');
 Route::get('/eabsen/uploadfinger', 'eabsenController@eabsen_uf')->name('eabsen.uf');

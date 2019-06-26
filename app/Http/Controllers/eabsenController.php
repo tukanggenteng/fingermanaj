@@ -55,6 +55,14 @@ class eabsenController extends mesinFinger
       return datatables()->of($databelumfinger)->toJson();
   }
 
+  // data yang belum finger untuk ke mesin
+  public function deabsen_dp_tf($id)
+  {
+      $databelumfinger = $this->eabsen_dp_tf($id);
+      return $databelumfinger;
+  }
+
+
 
     public function eabsen_dp()
     {

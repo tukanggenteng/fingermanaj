@@ -356,15 +356,54 @@ class mesinFinger extends Controller
 
       if(empty($dataabsensi))
       {
-        $dataabsensi = array( 'PIN' => '', 'DateTime' => '', 'Verified' => '', 'Status' => '', 'WorkCode' => '', );
+        $dataabsensi[1] = array( 'PIN' => '', 'DateTime' => '', 'Verified' => '', 'Status' => '', 'WorkCode' => '', );
       }
 
       //dd($buffer);
-      dd($dataabsensi);
+      //dd($dataabsensi);
 
       return $dataabsensi;
     }
     //END.------------------------------------------------------------------------------------------------------------------------------
+    //menampilkan data log 1 pegawai
+    public function getKehadiranP($id)
+    {
+      $Connect = fsockopen($this->ip, "80", $errno, $errstr, 1);
+
+      $soap_request= $this->GetAttLog($id);
+      $buffer="";
+      $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefiniskan sebagai variable agar menyimpan data
+
+      //Response data
+      $buffer= $this->Parse_Data($buffer,"<GetAttLogResponse>","</GetAttLogResponse>");
+      $buffer=explode("\r\n",$buffer);
+
+      $dataabsensi = array();
+
+      for($i=0;$i<count($buffer);$i++)
+      {
+        $data = $this->Parse_Data($buffer[$i],"<Row>","</Row>");
+        if($this->Parse_Data($data,"<PIN>","</PIN>")!="")
+        {
+          $dataabsensi[$i] = array(
+                                'PIN' => $this->Parse_Data($data,"<PIN>","</PIN>"),
+                                'DateTime' => $this->Parse_Data($data,"<DateTime>","</DateTime>"),
+                                'Verified' => $this->Parse_Data($data,"<Verified>","</Verified>"),
+                                'Status' => $this->Parse_Data($data,"<Status>","</Status>"),
+                                'WorkCode' => $this->Parse_Data($data,"<WorkCode>","</WorkCode>"),
+                               );
+        }
+      }
+
+      if(empty($dataabsensi))
+      {
+        $dataabsensi[1] = array( 'PIN' => '', 'DateTime' => '', 'Verified' => '', 'Status' => '', 'WorkCode' => '', );
+      }
+
+      return $dataabsensi;
+    }
+    //END.------------------------------------------------------------------------------------------------------------------------------
+
 
 
     //---------------------------------set data---------------------------------------------------------------------------------------
@@ -417,7 +456,8 @@ class mesinFinger extends Controller
     }
     //END.------------------------------------------------------------------------------------------------------------------------------
 
-
+    //---------------------------------------------------------------------------------------------------------------------------------
+    // Tambah Data Pegawwai ke mesin Fingerprint
 	public function tambahNamaPegawai(Request $request)
 	{
 
@@ -502,7 +542,8 @@ class mesinFinger extends Controller
     }
     //END.------------------------------------------------------------------------------------------------------------------------------
 
-	// Delete Data Pegawai
+    //---------------------------------------------------------------------------------------------------------------------------------
+  	// Delete Data Pegawai
     public function hapusNamaPegawai(Request $request)
     {
 
@@ -511,14 +552,12 @@ class mesinFinger extends Controller
       $PIN = $request->id;
       $nama = $request->nama;
 
-
-
       //dd($template);
       $Connect = fsockopen($this->ip, "80", $errno, $errstr, 1);
 
       $soap_request= $this->DeleteUser($PIN);
       $buffer="";
-      $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefiniskan sebagai variable agar menyimpan data
+      $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefinisikan sebagai variable agar menyimpan data
 
       $buffer= $this->Parse_Data($buffer,"<DeleteUserResponse>","</DeleteUserResponse>");
       $buffer= $this->Parse_Data($buffer,"<Information>","</Information>");
@@ -541,6 +580,39 @@ class mesinFinger extends Controller
       //return redirect()->route('adm_user.index')->with('message', '<strong>'.$request->nama.'</strong> berhasil ditambahkan!');
       $seluruh['status']="1";
       $seluruh['nama']=$nama;
+      return $seluruh;
+    }
+    //END.------------------------------------------------------------------------------------------------------------------------------
+
+    //---------------------------------------------------------------------------------------------------------------------------------
+  	// Wipe Data di mesin finger
+    public function wipeData()
+    {
+      //dd($template);
+      $Connect = fsockopen($this->ip, "80", $errno, $errstr, 1);
+
+      $soap_request= $this->ClearData(1);
+      $buffer="";
+      $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefinisikan sebagai variable agar menyimpan data
+
+      $buffer= $this->Parse_Data($buffer,"<ClearDataResponse>","</ClearDataResponse>");
+      $buffer= $this->Parse_Data($buffer,"<Information>","</Information>");
+      //dd($buffer);
+
+      $Response = $buffer; //response yang dibalikkan ke viewerblade
+
+      //Refresh DB---------------------------------------------
+      $Connect = fsockopen($this->ip, "80", $errno, $errstr, 1);
+      $soap_request="<RefreshDB><ArgComKey xsi:type=\"xsd:integer\">".$this->key."</ArgComKey></RefreshDB>";
+      $newLine="\r\n";
+      fputs($Connect, "POST /iWsService HTTP/1.0".$newLine);
+      fputs($Connect, "Content-Type: text/xml".$newLine);
+      fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
+      fputs($Connect, $soap_request.$newLine);
+
+      //End.RefreshDB--------------------------------
+
+      $seluruh['status']="1";
       return $seluruh;
     }
     //END.------------------------------------------------------------------------------------------------------------------------------
