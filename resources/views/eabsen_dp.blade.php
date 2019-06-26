@@ -24,7 +24,7 @@
                 <div id="datadarieabsen" style="visibility:hidden;"></div>
                 <div id="aksitambahdata"></div>
                 <div id="progresstambah"></div>
-                <div id="datatambah"></div>
+                <div id="datatambah" style="overflow-y: scroll; max-height: 600px"></div>
             </div>
             <div class="box-footer">
             </div>

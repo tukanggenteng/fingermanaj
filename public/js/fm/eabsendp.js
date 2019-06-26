@@ -106,10 +106,11 @@
   //+simpan data ke mesin fingerprint
   function datatambah(nip, nama)
   {
-      var datahead = '<div class="container"><div class="row">';
-      var dataisi = '<p class="col mb-1 bg-success text-success"> <i class="fa fa-plus"></i> menambahkan = NIP : '+nip+', Nama : '+nama+'</p>';
+      var datahead = '<div class="container"><div class=" alert alert-success" role="alert">';
+      var dataisi = '<i class="fa fa-plus"></i> menambahkan = NIP : '+nip+', Nama : '+nama;
       var datafoot = '</div></div>';
-      $("#datatambah").prepend(datahead+dataisi+datafoot);
+      $("#datatambah").prepend(datahead+dataisi+datafoot).fadeIN(100);
+
   }
   //-------------------------------
 

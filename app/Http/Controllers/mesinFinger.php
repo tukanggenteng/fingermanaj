@@ -464,7 +464,7 @@ class mesinFinger extends Controller
 
 		//dd($template);
       $PIN = $request->pin;
-      $nama = $request->nama;
+      $nama = urldecode($request->nama);
       if($nama=='' || $PIN =='') {
         $seluruh['status']="0";
         $seluruh['pesan']='Tidak boleh ada data yang kosong!';
@@ -492,6 +492,8 @@ class mesinFinger extends Controller
         fputs($Connect, "Content-Type: text/xml".$newLine);
         fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
         fputs($Connect, $soap_request.$newLine);
+
+        sleep(1);
 
         //End.RefreshDB--------------------------------
         $seluruh['status']="1";
