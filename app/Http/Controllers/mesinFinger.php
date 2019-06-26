@@ -8,8 +8,8 @@ class mesinFinger extends Controller
 {
 
     //configurasi koneksi mesin, nanti bisa dipindahkan ke database
-    //public $ip = '10.10.10.20';
-	  public $ip = '192.168.0.51';
+    public $ip = '10.10.10.20';
+	  //public $ip = '192.168.0.51';
     public $key = 0;
 
     //format pemanggilan data pada mesin finger menggunakan metode SOAP

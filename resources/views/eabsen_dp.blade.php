@@ -19,7 +19,7 @@
             <div class="box-body">
               <button class="btn btn-primary" data-toggle="modal" id="tambah_dpf" data-target="#modal_add_dpf">Tambah Data Pegawai yang sudah memiliki sidik jari <i class="fa fa-user"></i></button>
               <hr>
-              <button class="btn btn-primary" data-toggle="modal" id="tambah_dptf" data-target="#modal_add_dptf">Tambah Data Pegawai yang belum memiliki sidik jari <i class="fa fa-user"></i></button>
+              <button class="btn btn-warning" data-toggle="modal" id="tambah_dptf" data-target="#modal_add_dptf">Tambah Data Pegawai yang belum memiliki sidik jari <i class="fa fa-user"></i></button>
               <hr>
                 <div id="datadarieabsen" style="visibility:hidden;"></div>
                 <div id="aksitambahdata"></div>

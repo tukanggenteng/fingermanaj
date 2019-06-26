@@ -41,7 +41,9 @@ Route::get('/cekmac', 'mesinFinger@checkMac')->name('mesin.mac');
 Route::get('/tesfungsi', 'testing@tesFungsi2')->name('tes.fungsi');
 
 //fungsi eabsen
-Route::get('/cekpegawai_f_eabsen/{id}', 'eabsenController@dteabsen_dp_af')->name('eabsen.dp_af');
+// -data table
+Route::get('/cekpegawai_f_eabsen/{id}', 'eabsenController@dteabsen_dp_af')->name('eabsen.dp_af'); //sudah ada data fingerprint
+Route::get('/cekpegawai_fb_eabsen/{id}', 'eabsenController@dteabsen_dp_tf')->name('eabsen.dp_tf'); //belum ada data fingerprint
 
 Route::get('/eabsen/downloadpegawai', 'eabsenController@eabsen_dp')->name('eabsen.dp');
 Route::get('/eabsen/uploadfinger', 'eabsenController@eabsen_uf')->name('eabsen.uf');
