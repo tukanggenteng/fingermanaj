@@ -443,6 +443,8 @@ class mesinFinger extends Controller
       fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
       fputs($Connect, $soap_request.$newLine);
 
+      sleep(2);
+
       //End.RefreshDB--------------------------------
 
       //melempar ke route hasil update atau tambah

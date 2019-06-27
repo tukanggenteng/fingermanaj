@@ -72,4 +72,7 @@ The Laravel framework is open-source software licensed under the [MIT license](h
 
 ## Require Composer
 Install Jeroennoten Laravel AdminLTE (https://github.com/jeroennoten/Laravel-AdminLTE)
+
 Install Yajra Laravel Datatables (https://github.com/yajra/laravel-datatables)
+
+Install Ping for Laravel (https://github.com/karlmonson/laravel-ping)

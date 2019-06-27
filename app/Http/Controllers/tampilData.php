@@ -195,6 +195,26 @@ class tampilData extends mesinFinger
   }
   //END.------------------------------------------------------------------------------------------------------------------------------
 
+  //---------------------------------------------------------------------------------------------------------------------------------
+  //menampilkan data absensi pada view
+  public function config(Request $request)
+  {
+
+    $Connect = fsockopen('10.10.10.80', "80", $errno, $errstr, 1);
+    if (!$Connect) {
+      //echo "$errstr ($errno)<br>";
+      dd($errno);
+    }
+    else { dd($Connect); }
+
+    $value = $request->session()->get('key');
+    session(['set_ip' => '10.10.10.10']);
+    //dd($request->session());
+    dd($Connect);
+    return view('konfigurasi', ['session_d' => $value]);
+  }
+  //END.------------------------------------------------------------------------------------------------------------------------------
+
 
 
   // fungsi konfigurasi

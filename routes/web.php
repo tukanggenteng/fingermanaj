@@ -14,9 +14,7 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/tes', function () {
-    return view('tesview');
-});
+Route::get('/tesfungsi', 'testing@tesPost')->name('tes.fungsi');
 
 Route::get('/pegawai/dtdatapegawai_m', 'tampilData@datapegawai_finger')->name('dt.datapegawai'); //daftar pegawai
 Route::get('/pegawai/daftarpegawai_m', 'tampilData@datapegawai_finger_view')->name('mesin.datapegawai'); //daftar pegawai
@@ -43,8 +41,9 @@ Route::post('/pegawai/fingerpegawai_d', 'mesinFinger@hapusDataFinger')->name('me
 Route::get('/pegawai/fingerpegawai_m/{id}/{jari}', 'mesinFinger@cekdatafinger_p')->name('mesin.datafinger');
 
 Route::get('/cekmac', 'mesinFinger@checkMac')->name('mesin.mac');
+//konfigurasi
+Route::get('/konfigurasi', 'tampilData@config')->name('mesin.konfig');
 
-Route::get('/tesfungsi', 'testing@tesPost')->name('tes.fungsi');
 
 //fungsi eabsen
 // -data table
