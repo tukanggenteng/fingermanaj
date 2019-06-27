@@ -95,7 +95,7 @@
     var barhead ='<div id="progress_b" class="container">';
     var bardata ='<div class="row"><div class="col pull-left">Jumlah Data : '+valuenow+' / '+valuemax+'</div>';
     var barpersen ='<div class="col pull-right">'+stylewidth+'%</div></div>';
-    var bar1 ='<div class="progress row">';
+    var bar1 ='<div class="progress active row">';
     var bar2 ='<div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="'+valuenow+'" aria-valuemin="0" aria-valuemax="'+valuemax+'" style="width: '+stylewidth+'%"></div>';
     var bar3 ='</div>';
     var barfoot ='</div>';
@@ -106,11 +106,23 @@
   //+simpan data ke mesin fingerprint
   function datatambah(nip, nama)
   {
-      var datahead = '<div class="container"><div class=" alert alert-success" role="alert">';
-      var dataisi = '<i class="fa fa-plus"></i> menambahkan = NIP : '+nip+', Nama : '+nama;
-      var datafoot = '</div></div>';
-      $("#datatambah").prepend(datahead+dataisi+datafoot).fadeIN(100);
+      var waktuattemp = timeAttemp();
+      var datahead = '<li><i class="fa fa-plus bg-green"></i>';
+      var dataisi1 = '<div class="timeline-item">';
+      var dataisi2 = '<span class="time">'+waktuattemp+'</span>';
+      var dataisi3 = '<div class="timeline-body bg-success">menambahkan <i class="fa fa-user"></i> NIP : '+nip+', Nama : '+nama+'</div>';
+      var dataisi4 = '</div>';
+      var datafoot = '</li>';
+      $("#datatambah").prepend(datahead+dataisi1+dataisi2+dataisi3+dataisi4+datafoot).fadeIn(100);
 
+  }
+  //-------------------------------
+  //+get time attempt
+  function timeAttemp()
+  {
+      var waktu = new Date($.now());
+      waktuattemp = waktu.getHours()+":"+waktu.getMinutes()+":"+waktu.getSeconds()+" "+waktu.getMilliseconds();
+      return waktuattemp;
   }
   //-------------------------------
 

@@ -96,13 +96,13 @@
       <!-- /.modal -->
 
       <!-- modal swipe data pegawai-->
-      <div class="modal fade" id="modal_swipe">
+      <div class="modal modal-danger fade" id="modal_swipe">
         <div class="modal-dialog">
-          <div class="modal-content bg bg-red">
+          <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span></button>
-              <h3 class="modal-title text-center text-error"><b>Swipe semua Data Pegawai <i class="fa fa-warning"></i><b></h3>
+              <h3 class="modal-title text-center text-error"><b>Wipe semua Data Pegawai <i class="fa fa-warning"></i><b></h3>
             </div>
             <div class="modal-body">
               <div class="error alert-danger alert-dismissible">
@@ -127,10 +127,10 @@
                   <div class="col-md-12">
                     <div class="col-md-12">
                       <div class="form-group col-md-6" >
-                        <button type="button" class="btn btn-success pull-right col-md-5" data-dismiss="modal"><b>Tidak</b></button>
+                        <button type="button" class="btn btn-outline btn-success pull-right col-md-5" data-dismiss="modal"><b>Tidak</b></button>
                       </div>
                       <div class="form-group col-md-6" >
-                        <button type="button" id="swipedatapegawai" class="btn btn-warning col-md-5"><b>Ya !</b></button>
+                        <button type="button" id="swipedatapegawai" class="btn btn-outline btn-warning col-md-5"><b>Ya !</b></button>
                       </div>
                     </div>
                   </div>

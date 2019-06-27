@@ -176,6 +176,8 @@ return [
         App\Providers\RouteServiceProvider::class,
         //admin LTE service providers
         JeroenNoten\LaravelAdminLte\ServiceProvider::class,
+        // Karlmonson Ping
+        Karlmonson\Ping\PingServiceProvider::class,
         //datatable
         Yajra\DataTables\DataTablesServiceProvider::class,
 
@@ -217,6 +219,7 @@ return [
         'Mail' => Illuminate\Support\Facades\Mail::class,
         'Notification' => Illuminate\Support\Facades\Notification::class,
         'Password' => Illuminate\Support\Facades\Password::class,
+        'Ping' => Karlmonson\Ping\Facades\Ping::class, //Ping
         'Queue' => Illuminate\Support\Facades\Queue::class,
         'Redirect' => Illuminate\Support\Facades\Redirect::class,
         'Redis' => Illuminate\Support\Facades\Redis::class,

@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Ping;
+use App\Http\Controllers\Controller;
 
 class tampilData extends mesinFinger
 {
@@ -200,17 +202,24 @@ class tampilData extends mesinFinger
   public function config(Request $request)
   {
 
-    $Connect = fsockopen('10.10.10.80', "80", $errno, $errstr, 1);
-    if (!$Connect) {
-      //echo "$errstr ($errno)<br>";
-      dd($errno);
-    }
-    else { dd($Connect); }
+    $mesin = new mesinFinger;
+
+    $url = '10.10.10.10';
+    $kond_conn = $mesin->connHealthCheck($url);
+
+    //session(['set_ip' => '']);
+    if($request->session()->get('set_ip'))
+      {
+        //dd($request->session()->get('set_ip'));
+      }
+    else
+      {
+          //dd($request->session()); 
+      }
 
     $value = $request->session()->get('key');
-    session(['set_ip' => '10.10.10.10']);
+    //session(['set_ip' => '10.10.10.10']);
     //dd($request->session());
-    dd($Connect);
     return view('konfigurasi', ['session_d' => $value]);
   }
   //END.------------------------------------------------------------------------------------------------------------------------------

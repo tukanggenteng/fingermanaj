@@ -33,6 +33,9 @@
               </table>
             </div>
             <div class="box-footer">
+              <button class="btn btn-info form-control" id="peringatanwipe" data-toggle="modal" id="tambah" data-target="#modal_swipe">Donwload Semua Data Sidik Jari ke dalam mesin fingerprint scan <i class="fa fa-download"></i></button>
+              <hr>
+              <button class="btn btn-danger form-control" id="peringatanwipe" data-toggle="modal" id="tambah" data-target="#modal_swipe">Hapus Semua Data Sidik Jari di dalam mesin fingerprint scan <i class="fa fa-trash"></i></button>
             </div>
           </form>
           </div>
@@ -52,6 +55,7 @@
 <!--javascript custom section   -->
 <!-- code below -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="/js/fm/eabsendf.js"></script>
 <script>
 //komentar?
 </script>

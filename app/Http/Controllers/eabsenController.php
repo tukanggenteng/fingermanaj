@@ -76,6 +76,15 @@ class eabsenController extends mesinFinger
 
     public function eabsen_df()
     {
+      //cek data pegawai di msin fingerprint, jika belum redirect ke halaman download data pegawai
+      $mesin = new mesinFinger;
+      $datapegawai = $mesin->cekdatapegawai_finger();
+
+      if(empty($datapegawai))
+      {
+        return redirect()->route('eabsen.dp')->with('pesan', 'Data Pegawai masih kosong, silahkan tambah data pegawai!');
+      }
+      //if()
       return view('eabsen_df');
     }
 }

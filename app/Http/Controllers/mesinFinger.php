@@ -3,13 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Ping;
+use App\Http\Controllers\Controller;
 
 class mesinFinger extends Controller
 {
 
     //configurasi koneksi mesin, nanti bisa dipindahkan ke database
-    //public $ip = '10.10.10.20';
-	  public $ip = '192.168.0.80';
+    public $ip = '10.10.10.10';
+	  //public $ip = '192.168.0.80';
     public $key = 0;
 
     //format pemanggilan data pada mesin finger menggunakan metode SOAP
@@ -661,6 +663,18 @@ class mesinFinger extends Controller
       else { echo "Koneksi Gagal";}
       //harus dikembalikan
       return $buffer;
+    }
+    //END.------------------------------------------------------------------------------------------------------------------------------
+
+		//---------------------------------------------------------------------------------------------------------------------------------
+    // Cek Kondisi Koneksi dengan ping
+    public function connHealthCheck($url)
+    {
+			$health = Ping::check($url);
+
+					if($health == 200) { $kondconn = 'alive'; }
+					else { $kondconn = 'dead'; }
+					return $kondconn;
     }
     //END.------------------------------------------------------------------------------------------------------------------------------
 

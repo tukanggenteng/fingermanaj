@@ -15,6 +15,12 @@
       <div class="content">
         <div class="box box-default">
             <div class="box-header with-border">
+              @if (session('pesan'))
+                  <div class="alert alert-warning fade in alert-dismissible text-center">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                    <i class="fa fa-warning"></i> <strong>{{ session('pesan') }}</strong>
+                  </div>
+              @endif
             </div>
             <div class="box-body">
               <button class="btn btn-warning" data-toggle="modal" id="tambah_dptf" data-target="#modal_add_dptf">Tambah Data Pegawai yang belum memiliki sidik jari <i class="fa fa-user"></i></button>
@@ -24,7 +30,12 @@
                 <div id="datadarieabsen" style="visibility:hidden;"></div>
                 <div id="aksitambahdata"></div>
                 <div id="progresstambah"></div>
-                <div id="datatambah" style="overflow-y: scroll; max-height: 600px"></div>
+                <div class="container">
+                  <div class="row">
+                    <div id="datatambah" class="timeline" style="overflow-y: scroll; max-height: 600px"></div>
+                  </div>
+                </div>
+
             </div>
             <div class="box-footer">
             </div>
@@ -34,7 +45,7 @@
     </div>
 
     <!-- modal tambah data pegawai yang sudah memiliki sidik jari-->
-    <div class="modal fade" id="modal_add_dpf">
+    <div class="modal modal-info fade" id="modal_add_dpf">
       <div class="modal-dialog">
         <div class="modal-content">
           <div class="modal-header">
@@ -82,7 +93,7 @@
       <!-- /.modal -->
 
       <!-- modal tambah data pegawai yang belum memiliki sidik jari-->
-      <div class="modal fade" id="modal_add_dptf">
+      <div class="modal modal-warning fade" id="modal_add_dptf">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">

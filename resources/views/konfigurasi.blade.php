@@ -11,20 +11,62 @@
 @stop
 
 @section('content')
-    <div class="row">
-      <div class="content">
-        <div class="box box-default">
+      <div class="col-md-6">
+          <!-- Konfigurasi IP -->
+          <div class="box box-warning ">
             <div class="box-header with-border">
+              <h3 class="box-title">Konfigurasi Alamat IP</h3>
             </div>
+            <!-- /.box-header -->
             <div class="box-body">
-
+              <div class="row">
+                <div class="col-md-6">
+                  Alamat IP yang digunakan saat ini :
+                </div>
+              </div>
             </div>
+            <!-- /.box-body -->
             <div class="box-footer">
+              <form action="#" method="post">
+                <div class="input-group">
+                  <input type="text" name="message" placeholder="Isikan Alamat IP ..." class="form-control">
+                      <span class="input-group-btn">
+                        <button type="button" class="btn btn-success btn-flat">Perbaharui</button>
+                      </span>
+                </div>
+              </form>
             </div>
-          </form>
+            <!-- /.box-footer-->
           </div>
-      </div>
-    </div>
+          <!--/.Konfigurasi IP -->
+        </div>
+
+        <div class="col-md-6">
+            <!-- Cek Koneksi -->
+            <div class="box box-warning ">
+              <div class="box-header with-border">
+                <h3 class="box-title">Cek Koneksi</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <div class="row">
+                  <div class="col-md-6">
+                    Alamat IP yang digunakan saat ini :
+                  </div>
+                </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+                <form action="#" method="post">
+                  <div class="">
+                    <button type="button" class="btn btn-success btn-flat form-control">Cek Koneksi</button>
+                  </div>
+                </form>
+              </div>
+              <!-- /.box-footer-->
+            </div>
+            <!--/.Cek Koneksi -->
+          </div>
 
 @stop
 
