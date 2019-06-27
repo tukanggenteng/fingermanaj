@@ -44,7 +44,7 @@ Route::get('/pegawai/fingerpegawai_m/{id}/{jari}', 'mesinFinger@cekdatafinger_p'
 
 Route::get('/cekmac', 'mesinFinger@checkMac')->name('mesin.mac');
 
-//Route::get('/tesfungsi', 'testing@tesFungsi2')->name('tes.fungsi');
+Route::get('/tesfungsi', 'testing@tesPost')->name('tes.fungsi');
 
 //fungsi eabsen
 // -data table

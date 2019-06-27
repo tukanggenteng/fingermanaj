@@ -24,4 +24,9 @@ class testing extends mesinFinger
       $data = $mesin->datapegawai_finger();
       return $data;
     }
+
+    public function tesPost()
+    {
+      return view('tesview');
+    }
 }

@@ -70,37 +70,60 @@ class tampilData extends mesinFinger
 
       for($i=1; $i<=count($dataabsensi);$i++)
       {
-          //menambahkan nama
-          for($j=1; $j<=count($datapegawai);$j++)
+          if(!isset($datapegawai[1]['Name']))
           {
-              if($datapegawai[$j]['PIN2']==$dataabsensi[$i]['PIN']) { $nama = $datapegawai[$j]['Name']; break; }
+            $dataabsenbaru[$i] = array(
+                  'no' => '',
+                  'id' => '',
+                  'nama' => '',
+                  'tanggal' => '',
+                  'jam' => '',
+                  'keteranganabsen' => '',
+                );
           }
-          //menambah keterangan absen
-          switch ($dataabsensi[$i]['Status']) {
-              case 0:
-                  $keteranganabsen = "Masuk";
-                  break;
-              case 1:
-                  $keteranganabsen = "Pulang";
-                  break;
-              case 2:
-                  $keteranganabsen = "Mulai Istirahat";
-                  break;
-              case 3:
-                  $keteranganabsen = "Selesai Istirahat";
-                  break;
-          }
+          else
+          {
+              if(empty($dataabsensi[0]['PIN']))
+              {
+                $dataabsenbaru[$i] = array(
+                      'no' => '',
+                      'id' => '',
+                      'nama' => '',
+                      'tanggal' => '',
+                      'jam' => '',
+                      'keteranganabsen' => '',
+                    );
+              }
+              else
+              {
+                  //menambahkan nama
+                  for($j=1; $j<=count($datapegawai);$j++)
+                  {
+                      if($datapegawai[$j]['PIN2']==$dataabsensi[$i]['PIN']) { $nama = $datapegawai[$j]['Name']; }
+                      else { $nama = '';  }
+                  }
 
-          $jam = date("H:i:s", strtotime($dataabsensi[$i]['DateTime']));
-          $tanggal = date("D d/n/Y", strtotime($dataabsensi[$i]['DateTime']));
-          $dataabsenbaru[$i] = array(
-                'no' => $i,
-                'id' => $dataabsensi[$i]['PIN'],
-                'nama' => $nama,
-                'tanggal' => $tanggal,
-                'jam' => $jam,
-                'keteranganabsen' => $keteranganabsen,
-              );
+                  //menambah keterangan absen
+                  $kta = $dataabsensi[$i]['Status'];
+                  if     ($kta == '0') { $keteranganabsen = "Masuk"; }
+                  else if($kta == '1') { $keteranganabsen = "Pulang"; }
+                  else if($kta == '2') { $keteranganabsen = "Mulai Istirahat"; }
+                  else if($kta == '3') { $keteranganabsen = "Selesai Istirahat"; }
+                  else                 { $keteranganabsen = ""; }
+                  //-----------------------
+
+                  $jam = date("H:i:s", strtotime($dataabsensi[$i]['DateTime']));
+                  $tanggal = date("D d/n/Y", strtotime($dataabsensi[$i]['DateTime']));
+                  $dataabsenbaru[$i] = array(
+                        'no' => $i,
+                        'id' => $dataabsensi[$i]['PIN'],
+                        'nama' => $nama,
+                        'tanggal' => $tanggal,
+                        'jam' => $jam,
+                        'keteranganabsen' => $keteranganabsen,
+                      );
+              }
+          }
       }
 
       return datatables()->of($dataabsenbaru)->toJson();
@@ -126,33 +149,38 @@ class tampilData extends mesinFinger
 
       for($i=1; $i<=count($dataabsensi);$i++)
       {
-          //menambah keterangan absen
-          switch ($dataabsensi[$i]['Status']) {
-              case 0:
-                  $keteranganabsen = "Masuk";
-                  break;
-              case 1:
-                  $keteranganabsen = "Pulang";
-                  break;
-              case 2:
-                  $keteranganabsen = "Mulai Istirahat";
-                  break;
-              case 3:
-                  $keteranganabsen = "Selesai Istirahat";
-                  break;
-              default:
-                  $keteranganabsen ='';
-                  break;
-          }
 
-          $jam = date("H:i:s", strtotime($dataabsensi[$i]['DateTime']));
-          $tanggal = date("D d/n/Y", strtotime($dataabsensi[$i]['DateTime']));
+        if(empty($dataabsensi[0]['PIN']))
+        {
           $dataabsenbaru[$i] = array(
-                'no' => $i,
-                'tanggal' => $tanggal,
-                'jam' => $jam,
-                'keteranganabsen' => $keteranganabsen,
+                'no' => '',
+                'id' => '',
+                'nama' => '',
+                'tanggal' => '',
+                'jam' => '',
+                'keteranganabsen' => '',
               );
+        }
+        else
+        {
+          //menambah keterangan absen
+          $kta = $dataabsensi[$i]['Status'];
+          if     ($kta == '0') { $keteranganabsen = "Masuk"; }
+          else if($kta == '1') { $keteranganabsen = "Pulang"; }
+          else if($kta == '2') { $keteranganabsen = "Mulai Istirahat"; }
+          else if($kta == '3') { $keteranganabsen = "Selesai Istirahat"; }
+          else                 { $keteranganabsen = ""; }
+          //-----------------------
+
+            $jam = date("H:i:s", strtotime($dataabsensi[$i]['DateTime']));
+            $tanggal = date("D d/n/Y", strtotime($dataabsensi[$i]['DateTime']));
+            $dataabsenbaru[$i] = array(
+                  'no' => $i,
+                  'tanggal' => $tanggal,
+                  'jam' => $jam,
+                  'keteranganabsen' => $keteranganabsen,
+                );
+        }
       }
 
       return datatables()->of($dataabsenbaru)->toJson();

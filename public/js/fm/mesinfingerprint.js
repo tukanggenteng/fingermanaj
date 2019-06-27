@@ -32,7 +32,7 @@ $(document).ready(function() {
     $(document).on('click','#addpegawai',function (){
       var pin=$('#ID').val();
       var nama=$('#nama').val();
-      nama = nama.replace("'","\\'");
+      // nama = nama.replace("'","\\'");
       var _token=$("input[name=_token]").val();
       $.ajax({
           type:'post',

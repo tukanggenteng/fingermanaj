@@ -8,8 +8,8 @@ class mesinFinger extends Controller
 {
 
     //configurasi koneksi mesin, nanti bisa dipindahkan ke database
-    public $ip = '10.10.10.20';
-	  //public $ip = '192.168.0.51';
+    //public $ip = '10.10.10.20';
+	  public $ip = '192.168.0.80';
     public $key = 0;
 
     //format pemanggilan data pada mesin finger menggunakan metode SOAP
@@ -461,10 +461,9 @@ class mesinFinger extends Controller
 	public function tambahNamaPegawai(Request $request)
 	{
 
-
 		//dd($template);
       $PIN = $request->pin;
-      $nama = urldecode($request->nama);
+      $nama = $request->nama;
       if($nama=='' || $PIN =='') {
         $seluruh['status']="0";
         $seluruh['pesan']='Tidak boleh ada data yang kosong!';
@@ -474,7 +473,7 @@ class mesinFinger extends Controller
       {
         $Connect = fsockopen($this->ip, "80", $errno, $errstr, 1);
 
-        $soap_request= $this->SetUserInfoPass($nama, "", $PIN);
+        $soap_request= $this->SetUserInfoPass(str_replace("'"," ",$nama), "", $PIN);
         $buffer="";
         $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefiniskan sebagai variable agar menyimpan data
 
@@ -493,7 +492,7 @@ class mesinFinger extends Controller
         fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
         fputs($Connect, $soap_request.$newLine);
 
-        sleep(1);
+        sleep(2);
 
         //End.RefreshDB--------------------------------
         $seluruh['status']="1";

@@ -80,6 +80,7 @@
                                 else if(data=='Pulang') { dataN = data+" <i class='fa fa-sign-out'></i>"; }
                                 else if(data=='Mulai Istirahat') { dataN = data+" <i class='fa fa-sign-out'></i>"; }
                                 else if(data=='Selesai Istirahat') { dataN = "<i class='fa fa-sign-in'></i> "+data; }
+                                else { dataN = "<i class='fa fa-warning'></i> Tidak ada Data"; }
 
                                 return dataN;
                               }

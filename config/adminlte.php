@@ -138,6 +138,8 @@ return [
             'url'         => 'finger/daftarfingerdb',
             'icon'        => 'thumbs-o-up',
         ],
+
+        'EABSEN KALSELPROV',
         [
             'text' => 'eAbsen App',
             'icon' => 'group',
@@ -150,12 +152,12 @@ return [
                           [
                           'text' => 'Upload Finger',
                           'url'  => 'eabsen/uploadfinger',
-                          'icon' => 'user',
+                          'icon' => 'thumbs-o-up',
                           ],
                           [
                           'text' => 'Download Finger',
                           'url'  => 'eabsen/downloadfinger',
-                          'icon' => 'user',
+                          'icon' => 'thumbs-o-up',
                           ],
                         ]
 
