@@ -76,3 +76,5 @@ Install Jeroennoten Laravel AdminLTE (https://github.com/jeroennoten/Laravel-Adm
 Install Yajra Laravel Datatables (https://github.com/yajra/laravel-datatables)
 
 Install Ping for Laravel (https://github.com/karlmonson/laravel-ping)
+
+Referrence Tad PHP (https://github.com/cobisja/tad-php)
