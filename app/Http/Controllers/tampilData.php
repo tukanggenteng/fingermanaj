@@ -10,6 +10,8 @@ class tampilData extends mesinFinger
 {
   //---------------------------------------------------------------------------------------------------------------------------------
   //memanggil data pegawai dari fungsi cekdatapegawai_finger() for datatable
+  //object request digunakan pengecekan config set ip
+
   public function datapegawai_finger()
   {
       $mesin = new mesinFinger;
@@ -22,6 +24,9 @@ class tampilData extends mesinFinger
   //menampilkan data pegawai pada view
   public function datapegawai_finger_view()
   {
+    $mesin = new mesinFinger;
+    $mesin->kondConn(session('set_ip'));
+
     return view('datapegawai_m');
   }
   //END.------------------------------------------------------------------------------------------------------------------------------
@@ -198,31 +203,18 @@ class tampilData extends mesinFinger
   //END.------------------------------------------------------------------------------------------------------------------------------
 
   //---------------------------------------------------------------------------------------------------------------------------------
-  //menampilkan data absensi pada view
+  //menampilkan halaman konfigurasi
   public function config(Request $request)
   {
 
     $mesin = new mesinFinger;
+    $url = $request->session()->get('set_ip'); //get data ip dari var session
+    $mesin->kondConn($url, $request);
 
-    $url = '10.10.10.10';
-    $kond_conn = $mesin->connHealthCheck($url);
-
-    //session(['set_ip' => '']);
-    if($request->session()->get('set_ip'))
-      {
-        //dd($request->session()->get('set_ip'));
-      }
-    else
-      {
-          //dd($request->session()); 
-      }
-
-    $value = $request->session()->get('key');
-    //session(['set_ip' => '10.10.10.10']);
-    //dd($request->session());
-    return view('konfigurasi', ['session_d' => $value]);
+    return view('konfigurasi', ['session_d' => $url]);
   }
   //END.------------------------------------------------------------------------------------------------------------------------------
+
 
 
 

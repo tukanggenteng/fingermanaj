@@ -43,6 +43,7 @@ Route::get('/pegawai/fingerpegawai_m/{id}/{jari}', 'mesinFinger@cekdatafinger_p'
 Route::get('/cekmac', 'mesinFinger@checkMac')->name('mesin.mac');
 //konfigurasi
 Route::get('/konfigurasi', 'tampilData@config')->name('mesin.konfig');
+Route::post('/konfigurasi_set', 'tampilData@config_set')->name('mesin.konfig_set');
 
 
 //fungsi eabsen

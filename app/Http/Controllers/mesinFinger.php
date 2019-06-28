@@ -10,7 +10,7 @@ class mesinFinger extends Controller
 {
 
     //configurasi koneksi mesin, nanti bisa dipindahkan ke database
-    public $ip = '10.10.10.10';
+    //public $ip = '10.10.10.10';
 	  //public $ip = '192.168.0.80';
     public $key = 0;
 
@@ -231,8 +231,10 @@ class mesinFinger extends Controller
     //menarik data pegawai di alat finger dan disimpan dalam array //!object
     public function cekdatapegawai_finger()
     {
+      $url = session('set_ip'); //get data ip dari var session
+      //$this->kondConn($url);
 
-      $Connect = fsockopen($this->ip, "80", $errno, $errstr, 1);
+      $Connect = fsockopen($url, "80", $errno, $errstr, 1);
 
       $soap_request= $this->GetAllUserInfo();
       $buffer="";
@@ -461,7 +463,7 @@ class mesinFinger extends Controller
     //END.------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------------------------------
-    // Tambah Data Pegawwai ke mesin Fingerprint
+    // Tambah Data Pegawai ke mesin Fingerprint
 	public function tambahNamaPegawai(Request $request)
 	{
 
@@ -505,6 +507,13 @@ class mesinFinger extends Controller
       }
 
 	}
+  //set konfigurasi alamat ip
+  public function config_set(Request $request)
+  {
+    session(['set_ip' => $request->alamat_ip]);
+    return redirect()->route('mesin.konfig')->with('success', 'Alamat IP sudah diatur ulang!');
+  }
+  //END.------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------------------------------
     // Delete Data Fingerprint
@@ -515,8 +524,6 @@ class mesinFinger extends Controller
       //$status_store = $request->status_store;
       $PIN = $request->ID;
       $nama = $request->nama;
-
-
 
       //dd($template);
       $Connect = fsockopen($this->ip, "80", $errno, $errstr, 1);
@@ -546,6 +553,7 @@ class mesinFinger extends Controller
       //return redirect()->route('adm_user.index')->with('message', '<strong>'.$request->nama.'</strong> berhasil ditambahkan!');
     }
     //END.------------------------------------------------------------------------------------------------------------------------------
+    // /.END---------------------------------set data---------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------------------------------
   	// Delete Data Pegawai
@@ -675,6 +683,26 @@ class mesinFinger extends Controller
 					if($health == 200) { $kondconn = 'alive'; }
 					else { $kondconn = 'dead'; }
 					return $kondconn;
+    }
+    //END.------------------------------------------------------------------------------------------------------------------------------
+
+    // Redirect Kondisi Koneksi
+    public function kondConn($url) //meminta data (Request)session dari fungsi lain
+    {
+
+      if(empty(session('set_ip')))
+        {
+          session(['set_ip' => '10.10.10.10']);
+        }
+      else
+        {
+            $konds = $this->connHealthCheck($url);
+            //dd($request->session()->get('set_ip'));
+            if($konds=='dead')
+            {
+               return redirect()->route('mesin.konfig')->with('pesan', 'Alat fingerprintscan tidak bisa dihubungi, silakan setting ulang alamat IP !');
+            }
+        }
     }
     //END.------------------------------------------------------------------------------------------------------------------------------
 
