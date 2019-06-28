@@ -26,3 +26,15 @@ var datatabelf = $('#datapegawaifinger').DataTable( {
                       ]
                     } );
 //--------------------------------------------------
+
+// Download data FingerPrint perorang
+//-------------------------
+// cek id pegawai untuk merequest jumlah data finger yang ada di server
+// jumlahdata finger diketahui
+// lakukan perulangan menambhkan data finger sejumlah data finger yang ada
+//-------------------------
+// END./Download data FingerPrint perorang
+
+// Download data FingerPrint keseluruhan
+// cek
+// END./Download data FingerPrint keseluruhan

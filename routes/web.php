@@ -44,6 +44,7 @@ Route::get('/cekmac', 'mesinFinger@checkMac')->name('mesin.mac');
 //konfigurasi
 Route::get('/konfigurasi', 'tampilData@config')->name('mesin.konfig');
 Route::post('/konfigurasi_set', 'tampilData@config_set')->name('mesin.konfig_set');
+Route::post('/cekkon', 'mesinFinger@konping')->name('mesin.konping');
 
 
 //fungsi eabsen

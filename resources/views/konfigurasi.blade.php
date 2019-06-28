@@ -73,8 +73,14 @@
               <div class="box-body">
                 <div class="row">
                   <div class="col-md-12">
-                    <div class="" id="waktu"></div>
-                    <div class="" id="progress"></div>
+                    <div class="" id="hasil"></div>
+                    <div class="" id="progress" style="display:none;">
+                      <div id="progress_b" class="">
+                        <div class="progress active">
+                          <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100" style="width: 100%"></div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -105,5 +111,5 @@
 <!--javascript custom section   -->
 <!-- code below -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="/js/fm/eabsendp.js"></script>
+<script src="/js/fm/mesinkon.js"></script>
 @stop

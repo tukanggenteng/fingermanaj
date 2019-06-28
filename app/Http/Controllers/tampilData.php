@@ -24,8 +24,14 @@ class tampilData extends mesinFinger
   //menampilkan data pegawai pada view
   public function datapegawai_finger_view()
   {
+    //cek koneksi biar fungsi ----------------------------------------------------------------
     $mesin = new mesinFinger;
-    $mesin->kondConn(session('set_ip'));
+    $kon = $mesin->connHealthCheck(session('set_ip'));
+    if($kon=='dead')
+    {
+       return redirect()->route('mesin.konfig')->with('pesan', 'Alat fingerprintscan tidak bisa dihubungi, silakan setting ulang alamat IP !');
+    }
+    // ./cek koneksi biar fungsi ----------------------------------------------------------------
 
     return view('datapegawai_m');
   }
@@ -141,6 +147,14 @@ class tampilData extends mesinFinger
   //menampilkan data absensi pada view
   public function getSemuaKehadiran_v()
   {
+    //cek koneksi biar fungsi ----------------------------------------------------------------
+    $mesin = new mesinFinger;
+    $kon = $mesin->connHealthCheck(session('set_ip'));
+    if($kon=='dead')
+    {
+       return redirect()->route('mesin.konfig')->with('pesan', 'Alat fingerprintscan tidak bisa dihubungi, silakan setting ulang alamat IP !');
+    }
+    // ./cek koneksi biar fungsi ----------------------------------------------------------------
     return view('dataabsensi_m');
   }
   //END.------------------------------------------------------------------------------------------------------------------------------
@@ -204,12 +218,12 @@ class tampilData extends mesinFinger
 
   //---------------------------------------------------------------------------------------------------------------------------------
   //menampilkan halaman konfigurasi
-  public function config(Request $request)
+  public function config()
   {
 
     $mesin = new mesinFinger;
-    $url = $request->session()->get('set_ip'); //get data ip dari var session
-    $mesin->kondConn($url, $request);
+    $url = session('set_ip'); //get data ip dari var session
+    $mesin->kondConn($url);
 
     return view('konfigurasi', ['session_d' => $url]);
   }
