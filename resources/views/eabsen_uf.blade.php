@@ -15,6 +15,12 @@
       <div class="content">
         <div class="box box-default">
             <div class="box-header with-border">
+              <div class="alert alert-warning fade in alert-dismissible text-center">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <i class="fa fa-warning"></i> <strong> Fungsi Menu ini belum dikembangkan...</strong>
+              </div>
+              <button class="btn btn-info" id="refresh">Refresh <i class="fa fa-refresh"></i></button>
+              <button class="btn btn-info" id="clearprogres">Clear Laporan Progres <i class="fa fa-refresh"></i></button>
             </div>
             <div class="box-body">
               <table id="datapegawaifinger" class="table table-bordered thead-dark table-striped table-hover">
@@ -33,6 +39,7 @@
               </table>
             </div>
             <div class="box-footer">
+              <button class="btn btn-info form-control" id="upload" id="upload">Upload Semua Data Sidik Jari di dalam mesin fingerprint scan <i class="fa fa-upload"></i></button>
             </div>
           </form>
           </div>
@@ -52,7 +59,5 @@
 <!--javascript custom section   -->
 <!-- code below -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script>
-//komentar?
-</script>
+<script src="/js/fm/eabsenuf.js"></script>
 @stop

@@ -100,7 +100,7 @@ $(document).ready(function() {
     });
     // ./hapus data pegawai-----------------------------------------------------------
 
-    //swipe data pegawai-----------------------------------------------------------
+    //Wipe data pegawai-----------------------------------------------------------
     $(document).on('click','#swipedatapegawai',function (){
       var _token= $("input[name=_token]").val();
 
@@ -130,7 +130,7 @@ $(document).ready(function() {
           },
       });
     });
-    // ./Swipe data pegawai-----------------------------------------------------------
+    // ./Wipe data pegawai-----------------------------------------------------------
 
 
 } ); //END LINE FUNCTION

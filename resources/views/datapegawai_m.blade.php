@@ -95,14 +95,14 @@
       </div>
       <!-- /.modal -->
 
-      <!-- modal swipe data pegawai-->
+      <!-- modal Wipe data-->
       <div class="modal modal-danger fade" id="modal_swipe">
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span></button>
-              <h3 class="modal-title text-center text-error"><b>Wipe semua Data Pegawai <i class="fa fa-warning"></i><b></h3>
+              <h3 class="modal-title text-center text-error"><b>Wipe semua Data<i class="fa fa-warning"></i><b></h3>
             </div>
             <div class="modal-body">
               <div class="error alert-danger alert-dismissible">

@@ -21,8 +21,8 @@ $(document).on('click','#cekkon',function (){
             }
 
         },
-    })
-    return false;
+    });
+    //return false;
 
   });
   // ./Cek Koneksi-----------------------------------------------------------
@@ -36,3 +36,33 @@ $(document).on('click','#cekkon',function (){
     $("#progress").html(bar1+bar2+bar3);
   }
   //-------------------------------
+
+  //Wipe data pegawai-----------------------------------------------------------
+  $(document).on('click','#wipedata_',function (){
+    var _token= $("input[name=_token]").val();
+    //console.log(_token);
+    $.ajax({
+        type:'post',
+        url:'/wipedata',
+        data : {
+                _token:_token
+                },
+        success:function(response){
+          if((response.status==1)){
+              $('.error').addClass('hidden');
+              swal("Sukses Menghapus Semua Data pada mesin!", "", "warning");
+              $('#modal_wipe').modal('hide');
+              //console.log(response.nama);
+          }
+          else
+            {
+              $('.error').addClass('hidden');
+              swal("Terjadi Kesalahan", "", "error");
+              $('#modal_wipe').modal('hide');
+              //console.log(response);
+              }
+        },
+    });
+
+  });
+  // ./Wipe data pegawai-----------------------------------------------------------

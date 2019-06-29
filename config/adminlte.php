@@ -58,7 +58,7 @@ return [
     |
     */
 
-    'layout' => null,
+    'layout' => 'fixed',
 
     /*
     |--------------------------------------------------------------------------
@@ -85,7 +85,7 @@ return [
     |
     */
 
-    'dashboard_url' => 'home',
+    'dashboard_url' => '',
 
     //'logout_url' => '',
 
@@ -124,20 +124,23 @@ return [
 
         'DATA DI DALAM DATABASE',
         [
-            'text' => 'konfigurasi koneksi',
+            'text' => 'konfigurasi',
             'url'  => 'konfigurasi',
             'icon' => 'gear',
         ],
         [
-            'text'        => 'Daftar Pegawai',
+            'text'        => 'Daftar Instansi',
             'url'         => 'pegawai/daftarpegawaidb',
-            'icon'        => 'group',
+            'icon'        => 'building',
         ],
+
+        /*
         [
-            'text'        => 'Data Finger',
+            'text'        => 'Data Fingerprint',
             'url'         => 'finger/daftarfingerdb',
             'icon'        => 'thumbs-o-up',
         ],
+        */
 
         'EABSEN KALSELPROV',
         [
@@ -150,12 +153,12 @@ return [
                           'icon' => 'group',
                           ],
                           [
-                          'text' => 'Upload Finger',
+                          'text' => 'Upload Fingerprint',
                           'url'  => 'eabsen/uploadfinger',
                           'icon' => 'thumbs-o-up',
                           ],
                           [
-                          'text' => 'Download Finger',
+                          'text' => 'Download Fingerprint',
                           'url'  => 'eabsen/downloadfinger',
                           'icon' => 'thumbs-o-up',
                           ],

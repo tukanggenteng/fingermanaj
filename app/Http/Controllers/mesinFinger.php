@@ -641,6 +641,8 @@ class mesinFinger extends Controller
           fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
           fputs($Connect, $soap_request.$newLine);
 
+          sleep(1.2);
+
           //End.RefreshDB--------------------------------
           $seluruh['status']="1";
           $seluruh['nama']=$nama;

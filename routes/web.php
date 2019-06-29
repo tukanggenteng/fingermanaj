@@ -39,7 +39,7 @@ Route::post('/pegawai/fingerpegawai_m', 'mesinFinger@setDataFinger')->name('mesi
 Route::post('/pegawai/fingerpegawai_d', 'mesinFinger@hapusDataFinger')->name('mesin.datafinger_d');
 
 Route::get('/pegawai/fingerpegawai_m/{id}/{jari}', 'mesinFinger@cekdatafinger_p')->name('mesin.datafinger');
-
+//----------------------------
 Route::get('/cekmac', 'mesinFinger@checkMac')->name('mesin.mac');
 //konfigurasi
 Route::get('/konfigurasi', 'tampilData@config')->name('mesin.konfig');
@@ -57,3 +57,10 @@ Route::get('/data_fb_eabsen/{id}', 'eabsenController@deabsen_dp_tf')->name('eabs
 Route::get('/eabsen/downloadpegawai', 'eabsenController@eabsen_dp')->name('eabsen.dp');
 Route::get('/eabsen/uploadfinger', 'eabsenController@eabsen_uf')->name('eabsen.uf');
 Route::get('/eabsen/downloadfinger', 'eabsenController@eabsen_df')->name('eabsen.df');
+//eksekusi download data finger ke mesin
+Route::post('/eabsen/download_dfinger', 'eabsenController@deabsen_down_fp')->name('eabsen.d_df');
+//eksekusi upload data finger dari mesin
+// belum dibikin
+
+//eksekusi hapus data finger dari opsi eabsen
+Route::post('/eabsen/hapus_dfinger', 'mesinFinger@hapusDataFingerCore')->name('mesin.h_df');
