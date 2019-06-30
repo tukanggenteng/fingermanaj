@@ -228,7 +228,7 @@ class mesinFinger extends Controller
     }
 
     //---------------------------------------------------------------------------------------------------------------------------------
-    //menarik data pegawai di alat finger dan disimpan dalam array //!object
+    //menarik Semua data pegawai di alat finger dan disimpan dalam array //!object
     public function cekdatapegawai_finger()
     {
       $url = session('set_ip'); //get data ip dari var session
@@ -270,6 +270,51 @@ class mesinFinger extends Controller
             if($this->Parse_Data($data,"<PIN>","</PIN>")!='')
             {
               $datapegawai[$i] = array(
+                                    'PIN' => $this->Parse_Data($data,"<PIN>","</PIN>"),
+                                    'Name' => $this->Parse_Data($data,"<Name>","</Name>"),
+                                    'Password' => $this->Parse_Data($data,"<Password>","</Password>"),
+                                    'Group' => $this->Parse_Data($data,"<Group>","</Group>"),
+                                    'Privilege' => $this->Parse_Data($data,"<Privilege>","</Privilege>"),
+                                    'Card' => $this->Parse_Data($data,"<Card>","</Card>"),
+                                    'PIN2' => $this->Parse_Data($data,"<PIN2>","</PIN2>"),
+                                   );
+            }
+          }
+      }
+
+      return $datapegawai;
+    }
+    //END.------------------------------------------------------------------------------------------------------------------------------
+
+    //menarik SATU data pegawai di alat finger dan disimpan dalam array //!object
+    public function cekdatapegawai_tunggal($PIN)
+    {
+      $url = session('set_ip'); //get data ip dari var session
+      $kon = $this->connHealthCheck($url);
+
+      $datapegawai = array();
+
+      if($kon=='dead')
+      {
+        $datapegawai; //data dibiarkan tanpa terisi
+      }
+      else
+      {
+          $Connect = fsockopen($url, "80", $errno, $errstr, 1);
+
+          $soap_request= $this->GetUserInfo($PIN);
+          $buffer="";
+          $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefiniskan sebagai variable agar menyimpan data
+
+          $buffer= $this->Parse_Data($buffer,"<GetUserInfoResponse>","</GetUserInfoResponse>");
+          $buffer=explode("\r\n",$buffer);
+
+          for($i=0;$i<count($buffer);$i++)
+          {
+            $data = $this->Parse_Data($buffer[$i],"<Row>","</Row>");
+            if($this->Parse_Data($data,"<PIN>","</PIN>")!='')
+            {
+              $datapegawai = array(
                                     'PIN' => $this->Parse_Data($data,"<PIN>","</PIN>"),
                                     'Name' => $this->Parse_Data($data,"<Name>","</Name>"),
                                     'Password' => $this->Parse_Data($data,"<Password>","</Password>"),
@@ -507,16 +552,7 @@ class mesinFinger extends Controller
           $Response = $buffer; //response yang dibalikkan ke viewerblade
 
           //Refresh DB
-        	$Connect = fsockopen($url, "80", $errno, $errstr, 1);
-        	$soap_request="<RefreshDB><ArgComKey xsi:type=\"xsd:integer\">".$this->key."</ArgComKey></RefreshDB>";
-        	$newLine="\r\n";
-        	fputs($Connect, "POST /iWsService HTTP/1.0".$newLine);
-          fputs($Connect, "Content-Type: text/xml".$newLine);
-          fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
-          fputs($Connect, $soap_request.$newLine);
-
-          sleep(2);
-
+        	$this->RefreshDB($url);
           //End.RefreshDB--------------------------------
           $seluruh['status']="1";
           $seluruh['nama']=$nama;
@@ -526,12 +562,16 @@ class mesinFinger extends Controller
     //END.------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------------------------------
-    // Tambah Data Pegawai ke mesin Fingerprint
+    // Tambah Data Pegawai(dan atau PIN) ke mesin Fingerprint
 	public function tambahNamaPegawai(Request $request)
 	{
 
 		//dd($template);
-      $PIN = $request->pin;
+      //cek variabel PIN/Password
+      if(empty($request->template_finger)) { $password = ""; }
+      else { $password = $request->template_finger; }
+      //------
+      $PIN = $request->ID;
       $nama = $request->nama;
       if($nama=='' || $PIN =='') {
         $seluruh['status']="0";
@@ -552,7 +592,7 @@ class mesinFinger extends Controller
         {
             $Connect = fsockopen($url, "80", $errno, $errstr, 1);
 
-            $soap_request= $this->SetUserInfoPass(str_replace("'"," ",$nama), "", $PIN);
+            $soap_request= $this->SetUserInfoPass(str_replace("'"," ",$nama), $password, $PIN);
             $buffer="";
             $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefiniskan sebagai variable agar menyimpan data
 
@@ -563,16 +603,7 @@ class mesinFinger extends Controller
             $Response = $buffer; //response yang dibalikkan ke viewerblade
 
             //Refresh DB---------------------------------------------
-            $Connect = fsockopen($url, "80", $errno, $errstr, 1);
-            $soap_request="<RefreshDB><ArgComKey xsi:type=\"xsd:integer\">".$this->key."</ArgComKey></RefreshDB>";
-            $newLine="\r\n";
-            fputs($Connect, "POST /iWsService HTTP/1.0".$newLine);
-            fputs($Connect, "Content-Type: text/xml".$newLine);
-            fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
-            fputs($Connect, $soap_request.$newLine);
-
-            sleep(2);
-
+            $this->RefreshDB($url);
             //End.RefreshDB--------------------------------
             $seluruh['status']="1";
             $seluruh['nama']=$nama;
@@ -588,6 +619,7 @@ class mesinFinger extends Controller
     return redirect()->route('mesin.konfig')->with('success', 'Alamat IP sudah diatur ulang!');
   }
   //END.------------------------------------------------------------------------------------------------------------------------------
+  // /.END---------------------------------set data---------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------------------------------
     // Delete Data Fingerprint
@@ -602,11 +634,12 @@ class mesinFinger extends Controller
 
       return redirect()->route('mesin.datafingerpegawai',[$PIN, $nama])->with('warning', '<strong>Data Fingerprint</strong> berhasil di'.$request->status_store.'!');
     }
+    // END./Delete Data Fingerprint------------------------------------------------------------------
 
+    // Delete Data Fingerprint Core---------------------------------------------------------------
     public function hapusDataFingerCore(Request $request) //untuk fungsi ajax
     {
 
-      //dd($request);
       $PIN = $request->ID;
       $nama = $request->nama;
 
@@ -633,16 +666,7 @@ class mesinFinger extends Controller
           $Response = $buffer; //response yang dibalikkan ke viewerblade
 
           //Refresh DB---------------------------------------------
-        	$Connect = fsockopen($url, "80", $errno, $errstr, 1);
-        	$soap_request="<RefreshDB><ArgComKey xsi:type=\"xsd:integer\">".$this->key."</ArgComKey></RefreshDB>";
-        	$newLine="\r\n";
-        	fputs($Connect, "POST /iWsService HTTP/1.0".$newLine);
-          fputs($Connect, "Content-Type: text/xml".$newLine);
-          fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
-          fputs($Connect, $soap_request.$newLine);
-
-          sleep(1.2);
-
+        	$this->RefreshDB($url);
           //End.RefreshDB--------------------------------
           $seluruh['status']="1";
           $seluruh['nama']=$nama;
@@ -650,7 +674,44 @@ class mesinFinger extends Controller
       }
     }
     //END.------------------------------------------------------------------------------------------------------------------------------
-    // /.END---------------------------------set data---------------------------------------------------------------------------------------
+
+    //Clear User Password Core----------------------------------------------------------------------------------------------------------
+    public function ClearUserPasswordCore(Request $request)
+    {
+        $PIN = $request->ID;
+        $nama = $request->nama;
+
+        $url = session('set_ip'); //get data ip dari var session
+        $kon = $this->connHealthCheck($url);
+
+        if($kon=='dead')
+        {
+            $seluruh['status']="0";
+            return $seluruh; //data dibiarkan tanpa terisi
+        }
+        else
+        {
+            $Connect = fsockopen($url, "80", $errno, $errstr, 1);
+
+            $soap_request= $this->ClearUserPassword($PIN);
+            $buffer="";
+            $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefiniskan sebagai variable agar menyimpan data
+
+            $buffer= $this->Parse_Data($buffer,"<ClearUserPasswordResponse>","</ClearUserPasswordResponse>");
+            $buffer= $this->Parse_Data($buffer,"<Information>","</Information>");
+            //dd($buffer);
+
+            $Response = $buffer; //response yang dibalikkan ke viewerblade
+
+            //Refresh DB---------------------------------------------
+            $this->RefreshDB($url);
+            //End.RefreshDB--------------------------------
+            $seluruh['status']="1";
+            $seluruh['nama']=$nama;
+            return $seluruh;
+        }
+    }
+    //END.------------------------------------------------------------------------------------------------------------------------------
 
     //---------------------------------------------------------------------------------------------------------------------------------
   	// Delete Data Pegawai
@@ -685,14 +746,7 @@ class mesinFinger extends Controller
           $Response = $buffer; //response yang dibalikkan ke viewerblade
 
           //Refresh DB---------------------------------------------
-        	$Connect = fsockopen($url, "80", $errno, $errstr, 1);
-        	$soap_request="<RefreshDB><ArgComKey xsi:type=\"xsd:integer\">".$this->key."</ArgComKey></RefreshDB>";
-        	$newLine="\r\n";
-        	fputs($Connect, "POST /iWsService HTTP/1.0".$newLine);
-          fputs($Connect, "Content-Type: text/xml".$newLine);
-          fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
-          fputs($Connect, $soap_request.$newLine);
-
+        	$this->RefreshDB($url);
           //End.RefreshDB--------------------------------
 
           //return redirect()->route('mesin.datapegawai')->with('warning', '<strong>Data '.$nama.'</strong> berhasil dihapus!');
@@ -732,14 +786,7 @@ class mesinFinger extends Controller
           $Response = $buffer; //response yang dibalikkan ke viewerblade
 
           //Refresh DB---------------------------------------------
-          $Connect = fsockopen($url, "80", $errno, $errstr, 1);
-          $soap_request="<RefreshDB><ArgComKey xsi:type=\"xsd:integer\">".$this->key."</ArgComKey></RefreshDB>";
-          $newLine="\r\n";
-          fputs($Connect, "POST /iWsService HTTP/1.0".$newLine);
-          fputs($Connect, "Content-Type: text/xml".$newLine);
-          fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
-          fputs($Connect, $soap_request.$newLine);
-
+          $this->RefreshDB($url);
           //End.RefreshDB--------------------------------
 
           $seluruh['status']="1";
@@ -791,6 +838,21 @@ class mesinFinger extends Controller
       return $buffer;
     }
     //END.------------------------------------------------------------------------------------------------------------------------------
+    //Refresh DB---------------------------------------------
+    public function RefreshDB($url)
+    {
+        $Connect = fsockopen($url, "80", $errno, $errstr, 1);
+        $soap_request="<RefreshDB><ArgComKey xsi:type=\"xsd:integer\">".$this->key."</ArgComKey></RefreshDB>";
+        $newLine="\r\n";
+        fputs($Connect, "POST /iWsService HTTP/1.0".$newLine);
+        fputs($Connect, "Content-Type: text/xml".$newLine);
+        fputs($Connect, "Content-Length: ".strlen($soap_request).$newLine.$newLine);
+        fputs($Connect, $soap_request.$newLine);
+
+        sleep(1.2);
+    }
+    //End.RefreshDB--------------------------------
+
 
 		//---------------------------------------------------------------------------------------------------------------------------------
     // Cek Kondisi Koneksi dengan ping

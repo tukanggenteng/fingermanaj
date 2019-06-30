@@ -90,44 +90,106 @@ class eabsenController extends mesinFinger
     //$response = $p_finger_d[0]->id;
     if($jumlah_dfp>0)
     {
-        for($i=0; $i<$jumlah_dfp; $i++)
+        $jumlah_Temfp = strlen($p_finger_d[0]->templatefinger); //hitung panjang templatefinger untuk menentkan PIN atau Sidik Jari
+        if($jumlah_Temfp <= 8) // password/PIN
         {
+          //Data, posisi harus disini karena array dan untuk mengecek index
+          $request->ID = $p_finger_d[0]->pegawai_id;
+          $request->nama = $nama;
+          $request->FingerID = 0;
+          $request->size = $p_finger_d[0]->size;
+          $request->template_finger = $p_finger_d[0]->templatefinger;
+          //----
+          $setData = $mesin->tambahNamaPegawai($request);
 
-          $request->ID = $p_finger_d[$i]->pegawai_id;
-          $request->FingerID = $i;
-          $request->size = $p_finger_d[$i]->size;
-          $request->template_finger = $p_finger_d[$i]->templatefinger;
-
-          $setData = $mesin->setDataFingerCore($request);
-
-           $response[$i] = array(
+          $response[0] = array(
               'status' => $setData['status'],
               'nama' => $nama,
               'id' => $request->ID,
-              'FingerID' => $request->FingerID,
-              'size' => $request->size,
-              'template' => $request->template_finger,
+              'jenis' => 'PIN/Password',
             );
-
-            /* //no problemmo
-            $response[$i] = array(
-               'id' => $p_finger_d[$i]->pegawai_id,
-               'FingerID' => $p_finger_d[$i]->id,
-               'size' => $p_finger_d[$i]->size,
-               'template' => $p_finger_d[$i]->templatefinger,
-             );
-             */
         }
+        else if($jumlah_Temfp > 8) // Sidik Jari
+        {
+          for($i=0; $i<$jumlah_dfp; $i++)
+          {
+            //Data, posisi harus disini karena array dan untuk mengecek index
+            $request->ID = $p_finger_d[$i]->pegawai_id;
+            $request->FingerID = $i;
+            $request->size = $p_finger_d[$i]->size;
+            $request->template_finger = $p_finger_d[$i]->templatefinger;
+            //----
+            $setData = $mesin->setDataFingerCore($request);
+
+            $response[$i] = array(
+                'status' => $setData['status'],
+                'nama' => $nama,
+                'id' => $request->ID,
+                'FingerID' => $request->FingerID,
+                'size' => $request->size,
+                'template' => $request->template_finger,
+                'jenis' => 'Sidik Jari',
+              );
+
+              /* //no problemmo
+              $response[$i] = array(
+                 'id' => $p_finger_d[$i]->pegawai_id,
+                 'FingerID' => $p_finger_d[$i]->id,
+                 'size' => $p_finger_d[$i]->size,
+                 'template' => $p_finger_d[$i]->templatefinger,
+               );
+               */
+          }
+        }
+
     }
     else
     {
-        $response = 'Pegawai masih belum mempunyai data Sidik Jari!';
+        $response = 'Pegawai masih belum mempunyai data Sidik Jari/PIN!';
     }
 
     //$response = $jumlah_dfp;
     return $response;
   }
   //./Download data sidik jari berdasarkan ID pegawai
+  public function deabsen_del(Request $request)
+  {
+    $id = $request->ID;
+    $nama = $request->nama;
+    $mesin = new mesinFinger;
+    $datapegawai = $mesin->cekdatapegawai_tunggal($id);
+
+    $response = array();
+    //cek data pegawai dulu, untuk mengetahui ada atau tidaknya data password,
+    //jika tidak ada hapus finger
+    if(empty($datapegawai['Password']))
+    {
+        $request->ID = $id;
+        $fp = $mesin->hapusDataFingerCore($request);
+        $jenis = 'Sidik jari';
+        $status = $fp['status'];
+    }
+    else
+    {
+        $request->ID = $id;
+        $pass = $mesin->ClearUserPasswordCore($request);
+        $jenis = 'Password/PIN';
+        $status = $pass['status'];
+    }
+
+
+    $response = array(
+        'status' => $status, //data dari fungsi mesin
+        'nama' => $nama,
+        'id' => $request->ID,
+        'jenis' => $jenis,
+      );
+
+
+    return $response;
+  }
+  // Hapus data Password/Pin/sidik jari berdasarkan ID pegawai
+  // ./Hapus data Password/Pin/sidik jari berdasarkan ID pegawai
 
 
   // Fungsi View Interface-----------------------------------------------------------------------------

@@ -195,10 +195,10 @@ function tambahDataFPkeMesin(id, nama, _token, valuenow, valuemax, stylewidth)
               progresstambah(valuenow, valuemax, stylewidth);
 
               var opsi_i = 'initial_tambah';
-              datatambah(nama, i, opsi_i);
+              datatambah(nama, i, opsi_i, response[i].jenis);
 
               var opsi = 'tambah';
-              datatambah(nama, i, opsi);
+              datatambah(nama, i, opsi, response[i].jenis);
           }
           else
            {
@@ -227,16 +227,15 @@ function hapusDataFP(id, nama, _token, valuenow, valuemax, stylewidth)
               _token:_token
               },
       success:function(response){
-
           if((response.status==1)){
               //console.log('data sidik jari '+response[i].nama+' ke-'+i+' ditambahkan');
               progresstambah(valuenow, valuemax, stylewidth);
 
               var opsi_i = 'initial_hapus';
-              datatambah(nama, 1, opsi_i);
+              datatambah(nama, 1, opsi_i, response.jenis);
 
               var opsi = 'hapus';
-              datatambah(nama, 1, opsi);
+              datatambah(nama, 1, opsi, response.jenis);
           }
           else
            {
@@ -268,35 +267,35 @@ function progresstambah(valuenow, valuemax, stylewidth)
 //-------------------------------
 
 //+simpan data ke mesin fingerprint
-function datatambah(nama, index, opsi)
+function datatambah(nama, index, opsi, jenis)
 {
     if(opsi=='initial_tambah')
     {
       var bg = 'info';
       var item = 'plus';
       var bg_item = 'aqua';
-      var pesan = 'menambahkan data sidik jari <i class="fa fa-user"></i> '+nama;
+      var pesan = 'menambahkan data '+jenis+' <i class="fa fa-user"></i> '+nama;
     }
     else if(opsi=='initial_hapus')
     {
       var bg = 'warning';
       var bg_item = 'orange';
       var item = 'trash';
-      var pesan = 'menghapus data sidik jari <i class="fa fa-user"></i> '+nama;
+      var pesan = 'menghapus data '+jenis+' <i class="fa fa-user"></i> '+nama;
     }
     else if(opsi=='tambah')
     {
       var bg = 'success';
       var item = 'plus';
       var bg_item = 'green';
-      var pesan = 'data sidik jari <i class="fa fa-user"></i> '+nama+' ke-'+index+' ditambahkan';
+      var pesan = 'data '+jenis+' <i class="fa fa-user"></i> '+nama+' ke-'+index+' ditambahkan';
     }
     else if(opsi=='hapus')
     {
       var bg = 'danger';
       var item = 'trash';
       var bg_item = 'red';
-      var pesan = 'data sidik jari <i class="fa fa-user"></i> '+nama+' dihapus';
+      var pesan = 'data '+jenis+' <i class="fa fa-user"></i> '+nama+' dihapus';
     }
 
     var waktuattemp = timeAttemp();

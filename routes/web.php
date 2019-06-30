@@ -14,7 +14,13 @@
 Route::get('/', function () {
     return view('welcome');
 });
-Route::get('/tesfungsi', 'testing@tesPost')->name('tes.fungsi');
+//untu coba-coba
+Route::get('/tesfungsiG', 'testing@tesFungsiGet')->name('tes.fungsiG');
+Route::get('/tesfungsiP', 'testing@tesFungsiPost')->name('tes.fungsiP');
+Route::get('/tesfungsiF', 'testing@tesFungsiFungsi')->name('tes.fungsiF');
+Route::get('/tesfungsi', 'testing@tesFungsi2')->name('tes.fungsiF');
+//----------------------------------------------------
+
 
 Route::get('/pegawai/dtdatapegawai_m', 'tampilData@datapegawai_finger')->name('dt.datapegawai'); //daftar pegawai
 Route::get('/pegawai/daftarpegawai_m', 'tampilData@datapegawai_finger_view')->name('mesin.datapegawai'); //daftar pegawai
@@ -63,4 +69,12 @@ Route::post('/eabsen/download_dfinger', 'eabsenController@deabsen_down_fp')->nam
 // belum dibikin
 
 //eksekusi hapus data finger dari opsi eabsen
-Route::post('/eabsen/hapus_dfinger', 'mesinFinger@hapusDataFingerCore')->name('mesin.h_df');
+Route::post('/eabsen/hapus_dfinger', 'eabsenController@deabsen_del')->name('eabsen.h_df');
+//END./Fungsi Eabsen
+
+//Fungsi dari database
+Route::get('/dtinstansi', 'db_instansi@dt_instansi')->name('db.dtinstansi');
+Route::get('/instansi', 'db_instansi@data_instansi_v')->name('db.instansi');
+Route::resource('/instansi_r', 'db_instansi');
+Route::get('/instansi/cari','db_instansi@cari')->name('cariinstansi');
+Route::get('/testing','db_instansi@testing');

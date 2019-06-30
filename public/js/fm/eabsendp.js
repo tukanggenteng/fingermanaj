@@ -71,7 +71,7 @@
           type:'post',
           url: '/pegawai/tambahpegawai',
           data : {
-                  pin:pin,
+                  ID:pin,
                   nama:nama,
                   _token:_token
                   },
@@ -83,6 +83,7 @@
               else
                 {
                   $('#progresstambah').html("error proses");
+                  console.log(response);
                 }
             },
         });
@@ -186,3 +187,63 @@
     $(document).on('click','#tambah_dpf',function (){ $('#progresstambah').empty(); $('#datatambah').empty(); }); //jangan menghapus id rootnya
     $(document).on('click','#tambah_dptf',function (){ $('#progresstambah').empty(); $('#datatambah').empty(); });
     //---------------------------------------------
+
+    //untuk select data
+    $('#instansi_id1').select2(
+            {
+            placeholder: "Pilih Instansi...",
+            width: '100%',
+            minimumInputLength: 1,
+            ajax: {
+                url: '/instansi/cari',
+                //url: 'http://eabsen.kalselprov.go.id/instansi/cari', xss forbidden, harus api
+                dataType: 'json',
+                data: function (params) {
+                    return {
+                        q: $.trim(params.term)
+                    };
+                },
+                processResults: function (data) {
+                    return {
+                        results: data
+                    };
+                },
+                cache: true
+                }
+            }
+        );
+
+        $('#instansi_id2').select2(
+                {
+                placeholder: "Pilih Instansi...",
+                width: '100%',
+                minimumInputLength: 1,
+                ajax: {
+                    url: '/instansi/cari',
+                    //url: 'http://eabsen.kalselprov.go.id/instansi/cari', xss forbidden, harus api
+                    dataType: 'json',
+                    data: function (params) {
+                        return {
+                            q: $.trim(params.term)
+                        };
+                    },
+                    processResults: function (data) {
+                        return {
+                            results: data
+                        };
+                    },
+                    cache: true
+                    }
+                }
+            );
+
+        //END./untuk select data
+
+        $("select.instansi_id1").change(function(){
+            var selectedInstansi1 = $(this).children("option:checked").val();
+            $("#instansi").val(selectedInstansi1);
+        });
+        $("select.instansi_id2").change(function(){
+            var selectedInstansi2 = $(this).children("option:checked").val();
+            $("#instansi_b").val(selectedInstansi2);
+        });

@@ -124,13 +124,13 @@ return [
 
         'DATA DI DALAM DATABASE',
         [
-            'text' => 'konfigurasi',
+            'text' => 'Konfigurasi',
             'url'  => 'konfigurasi',
             'icon' => 'gear',
         ],
         [
             'text'        => 'Daftar Instansi',
-            'url'         => 'pegawai/daftarpegawaidb',
+            'url'         => 'instansi',
             'icon'        => 'building',
         ],
 

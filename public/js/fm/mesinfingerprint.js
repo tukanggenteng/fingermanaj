@@ -38,7 +38,7 @@ $(document).ready(function() {
           type:'post',
           url:'/pegawai/tambahpegawai',
           data : {
-                  pin:pin,
+                  ID:pin,
                   nama:nama,
                   _token:_token
                   },
