@@ -20,7 +20,7 @@
                 <i class="fa fa-warning"></i> <strong> Fungsi Menu ini belum dikembangkan...</strong>
               </div>
               <button class="btn btn-info" id="refresh">Refresh <i class="fa fa-refresh"></i></button>
-              <button class="btn btn-info" id="clearprogres">Clear Laporan Progres <i class="fa fa-refresh"></i></button>
+              <button class="btn bg-teal" id="clearprogres">Clear Laporan Progres <i class="fa fa-refresh"></i></button>
             </div>
             <div class="box-body">
               <table id="datapegawaifinger" class="table table-bordered thead-dark table-striped table-hover">
@@ -52,7 +52,7 @@
       </div>
     </div>
 
-    <!-- modal tambah data pegawai yang sudah memiliki sidik jari-->
+    <!-- modal Upload data Sidik Jari Pegawai Manual-->
     <div class="modal modal-info fade" id="modal_uploadfp">
       <div class="modal-dialog">
         <div class="modal-content">
@@ -82,7 +82,9 @@
                   <div class="col-md-12">
                     <div class="form-group" >
                       <label>ID Pegawai pada eabsen.kalselprov.go.id</label>
-                      <input id="instansi" name="instansi" type="text" class="form-control pull-right">
+                      <input id="iddarimesin_man" name="iddarimesin_man" type="hidden" class="form-control pull-right">
+                      <input id="nama_man" name="nama_man" type="hidden" class="form-control pull-right">
+                      <input id="iddarieabsen_man" name="iddarieabsen_man" type="text" class="form-control pull-right">
                     </div>
                   </div>
                 </div>
@@ -90,7 +92,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
-              <button type="button" id="addpegawai_dpf" class="btn btn-primary">Upload</button>
+              <button type="button" id="uploadman" class="btn btn-primary">Upload</button>
             </div>
             </form>
           </div>
@@ -100,7 +102,7 @@
       </div>
       <!-- /.modal -->
 
-      <!-- modal tambah data pegawai yang sudah memiliki sidik jari-->
+      <!-- modal Upload data Semua data sidik jari pegawai-->
       <div class="modal modal-warning fade" id="modal_uploadall">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -128,7 +130,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak !</button>
-                <button type="button" id="uploadall" class="btn btn-success md-col-3">Ya!</button>
+                <button type="button" id="uploadf_all" class="btn btn-success md-col-3">Ya!</button>
               </div>
               </form>
             </div>

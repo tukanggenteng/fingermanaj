@@ -17,7 +17,11 @@ $(document).ready(function() {
                             {
                               targets: [4] ,className: 'text-center',
                               'render': function (data, type, row) {
-                                  var aksi = '<a href="/pegawai/jumlahfingerpegawai_m/'+data.PIN2+'/'+data.Name+'" class="btn btn-primary">Cek/Tambah Finger <i class="fa fa-search"></i></a><a href="/absensi/daftarabsensi_mp/'+data.PIN2+'/'+data.Name+'" class="btn btn-primary">Cek Absensi <i class="fa fa-search"></i></a><button class="hapus_'+data.PIN2+' hapusfinger btn btn-danger" id="hapusf"><i class="fa fa-trash"></i></button>';
+                                  var aksi1 = '<a href="/pegawai/pinpegawai_m_v/'+data.PIN2+'" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Tambah/Edit PIN">[PIN]</i><i class="fa fa-search"></i></a>';
+                                  var aksi2 = '<a href="/pegawai/jumlahfingerpegawai_m/'+data.PIN2+'/'+data.Name+'" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Cek/Tambah Finger"><i class="fa fa-thumbs-up"></i><i class="fa fa-search"></i></a>';
+                                  var aksi3 = '<a href="/absensi/daftarabsensi_mp/'+data.PIN2+'/'+data.Name+'" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Cek Absensi"><i class="fa fa-calendar"></i><i class="fa fa-search"></i></a>';
+                                  var aksi4 = '<button class="hapus_'+data.PIN2+' hapusfinger btn btn-danger" id="hapusf" data-toggle="tooltip" data-placement="top" title="Menghapus Data Pegawai!"><i class="fa fa-trash"></i></button>';
+                                  var aksi = aksi1+' '+aksi2+' '+aksi3+' '+aksi4;
                                   return aksi;
                               }
                            },
@@ -133,4 +137,7 @@ $(document).ready(function() {
     // ./Wipe data pegawai-----------------------------------------------------------
 
 
+
 } ); //END LINE FUNCTION
+
+$(document).hover(function(){ $('[data-toggle="tooltip"]').tooltip(); });

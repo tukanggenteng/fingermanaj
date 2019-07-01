@@ -38,9 +38,11 @@ Route::post('/wipedata', 'mesinFinger@wipeData')->name('mesin.wipedata'); //wipe
 Route::get('/pegawai/jumlahfingerpegawai_m/{id}/{nama}', 'tampilData@datafinger_p')->name('mesin.datafingerpegawai'); //cek data finger view
 Route::get('/pegawai/fingerpegawai_m_v/{id}/{nama}/{jari}', 'tampilData@cekdatafinger_p_v')->name('mesin.datafinger_v'); //untuk edit finger
 Route::get('/pegawai/fingerpegawai_m_vt/{id}/{nama}/{jari}', 'tampilData@cekdatafinger_p_vt')->name('mesin.datafinger_vt'); //untuk tambah finger
+Route::get('/pegawai/pinpegawai_m_v/{id}', 'tampilData@cekdatapin_p_v')->name('mesin.datapin_v'); //untuk edit PIN/Password
 //post atau update kefinger dengan metode set
 //tidak berbeda antara menambahkan baru dan update, hanya beda isi data saja
 Route::post('/pegawai/fingerpegawai_m', 'mesinFinger@setDataFinger')->name('mesin.datafinger_p');
+Route::post('/pegawai/setpinpegawai', 'tampilData@setDataPin')->name('mesin.setdatapin_p');
 //menghapus data sidik jari
 Route::post('/pegawai/fingerpegawai_d', 'mesinFinger@hapusDataFinger')->name('mesin.datafinger_d');
 //----------------------
@@ -65,7 +67,10 @@ Route::get('/eabsen/uploadfinger', 'eabsenController@eabsen_uf')->name('eabsen.u
 Route::get('/eabsen/downloadfinger', 'eabsenController@eabsen_df')->name('eabsen.df');
 //eksekusi download data finger ke mesin
 Route::post('/eabsen/download_dfinger', 'eabsenController@deabsen_down_fp')->name('eabsen.d_df');
+Route::post('/eabsen/download_dfingerall', 'eabsenController@deabsen_down_fpAll')->name('eabsen.d_dfall');
 //eksekusi upload data finger dari mesin
+Route::post('/eabsen/upload_dfinger', 'eabsenController@deabsen_up_proses')->name('eabsen.u_df');
+Route::post('/eabsen/upload_dfingerall', 'eabsenController@deabsen_up_fpAll')->name('eabsen.u_dfall');
 // belum dibikin
 
 //eksekusi hapus data finger dari opsi eabsen
@@ -77,4 +82,4 @@ Route::get('/dtinstansi', 'db_instansi@dt_instansi')->name('db.dtinstansi');
 Route::get('/instansi', 'db_instansi@data_instansi_v')->name('db.instansi');
 Route::resource('/instansi_r', 'db_instansi');
 Route::get('/instansi/cari','db_instansi@cari')->name('cariinstansi');
-Route::get('/testing','db_instansi@testing');
+//Route::get('/testing','db_instansi@testing');

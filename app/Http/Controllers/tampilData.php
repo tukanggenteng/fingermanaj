@@ -72,6 +72,45 @@ class tampilData extends mesinFinger
   //END.------------------------------------------------------------------------------------------------------------------------------
 
   //---------------------------------------------------------------------------------------------------------------------------------
+  //menampilkan data PIN/Password pegawai dari alat finger sekaligus melakukan edit
+  public function cekdatapin_p_v($id) //id nanti diambil dari variable yang dilempar oleh fungsi data pegawai
+  {
+    $mesin = new mesinFinger;
+    $datapin = array();
+    $datapin = $mesin->cekdatapegawai_tunggal($id);
+    //dd($datafinger);
+    return view('datapinpegawai_m_v',[ 'ID'=>$id, 'datapin' => $datapin ]);
+  }
+  //END.------------------------------------------------------------------------------------------------------------------------------
+  //Set Data Nama/PIN/Password
+    public function setDataPin(Request $request) //untuk fungsi post biasa (tanpa fungsi ajax)
+    {
+
+      //dd($request);
+      $status_store = $request->status_store;
+
+      //Data
+      $request->ID = $request->ID;
+      $request->nama = $request->nama;
+      $request->template_finger = $request->password;
+      //----
+
+      $mesin = new mesinFinger;
+      $mesin->tambahNamaPegawai($request);
+
+      //melempar ke route hasil update atau tambah
+      //if( $request->status_store == "Tambah") { $route = 'mesin.datafinger_vt'; }
+      //else{ $route = 'mesin.datafinger_v'; }
+
+      //tapi berhubung langsung ada data, langsung ke view eedit saja
+
+      return redirect()->route('mesin.datapin_v',[$request->ID])->with('message', '<strong>Data Pegawai</strong> berhasil di'.$request->status_store.'!');
+    }
+    //END.------------------------------------------------------------------------------------------------------------------------------
+
+
+
+  //---------------------------------------------------------------------------------------------------------------------------------
   //memanggil data absensi dari fungsi cekdatapegawai_finger() for datatable
   public function dtSemuaKehadiran()
   {

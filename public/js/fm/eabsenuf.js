@@ -17,10 +17,10 @@ var datatabelf = $('#datapegawaifinger').DataTable( {
                           {
                             targets: [4] ,className: 'text-center',
                             'render': function (data, type, row) {
-                                var aksi1 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-primary" id="cek_fp"><i class="fa fa-thumbs-o-up"></i><i class="fa fa-search"></i>[mesin]</button>';
-                                var aksi2 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-aqua" id="uploadf"><i class="fa fa-thumbs-o-up"></i><i class="fa fa-upload"></i></button>';
-                                var aksi3 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-blue" id="uploadf_man" data-toggle="modal" data-target="#modal_uploadfp"><i class="fa fa-thumbs-o-up"></i><i class="fa fa-upload"></i>Manual</button>';
-                                var aksi4 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-navy" id="cek_fp"><i class="fa fa-thumbs-o-up"></i><i class="fa fa-search"></i>[eabsen]</button>';
+                                var aksi1 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-teal" id="cek_fp" data-toggle="tooltip" data-placement="top" title="Cek Data Finger '+data.Name+' yang ada di mesin"><i class="fa fa-thumbs-o-up"></i><i class="fa fa-search"></i>[mesin]</button>';
+                                var aksi2 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-aqua" id="cek_fp" data-toggle="tooltip" data-placement="top" title="Cek Data Finger '+data.Name+' yang ada di eabsen.kalselprov.go.id"><i class="fa fa-thumbs-o-up"></i><i class="fa fa-search"></i>[eabsen]</button>';
+                                var aksi3 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-primary" id="uploadf" data-toggle="tooltip" data-placement="top" title="Upload Data Finger '+data.Name+'"><i class="fa fa-thumbs-o-up"></i><i class="fa fa-upload"></i></button>';
+                                var aksi4 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-blue" id="uploadf_man" data-toggle="modal" data-target="#modal_uploadfp" data-toggle="tooltip" data-placement="top" title="Upload Data Finger Manual '+data.Name+'"><i class="fa fa-thumbs-o-up"></i><i class="fa fa-upload"></i>Manual</button>';
                                 var aksi = aksi1+' '+aksi2+' '+aksi3+' '+aksi4;
                                 return aksi;
                             }
@@ -53,6 +53,7 @@ $(document).on('click','#uploadf',function (){
   var iddarimesin = currentRow.find('td:eq(1)').text();
   var iddarieabsen = currentRow.find('td:eq(1)').text();
   var nama = currentRow.find('td:eq(2)').text();
+  var url = '/eabsen/upload_dfinger';
   var _token= $("input[name=_token]").val();
   //-------- var progres
   var valuemax = 1;
@@ -64,7 +65,8 @@ $(document).on('click','#uploadf',function (){
   $('#datatambah').empty();
 
   progresstambah(valuenow, valuemax, stylewidth); //progress
-  //tambahDataFPkeServer(iddarimesin, iddarieabsen, nama, _token, valuenow, valuemax, stylewidth);
+  tambahDataFPkeServer(url, iddarimesin, iddarieabsen, nama, _token, valuenow, valuemax, stylewidth);
+  console.log(iddarimesin+iddarieabsen+nama+_token);
 
 });
 // END./Upload data FingerPrint perorang------------------------------------------
@@ -72,12 +74,20 @@ $(document).on('click','#uploadf',function (){
 // Upload data FingerPrint Manual perorang----------------------------------------------
 //-------------------------
 //-------------------------
-
-
-$(document).on('click','#uploadman',function (){
+//proses mengambil data untuk diisi ke value modal
+$(document).on('click','#uploadf_man',function (){
   var currentRow = $(this).closest('tr');
-  var id = currentRow.find('td:eq(1)').text();
+  var iddarimesin = currentRow.find('td:eq(1)').text();
   var nama = currentRow.find('td:eq(2)').text();
+  $("#iddarimesin_man").val(iddarimesin);
+  $("#nama_man").val(nama);
+});
+//proses setelah modal
+$(document).on('click','#uploadman',function (){
+  var iddarimesin = $("#iddarimesin_man").val();
+  var iddarieabsen = $("#iddarieabsen_man").val();
+  var nama = $("#nama_man").val();
+  var url = '/eabsen/upload_dfinger';
   var _token= $("input[name=_token]").val();
   //-------- var progres
   var valuemax = 1;
@@ -89,7 +99,8 @@ $(document).on('click','#uploadman',function (){
   $('#datatambah').empty();
 
   progresstambah(valuenow, valuemax, stylewidth); //progress
-  //tambahDataFPkeServer(iddarimesin, iddarieabsen, nama, _token, valuenow, valuemax, stylewidth);
+  tambahDataFPkeServer(url, iddarimesin, iddarieabsen, nama, _token, valuenow, valuemax, stylewidth);
+  //console.log(iddarimesin+iddarieabsen+nama);
 
 });
 // END./Upload data FingerPrint perorang------------------------------------------
@@ -100,10 +111,11 @@ $(document).on('click','#uploadman',function (){
 $(document).on('click','#uploadf_all',function (){
 
   var _token= $("input[name=_token]").val();
+  var url = '/eabsen/upload_dfingerall';
   //var datarow = $('#datapegawaifinger tbody tr:eq(5) td:eq(2)').text(); cek data /row
 
   //-------- var progres
-  var valuemax = rowCount;
+  var valuemax = 1;
   var valuemin = 0;
   var valuenow = 1;
   var stylewidth = 0;
@@ -113,8 +125,8 @@ $(document).on('click','#uploadf_all',function (){
   $('#datatambah').empty();
 
   progresstambah(valuenow, valuemax, stylewidth);
-  //tambahDataFPkeServer(iddarimesin, iddarieabsen, nama, _token, valuenow, valuemax, stylewidth);
-
+  tambahDataFPkeServer(url, '', '', '', _token, valuenow, valuemax, stylewidth);
+  //console.log(_token);
 
 });
 
@@ -123,12 +135,12 @@ $(document).on('click','#uploadf_all',function (){
 
 
 //Fungsi menambahkan data finger ke server eabsen------------------
-function tambahDataFPkeServer(iddarimesin, iddarieabsen, nama, _token, valuenow, valuemax, stylewidth)
+function tambahDataFPkeServer(url, iddarimesin, iddarieabsen, nama, _token, valuenow, valuemax, stylewidth)
 {
   //----------------------
   $.ajax({
       type:'post',
-      url:'/eabsen/download_dfinger',
+      url: url,
       data : {
               iddarimesin:iddarimesin,
               iddarieabsen:iddarieabsen,
@@ -136,34 +148,7 @@ function tambahDataFPkeServer(iddarimesin, iddarieabsen, nama, _token, valuenow,
               _token:_token
               },
       success:function(response){
-        //hitung jumlah respon data
-        //lakukan perhitungan jumlah respon data
-        //lakukan perulangan response untuk memberikan notif
-        var response_j = response.length;
-        if(response_j==0) { response_j = 1; }
-        var i = 0;
-        //console.log(response_j);
-        for(i = 0; i<response_j;i++)
-        {
-          if((response[i].status==1)){
-              //console.log('data sidik jari '+response[i].nama+' ke-'+i+' ditambahkan');
-              progresstambah(valuenow, valuemax, stylewidth);
-
-              var opsi_i = 'initial_upload';
-              datatambah(nama, i, opsi_i, response[i].jenis);
-
-              var opsi = 'upload';
-              datatambah(nama, i, opsi, response[i].jenis);
-          }
-          else
-           {
-              //$('.error').addClass('hidden');
-              swal("Terjadi Kesalahan, "+response, "", "error");
-              //$('#modal_add').modal('hide');
-              console.log(response);
-              //datatabelf.ajax.reload();
-          }
-        }
+          console.log(response);
       },
   });
   //---------------------
@@ -227,3 +212,5 @@ function timeAttemp()
 //-------------------------------
 
 //------------------------------------------------------------------------------
+
+$(document).hover(function(){ $('[data-toggle="tooltip"]').tooltip(); });

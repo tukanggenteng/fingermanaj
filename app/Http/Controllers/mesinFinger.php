@@ -457,7 +457,7 @@ class mesinFinger extends Controller
           $soap_request= $this->GetAttLog($id);
           $buffer="";
           $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefiniskan sebagai variable agar menyimpan data
-
+          //dd($buffer);
           //Response data
           $buffer= $this->Parse_Data($buffer,"<GetAttLogResponse>","</GetAttLogResponse>");
           $buffer=explode("\r\n",$buffer);
@@ -775,6 +775,16 @@ class mesinFinger extends Controller
       {
           $Connect = fsockopen($url, "80", $errno, $errstr, 1);
 
+          /*
+          opsi 1 del all log information
+          opsi 2 del all fingerprint template
+          opsi 3 del all user information
+          */
+          /* yang lama
+          opsi 1 del all user information
+          opsi 2 del all fingerprint template
+          opsi 3 del all user information
+          */
           $soap_request= $this->ClearData(1);
           $buffer="";
           $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefinisikan sebagai variable agar menyimpan data

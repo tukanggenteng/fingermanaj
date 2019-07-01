@@ -26,22 +26,23 @@
   <div class="row">
     <div class="content">
       <div class="box box-default">
-      <form action="{{route('mesin.datafinger_p')}}" method="post">
+      <form action="{{route('mesin.setdatapin_p')}}" method="post">
           @csrf
           <input type="hidden" name="status_store" value="Edit">
           <div class="box-header with-border">
-            <h2><i class="fa fa-user"></i>   {{$ID}} : {{$nama}}</h2> <i class="fa fa-pencil"></i> [edit data sidik jari]
+            <h2><i class="fa fa-user"></i>   {{$ID}} : {{$datapin['Name']}}</h2> <i class="fa fa-pencil"></i> [edit data PIN/Password]
             <input type="hidden" name="ID" value="{{$ID}}">
-            <input type="hidden" name="nama" value="{{$nama}}">
           </div>
           <div class="box-body">
-            <h3>Finger ID : {{$datafinger['FingerID']}}<input type="hidden" name="FingerID" value="{{$datafinger['FingerID']}}"></h3>
-            <h3>Ukuran : {{$datafinger['Size']}}</h3>
-            <h3>Template :</h3>
-            <textarea name="template_finger" class="col-md-10 form-control" rows="10" cols="80">{{$datafinger['Template']}}</textarea>
+            <h3>Nama :</h3>
+            <input type="text" name="nama" id="nama" class="col-md-10" value="{{$datapin['Name']}}">
+          </div>
+          <div class="box-body">
+            <h3>PIN/Password :</h3>
+            <input type="password" name="password" id="password" class="col-md-10" value="{{$datapin['Password']}}">
           </div>
           <div class="box-footer">
-            <button class="btn btn-warning form-control">Update !</button>
+            <button class="btn btn-warning">Update !</button>
           </div>
         </form>
         </div>

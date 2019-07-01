@@ -72,7 +72,7 @@ $(document).on('click','#tambahf',function (){
 });
 // END./Download data FingerPrint perorang------------------------------------------
 
-// Download data FingerPrint keseluruhan-----------------------------------------------
+// Download data FingerPrint [keseluruhan]-----------------------------------------------
 // cek dari data table saja, hitung jumlah row, ambil data dari setiap id
 // lakukan perulangan penambahan finger sesuai jumlah row
 $(document).on('click','#download',function (){
