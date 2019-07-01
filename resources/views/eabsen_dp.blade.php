@@ -1,4 +1,4 @@
-{{-- resources/views/datapegawai_m.blade.php --}}
+{{-- resources/views/eabsen_dp.blade.php --}}
 
 @extends('adminlte::page')
 
@@ -134,7 +134,7 @@
                         <select name="instansi_id2[]" class="select2 instansi_id2" id="instansi_id2"></select>
                       </div>
                     </div>
-                    
+
                     <div class="col-md-12">
                       <div class="form-group" >
                         <label>ID Instansi</label>

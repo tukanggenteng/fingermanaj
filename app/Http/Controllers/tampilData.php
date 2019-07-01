@@ -236,11 +236,12 @@ class tampilData extends mesinFinger
   function checkMac()
 	{
 		  //dd($template);
+      $url = session('set_ip');
       $mesin = new mesinFinger;
-      $Connect = fsockopen($mesin->ip, "80", $errno, $errstr, 1);
+      $Connect = fsockopen($url, "80", $errno, $errstr, 1);
 
-	    $nama = '~SerialNumber';
-      //$nama = 'MAC'; //opsi menggunakan data MAC Address
+	    //$nama = '~SerialNumber';
+      $nama = 'MAC'; //opsi menggunakan data MAC Address
       $soap_request= $mesin->GetOption($nama);
       $buffer="";
       $buffer = $mesin->SoapConnect($Connect, $soap_request, $buffer); //harus didefiniskan sebagai variable agar menyimpan data

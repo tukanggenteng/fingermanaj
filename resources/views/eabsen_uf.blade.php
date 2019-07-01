@@ -37,14 +37,106 @@
 
                 </tbody>
               </table>
+              <div id="progresstambah"></div>
+              <div class="container">
+                <div class="row">
+                  <div id="datatambah" class="timeline" style="overflow-y: scroll; max-height: 600px"></div>
+                </div>
+              </div>
             </div>
             <div class="box-footer">
-              <button class="btn btn-info form-control" id="upload" id="upload">Upload Semua Data Sidik Jari di dalam mesin fingerprint scan <i class="fa fa-upload"></i></button>
+              <button class="btn btn-info form-control" id="uploadall_question" id="uploadall_question" data-toggle="modal" data-target="#modal_uploadall">Upload Semua Data Sidik Jari di dalam mesin fingerprint scan <i class="fa fa-upload"></i></button>
             </div>
           </form>
           </div>
       </div>
     </div>
+
+    <!-- modal tambah data pegawai yang sudah memiliki sidik jari-->
+    <div class="modal modal-info fade" id="modal_uploadfp">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title">Upload Manual Data Sidik Jari/PIN/Password<i class="fa fa-user"></i></h4>
+          </div>
+          <div class="modal-body">
+            <div class="error alert-danger alert-dismissible">
+            </div>
+            <form id="formpegawaiadd" method="post" role="form" enctype="multipart/form-data" action="">
+
+              @csrf
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label>Upload Data Sidik Jari yang IDnya berbeda dari data pada eabsen.kalselprov.go.id !</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="col-md-12">
+                    <div class="form-group" >
+                      <label>ID Pegawai pada eabsen.kalselprov.go.id</label>
+                      <input id="instansi" name="instansi" type="text" class="form-control pull-right">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
+              <button type="button" id="addpegawai_dpf" class="btn btn-primary">Upload</button>
+            </div>
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- /.modal -->
+
+      <!-- modal tambah data pegawai yang sudah memiliki sidik jari-->
+      <div class="modal modal-warning fade" id="modal_uploadall">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span></button>
+              <h4 class="modal-title">Upload Semua Data Sidik Jari/PIN/Password dari Mesin<i class="fa fa-user"></i></h4>
+            </div>
+            <div class="modal-body">
+              <div class="error alert-danger alert-dismissible">
+              </div>
+              <form id="formpegawaiadd" method="post" role="form" enctype="multipart/form-data" action="">
+
+                @csrf
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Apakah semua ID Pegawai pada mesin sudah sama dengan ID Pegawai pada eabsen.kalselprov.go.id ???</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Tidak !</button>
+                <button type="button" id="uploadall" class="btn btn-success md-col-3">Ya!</button>
+              </div>
+              </form>
+            </div>
+            <!-- /.modal-content -->
+          </div>
+          <!-- /.modal-dialog -->
+        </div>
+        <!-- /.modal -->
 
 @stop
 

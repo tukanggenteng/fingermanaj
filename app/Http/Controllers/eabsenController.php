@@ -152,6 +152,92 @@ class eabsenController extends mesinFinger
     return $response;
   }
   //./Download data sidik jari berdasarkan ID pegawai
+
+
+  //Upload data Sidik Jari/PIN/Password dari mesin
+  public function deabsen_up_proses(Request $request)
+  {
+      $iddarimesin = $request->iddarimesin;
+      $iddarieabsen = $request->iddarieabsen;
+      $nama = $request->nama;
+      $mesin = new mesinFinger;
+      $datapegawai = $mesin->cekdatapegawai_tunggal($id);
+      //$datapegawai = $mesin->cekdatapegawai_finger();
+
+      $response = array();
+      //cek data pegawai dulu, untuk mengetahui ada atau tidaknya data password,
+      //jika tidak ada proses untuk upload data finger
+      if(empty($datapegawai['Password'])) //prosesfp
+      {
+          $request->ID = $id;
+          //$fp = $mesin->hapusDataFingerCore($request);
+          //kemudian cek ketersedian data sidik jari pada mesin
+          $fp = $mesin->cekdatafinger_p($id, $i);
+
+      }
+      else //prosesPin
+      {
+          $request->ID = $id;
+          //$pass = $mesin->ClearUserPasswordCore($request);
+          //eksekusi upload data Pssword/PIN
+      }
+
+
+      $response = array(
+          'status' => $status, //data dari fungsi mesin
+          'nama' => $nama,
+          'id' => $request->ID,
+          'jenis' => $jenis,
+        );
+
+
+      return $response;
+  }
+  //get data pass/pin then upload
+  public function deabsen_up_passpin($id)
+  {
+    $mesin = new mesinFinger;
+    $datapegawai = $mesin->cekdatapegawai_tunggal($id);
+    $upload = array();
+
+    for($i=0;$i<2;$i++)
+    {
+        $upload = array(
+          'pegawai_id' => $id,
+          'size' => strlen($datapegawai['Password']),
+          'valid' => 1,
+          'templatefinger' => $datapegawai['Password'],
+        );
+
+    }
+
+    $jenis = 'Password/PIN';
+    $status = $pass['status'];
+  }
+  //get data fingerprint then upload
+  public function deabsen_up_fp($id)
+  {
+    $mesin = new mesinFinger;
+
+    for($i=0;$i<2;$i++)
+    {
+        $fp = $mesin->cekdatafinger_p($id, $i);
+        $upload = array(
+          'pegawai_id' => $id,
+          'size' => strlen($datapegawai['Password']),
+          'valid' => 1,
+          'templatefinger' => $datapegawai['Password'],
+        );
+
+        $jenis = 'Sidik jari';
+        $status = $fp['status'];
+    }
+  }
+  // END./Upload data Sidik Jari/PIN/Password dari mesin
+
+
+  //Menghapus data Sidik Jari/PIN/Password pada mesin
+  // Hapus data Password/Pin/sidik jari berdasarkan ID pegawai
   public function deabsen_del(Request $request)
   {
     $id = $request->ID;
@@ -188,8 +274,7 @@ class eabsenController extends mesinFinger
 
     return $response;
   }
-  // Hapus data Password/Pin/sidik jari berdasarkan ID pegawai
-  // ./Hapus data Password/Pin/sidik jari berdasarkan ID pegawai
+  // ./Hapus data Password/Pin/sidik jari berdasarkan ID pegawai------------------
 
 
   // Fungsi View Interface-----------------------------------------------------------------------------

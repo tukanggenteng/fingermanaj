@@ -22,9 +22,6 @@
                 </br></br>
                 *<i>Fungsi perbaris tidak terpengaruh kondisi seperti yang diterangka di atas!</i>
               </div>
-              <div class="alert alert-warning fade in alert-dismissible text-center">
-                <i class="fa fa-warning"></i> Pengecekan password atau sidik jari belum dikembangkan <i class="fa fa-warning"></i></br>
-              </div>
               <button class="btn btn-info" id="refresh">Refresh <i class="fa fa-refresh"></i></button>
               <button class="btn btn-info" id="clearprogres">Clear Laporan Progres <i class="fa fa-refresh"></i></button>
             </div>

@@ -109,6 +109,29 @@ return [
 
     'menu' => [
 
+        'EABSEN KALSELPROV',
+        [
+            'text' => 'eAbsen App',
+            'icon' => 'group',
+            'submenu' =>[
+                          [
+                          'text' => 'Download Data Pegawai',
+                          'url'  => 'eabsen/downloadpegawai',
+                          'icon' => 'group',
+                          ],
+                          [
+                          'text' => 'Upload Fingerprint',
+                          'url'  => 'eabsen/uploadfinger',
+                          'icon' => 'thumbs-o-up',
+                          ],
+                          [
+                          'text' => 'Download Fingerprint',
+                          'url'  => 'eabsen/downloadfinger',
+                          'icon' => 'thumbs-o-up',
+                          ],
+                        ]
+
+        ],
         'DATA DI DALAM MESIN',
         [
             'text' => 'Daftar Pegawai',
@@ -142,29 +165,6 @@ return [
         ],
         */
 
-        'EABSEN KALSELPROV',
-        [
-            'text' => 'eAbsen App',
-            'icon' => 'group',
-            'submenu' =>[
-                          [
-                          'text' => 'Download Data Pegawai',
-                          'url'  => 'eabsen/downloadpegawai',
-                          'icon' => 'group',
-                          ],
-                          [
-                          'text' => 'Upload Fingerprint',
-                          'url'  => 'eabsen/uploadfinger',
-                          'icon' => 'thumbs-o-up',
-                          ],
-                          [
-                          'text' => 'Download Fingerprint',
-                          'url'  => 'eabsen/downloadfinger',
-                          'icon' => 'thumbs-o-up',
-                          ],
-                        ]
-
-        ],
     ],
 
     /*

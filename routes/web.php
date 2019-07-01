@@ -35,7 +35,7 @@ Route::post('/pegawai/tambahpegawai', 'mesinFinger@tambahNamaPegawai')->name('me
 Route::post('/pegawai/hapuspegawai', 'mesinFinger@hapusNamaPegawai')->name('mesin.hapuspegawai'); //hapus data pegawai di finger
 Route::post('/wipedata', 'mesinFinger@wipeData')->name('mesin.wipedata'); //wipe data di finger
 
-Route::get('/pegawai/jumlahfingerpegawai_m/{id}/{nama}', 'tampilData@datafinger_p')->name('mesin.datafingerpegawai');
+Route::get('/pegawai/jumlahfingerpegawai_m/{id}/{nama}', 'tampilData@datafinger_p')->name('mesin.datafingerpegawai'); //cek data finger view
 Route::get('/pegawai/fingerpegawai_m_v/{id}/{nama}/{jari}', 'tampilData@cekdatafinger_p_v')->name('mesin.datafinger_v'); //untuk edit finger
 Route::get('/pegawai/fingerpegawai_m_vt/{id}/{nama}/{jari}', 'tampilData@cekdatafinger_p_vt')->name('mesin.datafinger_vt'); //untuk tambah finger
 //post atau update kefinger dengan metode set
@@ -43,10 +43,10 @@ Route::get('/pegawai/fingerpegawai_m_vt/{id}/{nama}/{jari}', 'tampilData@cekdata
 Route::post('/pegawai/fingerpegawai_m', 'mesinFinger@setDataFinger')->name('mesin.datafinger_p');
 //menghapus data sidik jari
 Route::post('/pegawai/fingerpegawai_d', 'mesinFinger@hapusDataFinger')->name('mesin.datafinger_d');
-
-Route::get('/pegawai/fingerpegawai_m/{id}/{jari}', 'mesinFinger@cekdatafinger_p')->name('mesin.datafinger');
+//----------------------
+Route::get('/pegawai/fingerpegawai_m/{id}/{jari}', 'mesinFinger@cekdatafinger_p')->name('mesin.datafinger'); //cek data finger per id jari
 //----------------------------
-Route::get('/cekmac', 'mesinFinger@checkMac')->name('mesin.mac');
+Route::get('/cekmac', 'tampilData@checkMac')->name('mesin.mac');
 //konfigurasi
 Route::get('/konfigurasi', 'tampilData@config')->name('mesin.konfig');
 Route::post('/konfigurasi_set', 'tampilData@config_set')->name('mesin.konfig_set');
