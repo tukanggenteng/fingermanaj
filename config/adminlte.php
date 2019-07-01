@@ -110,9 +110,13 @@ return [
     'menu' => [
 
         'EABSEN KALSELPROV',
+        '[eAbsen App]',
+        /*
         [
             'text' => 'eAbsen App',
-            'icon' => 'group',
+            'icon' => '',
+            'url'  => 'eabsen/downloadpegawai',
+            //'active' => ['eabsen/downloadpegawai'],
             'submenu' =>[
                           [
                           'text' => 'Download Data Pegawai',
@@ -131,7 +135,26 @@ return [
                           ],
                         ]
 
+
         ],
+        */
+
+        [
+        'text' => 'Download Data Pegawai',
+        'url'  => 'eabsen/downloadpegawai',
+        'icon' => 'group',
+        ],
+        [
+        'text' => 'Upload Fingerprint',
+        'url'  => 'eabsen/uploadfinger',
+        'icon' => 'thumbs-o-up',
+        ],
+        [
+        'text' => 'Download Fingerprint',
+        'url'  => 'eabsen/downloadfinger',
+        'icon' => 'thumbs-o-up',
+        ],
+
         'DATA DI DALAM MESIN',
         [
             'text' => 'Daftar Pegawai',
