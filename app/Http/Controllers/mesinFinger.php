@@ -308,6 +308,7 @@ class mesinFinger extends Controller
 
           $buffer= $this->Parse_Data($buffer,"<GetUserInfoResponse>","</GetUserInfoResponse>");
           $buffer=explode("\r\n",$buffer);
+          // dd($buffer);
 
           for($i=0;$i<count($buffer);$i++)
           {

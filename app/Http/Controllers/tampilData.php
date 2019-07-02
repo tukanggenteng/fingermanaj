@@ -78,7 +78,7 @@ class tampilData extends mesinFinger
     $mesin = new mesinFinger;
     $datapin = array();
     $datapin = $mesin->cekdatapegawai_tunggal($id);
-    //dd($datafinger);
+    dd($datapin);
     return view('datapinpegawai_m_v',[ 'ID'=>$id, 'datapin' => $datapin ]);
   }
   //END.------------------------------------------------------------------------------------------------------------------------------
