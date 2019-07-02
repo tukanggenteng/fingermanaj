@@ -314,4 +314,16 @@ class tampilData extends mesinFinger
       return view('datamac',[ 'mac'=>$dataabsensi['Value']]);
       //return redirect()->route('mesin.dataabsensi');
 	}
+
+  public function ip()//get data ip
+  {
+    $ip = session('set_ip');
+    return $ip;
+  }
+  public function jlhpeg()//get jumlah data pegawai di finger
+  {
+    $jlhpeg = new mesinFinger;
+    $jlhpeg = $jlhpeg->cekdatapegawai_finger();
+    return $jlhpeg;
+  }
 }

@@ -52,6 +52,8 @@ Route::get('/cekmac', 'tampilData@checkMac')->name('mesin.mac');
 //konfigurasi
 Route::get('/konfigurasi', 'tampilData@config')->name('mesin.konfig');
 Route::post('/konfigurasi_set', 'tampilData@config_set')->name('mesin.konfig_set');
+Route::get('/konfig/ip', 'tampilData@ip')->name('mesin.ip');
+Route::get('/konfig/jlhpeg', 'tampilData@jlhpeg')->name('mesin.jlhpeg'); //data pegawai dalam json array
 Route::post('/cekkon', 'mesinFinger@konping')->name('mesin.konping');
 
 

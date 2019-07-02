@@ -15,10 +15,6 @@
       <div class="content">
         <div class="box box-default">
             <div class="box-header with-border">
-              <div class="alert alert-warning fade in alert-dismissible text-center">
-                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <i class="fa fa-warning"></i> <strong> Fungsi Menu ini belum dikembangkan...</strong>
-              </div>
               <button class="btn btn-info" id="refresh">Refresh <i class="fa fa-refresh"></i></button>
               <button class="btn bg-teal" id="clearprogres">Clear Laporan Progres <i class="fa fa-refresh"></i></button>
             </div>
@@ -152,6 +148,6 @@
 @section('js')
 <!--javascript custom section   -->
 <!-- code below -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://unpkg.com/sweetalert@2.1.2/dist/sweetalert.min.js"></script>
 <script src="/js/fm/eabsenuf.js"></script>
 @stop

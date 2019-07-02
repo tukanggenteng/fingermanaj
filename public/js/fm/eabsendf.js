@@ -17,8 +17,8 @@ var datatabelf = $('#datapegawaifinger').DataTable( {
                           {
                             targets: [4] ,className: 'text-center',
                             'render': function (data, type, row) {
-                                var aksi1 = '<button class="hapus_'+data.PIN2+' hapusfinger btn btn-info" id="tambahf"><i class="fa fa-thumbs-o-up"></i><i class="fa fa-download"></i></button>';
-                                var aksi2 = '<button class="hapus_'+data.PIN2+' hapusfinger btn btn-danger" id="hapusf"><i class="fa fa-thumbs-o-up"></i><i class="fa fa-trash"></button>';
+                                var aksi1 = '<button class="hapus_'+data.PIN2+' hapusfinger btn btn-info" id="tambahf"><i class="fas fa-fingerprint"></i><i class="fa fa-download"></i></button>';
+                                var aksi2 = '<button class="hapus_'+data.PIN2+' hapusfinger btn btn-danger" id="hapusf"><i class="fas fa-fingerprint"></i><i class="fa fa-trash"></button>';
                                 var aksi = aksi1+aksi2;
                                 return aksi;
                             }
@@ -78,33 +78,33 @@ $(document).on('click','#tambahf',function (){
 $(document).on('click','#download',function (){
 
   var _token= $("input[name=_token]").val();
-  var rowCount = $('#datapegawaifinger tbody tr').length; //count row table
-  //var datarow = $('#datapegawaifinger tbody tr:eq(5) td:eq(2)').text(); cek data /row
+  $.getJSON("/konfig/jlhpeg", function(data, status){
+        var jlhdatapeg = Object.keys(data).length;
+        //-------- var progres
+        var valuemax = jlhdatapeg;
+        var valuemin = 0;
+        var valuenow = 1;
+        var stylewidth = 0;
+        var init_p =1;
 
-  //-------- var progres
-  var valuemax = rowCount;
-  var valuemin = 0;
-  var valuenow = 1;
-  var stylewidth = 0;
-  var init_p =1;
+        $('#progresstambah').empty();
+        $('#datatambah').empty();
 
-  $('#progresstambah').empty();
-  $('#datatambah').empty();
+        progresstambah(valuenow, valuemax, stylewidth);
 
-  progresstambah(valuenow, valuemax, stylewidth);
+        for(var i=1; i<=jlhdatapeg;i++)
+        {
+          var datarowId = data[i].PIN2;
+          var datarowNama = data[i].Name;
+          valuenow = init_p;
+          stylewidth = ((init_p/jlhdatapeg)*100).toFixed(2);
 
-  for(var i=0; i<rowCount;i++)
-  {
-    var datarowId = $('#datapegawaifinger tbody tr:eq('+i+') td:eq(1)').text();
-    var datarowNama = $('#datapegawaifinger tbody tr:eq('+i+') td:eq(2)').text();
-    valuenow = init_p;
-    stylewidth = ((init_p/rowCount)*100).toFixed(2);
+          tambahDataFPkeMesin(datarowId, datarowNama, _token, valuenow, valuemax, stylewidth);
+          //console.log(datarowId+' '+datarowNama);
 
-    tambahDataFPkeMesin(datarowId, datarowNama, _token, valuenow, valuemax, stylewidth);
-    //console.log(datarowId+' '+datarowNama);
-
-    init_p++;
-  }
+          init_p++;
+        }
+  });
 
 });
 
@@ -135,36 +135,35 @@ $(document).on('click','#hapusf',function (){
 //
 $(document).on('click','#hapussemuadatafp',function (){
 
-  var _token= $("input[name=_token]").val();
-  var rowCount = $('#datapegawaifinger tbody tr').length; //count row table
-  //var datarow = $('#datapegawaifinger tbody tr:eq(5) td:eq(2)').text(); cek data /row
+    var _token= $("input[name=_token]").val();
+    $.getJSON("/konfig/jlhpeg", function(data, status){
+          var jlhdatapeg = Object.keys(data).length;
+          //-------- var progres
+          var valuemax = jlhdatapeg;
+          var valuemin = 0;
+          var valuenow = 1;
+          var stylewidth = 0;
+          var init_p =1;
 
-  //-------- var progres
-  var valuemax = rowCount;
-  var valuemin = 0;
-  var valuenow = 1;
-  var stylewidth = 0;
-  var init_p =1;
+          $('#progresstambah').empty();
+          $('#datatambah').empty();
+          $('#modal_hapus').modal('hide');
 
-  $('#progresstambah').empty();
-  $('#datatambah').empty();
-  $('#modal_hapus').modal('hide');
+          progresstambah(valuenow, valuemax, stylewidth);
 
-  progresstambah(valuenow, valuemax, stylewidth);
+          for(var i=1; i<=jlhdatapeg;i++)
+          {
+            var datarowId = data[i].PIN2;
+            var datarowNama = data[i].Name;
+            valuenow = init_p;
+            stylewidth = ((init_p/jlhdatapeg)*100).toFixed(2);
 
-  for(var i=0; i<rowCount;i++)
-  {
-    var datarowId = $('#datapegawaifinger tbody tr:eq('+i+') td:eq(1)').text();
-    var datarowNama = $('#datapegawaifinger tbody tr:eq('+i+') td:eq(2)').text();
-    valuenow = init_p;
-    stylewidth = ((init_p/rowCount)*100).toFixed(2);
+            hapusDataFP(datarowId, datarowNama, _token, valuenow, valuemax, stylewidth);
+            //console.log(datarowId+' '+datarowNama);
 
-    hapusDataFP(datarowId, datarowNama, _token, valuenow, valuemax, stylewidth);
-    //console.log(datarowId+' '+datarowNama);
-
-    init_p++;
-  }
-
+            init_p++;
+          }
+    });
 });
 // END./Hapus SEMUA Data FingerPrint Pegawai -----------------------------------------------------
 
