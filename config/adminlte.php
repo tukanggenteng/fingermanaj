@@ -30,7 +30,7 @@ return [
     |
     */
 
-    'logo' => '<b>Manajemen</b> finger',
+    'logo' => '<b>Manajemen</b> <i class="fas fa-fingerprint"></i>',
 
     'logo_mini' => '<b>M</b>f',
 
@@ -89,7 +89,7 @@ return [
 
     //'logout_url' => '',
 
-    'logout_method' => null,
+    'logout_method' => false,
 
     'login_url' => 'login',
 
@@ -110,7 +110,7 @@ return [
     'menu' => [
 
         'EABSEN KALSELPROV',
-        '[eAbsen App]',
+        '======[eAbsen App]',
         /*
         [
             'text' => 'eAbsen App',

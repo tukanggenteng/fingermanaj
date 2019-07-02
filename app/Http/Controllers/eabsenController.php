@@ -161,7 +161,7 @@ class eabsenController extends mesinFinger
   //
 
   //Download semua data sidik jari yang ada pada mesin
-  public function deabsen_up_fpAll(Request $request)
+  public function deabsen_up_fpAll(Request $request) // *Gak Jadi digunakan, karena perprosesnya tidak tampil, tampil hanya setelah selesai saja
   {
       $mesin = new mesinFinger;
       $datapegawai = $mesin->cekdatapegawai_finger();
@@ -193,131 +193,137 @@ class eabsenController extends mesinFinger
       $response = array();
       //cek data pegawai dulu, untuk mengetahui ada atau tidaknya data password,
       //jika tidak ada proses untuk upload data finger
-      if(empty($datapegawai['Password'])) //prosesfp
+      if(!empty($datapegawai['Password'])) //prosesPin
+      {
+          $request->ID = $iddarimesin;
+          $pin = $this->deabsen_up_passpin($iddarimesin, $iddarieabsen);
+
+          $jenis = 'Password/PIN';
+          $status = "1";
+          $status_pesan = $pin[0]['status pesan'];
+      }
+      else //prosesfp
       {
           $request->ID = $iddarimesin;
           //$fp = $mesin->hapusDataFingerCore($request);
           //kemudian cek ketersedian data sidik jari pada mesin
           $fp = $mesin->cekdatafinger_p($iddarimesin, 0);
-          if(!empty($fp))
+          if(!empty($fp['Template']))
           {
             //eksekusi perintah upload
-            $up_fp = $this->deabsen_up_fp($iddarimesin);
+            $up_fp = $this->deabsen_up_fp($iddarimesin, $iddarieabsen);
             $status = '1';
             $jenis = 'Sidik Jari';
-
+            $status_pesan = $up_fp[0]['status pesan'];
 
           }
           else
           {
-            $status = 'Tidak ada Data Finger';
-            $jenis = 'Sidik Jari';
+            $status = '0';
+            $jenis = 'Tidak ada Data PIN dan Password pada mesin!';
+            $status_pesan ='';
           }
-
-      }
-      else //prosesPin
-      {
-          $request->ID = $iddarimesin;
-          $pin = $this->deabsen_up_passpin($iddarimesin);
-          $jenis = 'Password/PIN';
-          $status = "1";
       }
 
 
       $response = array(
           'status' => $status, //data dari fungsi mesin
+          'status_pesan' => $status_pesan,
           'nama' => $nama,
-          'id' => $request->iddarimesin,
+          'id' => $request->$iddarieabsen,
           'jenis' => $jenis,
         );
 
       return $response;
   }
   //get data pass/pin then upload
-  public function deabsen_up_passpin($id)
+  public function deabsen_up_passpin($id_m, $id_ea)
   {
     $mesin = new mesinFinger;
-    $datapegawai = $mesin->cekdatapegawai_tunggal($id);
+    $datapegawai = $mesin->cekdatapegawai_tunggal($id_m);
     $upload = array();
     $password = str_replace($datapegawai['Name'],"",$datapegawai['Password']); //ALat Lama PIN pegawwai ditempeli Nama, Alat baru tidak
 
     for($i=0;$i<2;$i++)
     {
         $upload = array(
-          'pegawai_id' => $id,
+          'pegawai_id' => $id_ea,
           'size' => strlen($password),
           'valid' => 1,
           'templatefinger' => $password,
         );
-
+        $kirim = $this->kontenKirim($upload);
+        $upload['status pesan'] = $kirim;
         $upload_arr[]=$upload; //untuk info data hasil
 
     }
 
-    $jenis = 'Password/PIN';
-    $status = "1";
-
     return $upload_arr;
   }
   //get data fingerprint then upload
-  public function deabsen_up_fp($id)
+  public function deabsen_up_fp($id_m, $id_ea)
   {
     $mesin = new mesinFinger;
 
     for($i=0;$i<2;$i++)
     {
-        $fp = $mesin->cekdatafinger_p($id, $i);
+        $fp = $mesin->cekdatafinger_p($id_m, $i);
         $upload = array(
-          'pegawai_id' => $id,
+          'pegawai_id' => $id_ea,
           'size' => $fp['Size'],
           'valid' => 1,
           'templatefinger' => $fp['Template'],
         );
-        $this->kontenKirim($upload['pegawai_id'], $upload['size'], $upload['templatefinger']);
+        $kirim = $this->kontenKirim($upload);
 
-        $jenis = 'Sidik jari';
-        $status = "1";
-
+        $upload['status pesan'] = $kirim;
         $upload_arr[]=$upload; //untuk info data hasil
+
     }
 
     //dd($upload_arr);
     return $upload_arr;
   }
 
-  public function kontenKirim($pegawai_id, $size, $templatefinger)
+  public function kontenKirim($upload)
   {
-      $request = new HttpRequest();
-      $request->setUrl('http://eabsen.kalselprov.go.id/api/addfinger');
-      $request->setMethod(HTTP_METH_POST);
+    $curl = curl_init();
+    $json = json_encode($upload);
+;
 
-      $request->setHeaders(array(
-        'cache-control' => 'no-cache',
-        'Connection' => 'keep-alive',
-        'content-length' => '93',
-        'accept-encoding' => 'gzip, deflate',
-        'Host' => 'eabsen.kalselprov.go.id',
-        'Postman-Token' => '48b40f45-557a-4309-929a-f18fc7e87d66,ed14ac60-233d-4c40-b804-43ee0810f43a',
-        'Cache-Control' => 'no-cache',
-        'User-Agent' => 'PostmanRuntime/7.15.0',
-        'Accept' => 'application/json'
-      ));
+    curl_setopt_array($curl, array(
+    CURLOPT_URL => "http://eabsen.kalselprov.go.id/api/addfinger",
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_ENCODING => "",
+    CURLOPT_MAXREDIRS => 10,
+    CURLOPT_TIMEOUT => 30,
+    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+    CURLOPT_CUSTOMREQUEST => "POST",
+    CURLOPT_POSTFIELDS => $json,
+    CURLOPT_HTTPHEADER => array(
+      "Accept: application/json",
+      "Cache-Control: no-cache",
+      "Connection: keep-alive",
+      "Content-Type: application/json",
+      "Host: eabsen.kalselprov.go.id",
+      "Postman-Token: cced12c0-1a1d-4d8a-af14-11f310f1301c,adf3285b-a076-4ace-8b7f-02a083b8181a",
+      "User-Agent: PostmanRuntime/7.15.0",
+      "accept-encoding: gzip, deflate",
+      "cache-control: no-cache",
+    ),
+    ));
 
-      $request->setBody('{
-      	"pegawai_id" : "'.$pegawai_id.'",
-          "size" : "'.$size.'",
-          "valid" : 1,
-      	"templatefinger" : "'.$templatefinger.'"
-      }
-      ');
+    $response = curl_exec($curl);
+    $err = curl_error($curl);
 
-      try {
-        $response = $request->send();
+    curl_close($curl);
 
-        echo $response->getBody();
-      } catch (HttpException $ex) {
-        echo $ex;
-      }
+    if ($err) {
+    $response = "cURL Error #: ". $err;
+    return $response;
+    } else {
+    return $response;
+    }
   }
   // END./Upload data Sidik Jari/PIN/Password dari mesin
 

@@ -15,14 +15,8 @@
       <div class="content">
         <div class="box box-default">
             <div class="box-header with-border">
-              <div class="alert alert-info fade in alert-dismissible text-center">
-                <i class="fa fa-warning"></i> Tombol 'Download Semua'/'Hapus Semua' menambahkan/menghapuskan sesuai dengan jumlah baris yang tampil pada halaman <i class="fa fa-warning"></i></br>
-                Bila ingin menambahkan/menghapuskan semua data sidik jari sejumlah total data entri,</br>
-                PILIH [Show Entri] sejumlah lebih atau sama dengan total Entri data!
-                </br></br>
-                *<i>Fungsi perbaris tidak terpengaruh kondisi seperti yang diterangka di atas!</i>
-              </div>
-              <button class="btn btn-info" id="refresh">Refresh <i class="fa fa-refresh"></i></button>
+
+              <button class="btn bg-teal" id="refresh">Refresh <i class="fa fa-refresh"></i></button>
               <button class="btn btn-info" id="clearprogres">Clear Laporan Progres <i class="fa fa-refresh"></i></button>
             </div>
             <div class="box-body">
