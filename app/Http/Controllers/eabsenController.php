@@ -273,7 +273,7 @@ class eabsenController extends mesinFinger
           'valid' => 1,
           'templatefinger' => $fp['Template'],
         );
-        $this->kontenKirim($upload['pegawai_id'], $upload['size'], $upload['templatefinger']);
+        $this->kontenKirim($upload);
 
         $jenis = 'Sidik jari';
         $status = "1";
@@ -285,39 +285,50 @@ class eabsenController extends mesinFinger
     return $upload_arr;
   }
 
-  public function kontenKirim($pegawai_id, $size, $templatefinger)
+  public function kontenKirim($upload)
   {
-      $request = new HttpRequest();
-      $request->setUrl('http://eabsen.kalselprov.go.id/api/addfinger');
-      $request->setMethod(HTTP_METH_POST);
+      //API URL
+      $url = 'http://eabsen.kaselprov.go.id/api/addfinger';
 
-      $request->setHeaders(array(
-        'cache-control' => 'no-cache',
-        'Connection' => 'keep-alive',
-        'content-length' => '93',
-        'accept-encoding' => 'gzip, deflate',
-        'Host' => 'eabsen.kalselprov.go.id',
-        'Postman-Token' => '48b40f45-557a-4309-929a-f18fc7e87d66,ed14ac60-233d-4c40-b804-43ee0810f43a',
-        'Cache-Control' => 'no-cache',
-        'User-Agent' => 'PostmanRuntime/7.15.0',
-        'Accept' => 'application/json'
-      ));
+      //create a new cURL resource
+      $ch = curl_init($url);
 
-      $request->setBody('{
-      	"pegawai_id" : "'.$pegawai_id.'",
-          "size" : "'.$size.'",
-          "valid" : 1,
-      	"templatefinger" : "'.$templatefinger.'"
-      }
-      ');
+      //setup request to send json via POST
+      /*
+      $data = array(
+        'username' => 'jurnalweb',
+        'password' => 'password123456'
+      );*/
+      $data = $upload;
+      $payload = json_encode($data);
 
-      try {
-        $response = $request->send();
+      //attach encoded JSON string to the POST fields
+      curl_setopt($ch, CURLOPT_POSTFIELDS, $payload);
 
-        echo $response->getBody();
-      } catch (HttpException $ex) {
-        echo $ex;
-      }
+      //set the content type to application/json
+      curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type:application/json'));
+
+      //return response instead of outputting
+      curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+
+      //execute the POST request
+      $result = curl_exec($ch);
+
+      //close cURL resource
+      curl_close($ch);
+
+      /*
+      //Output response
+      echo "<pre>$result</pre>";
+
+
+      //get response
+      $data = json_decode(file_get_contents('php://input'), true);
+
+      //output response
+      echo '<pre>'.$data.'</pre>';
+      */
+      return $result;
   }
   // END./Upload data Sidik Jari/PIN/Password dari mesin
 
