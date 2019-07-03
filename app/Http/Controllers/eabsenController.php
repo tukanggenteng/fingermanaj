@@ -154,7 +154,7 @@ class eabsenController extends mesinFinger
   //./Download data sidik jari berdasarkan ID pegawai
 
   //Download semua data sidik jari yang ada pada mesin
-  public function deabsen_down_fpAll(Request $request)
+  public function deabsen_down_fpAll(Request $request) //*Gak Jadi digunakan, karena perprosesnya tidak tampil, tampil hanya setelah selesai saja
   {
 
   }

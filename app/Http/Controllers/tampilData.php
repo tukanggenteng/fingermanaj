@@ -82,6 +82,51 @@ class tampilData extends mesinFinger
     return view('datapinpegawai_m_v',[ 'ID'=>$id, 'datapin' => $datapin ]);
   }
   //END.------------------------------------------------------------------------------------------------------------------------------
+
+  /*
+  Cek Ketersediaan data PIN/SidikJari yang ada pada mesin
+  */
+  public function cekdataPinFp($id)
+  {
+    $mesin = new mesinFinger;
+    $datapinfp = $mesin->cekdatapegawai_tunggal($id);
+    //$datapegawai = $mesin->cekdatapegawai_finger();
+
+    $response = array();
+    //cek data pegawai dulu, untuk mengetahui ada atau tidaknya data password,
+    //jika tidak ada proses untuk upload data finger
+    if(!empty($datapegawai['Password'])) //prosesPin
+    {
+        $jenis = 'Password/PIN';
+        $status = "1";
+    }
+    else //prosesfp
+    {
+        //kemudian cek ketersedian data sidik jari pada mesin
+        $fp = $mesin->cekdatafinger_p($id, 0);
+        if(!empty($fp['Template']))
+        {
+          //eksekusi perintah upload
+          $status = '1';
+          $jenis = 'Sidik Jari';
+
+        }
+        else
+        {
+          $status = '0';
+          $jenis = 'Tidak ada Data PIN dan Password pada mesin!';
+        }
+    }
+    $response = array(
+        'status' => $status, //data dari fungsi mesin
+        'nama' => $datapinfp['Name'],
+        'id' => $id,
+        'jenis' => $jenis,
+      );
+
+    return $response;
+  }
+
   //Set Data Nama/PIN/Password
     public function setDataPin(Request $request) //untuk fungsi post biasa (tanpa fungsi ajax)
     {
@@ -117,6 +162,7 @@ class tampilData extends mesinFinger
       $mesin = new mesinFinger;
       $datapegawai = $mesin->cekdatapegawai_finger();
       $dataabsensi = $mesin->getSemuaKehadiran();
+      //dd($dataabsensi);
 
       $dataabsenbaru = array();
 
@@ -135,7 +181,7 @@ class tampilData extends mesinFinger
           }
           else
           {
-              if(empty($dataabsensi[0]['PIN']))
+              if(empty($dataabsensi[1]['PIN']))
               {
                 $dataabsenbaru[$i] = array(
                       'no' => '',
@@ -149,11 +195,13 @@ class tampilData extends mesinFinger
               else
               {
                   //menambahkan nama
+
                   for($j=1; $j<=count($datapegawai);$j++)
                   {
-                      if($datapegawai[$j]['PIN2']==$dataabsensi[$i]['PIN']) { $nama = $datapegawai[$j]['Name']; }
+                      if($datapegawai[$j]['PIN2']==$dataabsensi[$i]['PIN']) { $nama = $datapegawai[$j]['Name'];break; }
                       else { $nama = '';  }
                   }
+
 
                   //menambah keterangan absen
                   $kta = $dataabsensi[$i]['Status'];
@@ -210,7 +258,7 @@ class tampilData extends mesinFinger
       for($i=1; $i<=count($dataabsensi);$i++)
       {
 
-        if(empty($dataabsensi[0]['PIN']))
+        if(empty($dataabsensi[1]['PIN']))
         {
           $dataabsenbaru[$i] = array(
                 'no' => '',

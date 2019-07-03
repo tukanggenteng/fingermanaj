@@ -67,13 +67,13 @@ Route::get('/data_fb_eabsen/{id}', 'eabsenController@deabsen_dp_tf')->name('eabs
 Route::get('/eabsen/downloadpegawai', 'eabsenController@eabsen_dp')->name('eabsen.dp');
 Route::get('/eabsen/uploadfinger', 'eabsenController@eabsen_uf')->name('eabsen.uf');
 Route::get('/eabsen/downloadfinger', 'eabsenController@eabsen_df')->name('eabsen.df');
+Route::get('/dtpinfp/{id}', 'tampilData@cekdataPinFp')->name('eabsen.dtpinfp'); //cek Ketersediaan PIN/Sidik Jari
 //eksekusi download data finger ke mesin
 Route::post('/eabsen/download_dfinger', 'eabsenController@deabsen_down_fp')->name('eabsen.d_df');
-Route::post('/eabsen/download_dfingerall', 'eabsenController@deabsen_down_fpAll')->name('eabsen.d_dfall');
+//Route::post('/eabsen/download_dfingerall', 'eabsenController@deabsen_down_fpAll')->name('eabsen.d_dfall');
 //eksekusi upload data finger dari mesin
 Route::post('/eabsen/upload_dfinger', 'eabsenController@deabsen_up_proses')->name('eabsen.u_df');
-Route::post('/eabsen/upload_dfingerall', 'eabsenController@deabsen_up_fpAll')->name('eabsen.u_dfall');
-// belum dibikin
+//Route::post('/eabsen/upload_dfingerall', 'eabsenController@deabsen_up_fpAll')->name('eabsen.u_dfall');
 
 //eksekusi hapus data finger dari opsi eabsen
 Route::post('/eabsen/hapus_dfinger', 'eabsenController@deabsen_del')->name('eabsen.h_df');

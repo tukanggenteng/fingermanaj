@@ -17,8 +17,8 @@ var datatabelf = $('#datapegawaifinger').DataTable( {
                           {
                             targets: [4] ,className: 'text-center',
                             'render': function (data, type, row) {
-                                var aksi1 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-teal" id="cek_fp" data-toggle="tooltip" data-placement="top" title="Cek Data Finger '+data.Name+' yang ada di mesin"><i class="fas fa-fingerprint"></i><i class="fa fa-search"></i>[mesin]</button>';
-                                var aksi2 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-aqua" id="cek_fp" data-toggle="tooltip" data-placement="top" title="Cek Data Finger '+data.Name+' yang ada di eabsen.kalselprov.go.id"><i class="fas fa-fingerprint"></i><i class="fa fa-search"></i>[eabsen]</button>';
+                                var aksi1 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-teal" id="cek_fpm" data-toggle="tooltip" data-placement="top" title="Cek Data Finger '+data.Name+' yang ada di mesin"><i class="fas fa-fingerprint"></i><i class="fa fa-search"></i>[mesin]</button>';
+                                var aksi2 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-aqua" id="cek_fpea" data-toggle="tooltip" data-placement="top" title="Cek Data Finger '+data.Name+' yang ada di eabsen.kalselprov.go.id"><i class="fas fa-fingerprint"></i><i class="fa fa-search"></i>[eabsen]</button>';
                                 var aksi3 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-primary" id="uploadf" data-toggle="tooltip" data-placement="top" title="Upload Data Finger '+data.Name+'"><i class="fas fa-fingerprint"></i><i class="fa fa-upload"></i></button>';
                                 var aksi4 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-blue" id="uploadf_man" data-toggle="modal" data-target="#modal_uploadfp" data-toggle="tooltip" data-placement="top" title="Upload Data Finger Manual '+data.Name+'"><i class="fas fa-fingerprint"></i><i class="fa fa-upload"></i>Manual</button>';
                                 var aksi = aksi1+' '+aksi2+' '+aksi3+' '+aksi4;
@@ -149,6 +149,16 @@ $(document).on('click','#uploadf_all',function (){
 });
 
 // END./Download data FingerPrint keseluruhan------------------------------------------
+
+//Cek Data PIN/FP
+$(document).on('click','#cek_fpm',function (){
+
+    var currentRow = $(this).closest('tr');
+    var iddarimesin = currentRow.find('td:eq(1)').text();
+    $.getJSON("/dtpinfp/"+iddarimesin, function(data, status){
+        console.log(data);
+    });
+});
 
 
 
