@@ -150,13 +150,31 @@ $(document).on('click','#uploadf_all',function (){
 
 // END./Download data FingerPrint keseluruhan------------------------------------------
 
-//Cek Data PIN/FP
+//Cek Data PIN/FP dari mesin
 $(document).on('click','#cek_fpm',function (){
 
     var currentRow = $(this).closest('tr');
     var iddarimesin = currentRow.find('td:eq(1)').text();
+    var nama = currentRow.find('td:eq(2)').text();
     $.getJSON("/dtpinfp/"+iddarimesin, function(data, status){
-        console.log(data);
+        //console.log(data);
+        //swal( data.nama, '['+data.jenis+'] di mesin', "info");
+        if (data.status=='0') { swal( nama, '[BELUM ada data PIN/Sidik Jari] di mesin', "error"); }
+        else if (data.status=='1') { swal( nama, '[Sudah ada data PIN] di mesin', "success"); }
+        else if (data.status=='2') { swal( nama, '[Sudah ada data Sidik Jari] di mesin', "success"); }
+        else  { swal( '', 'TERJADI KESALAHAN!!!', "error"); console.log(data); }
+    });
+});
+//Cek Data PIN/FP dari server eabsen
+$(document).on('click','#cek_fpea',function (){
+
+    var currentRow = $(this).closest('tr');
+    var iddarimesin = currentRow.find('td:eq(1)').text();
+    var nama = currentRow.find('td:eq(2)').text();
+    $.getJSON("http://eabsen.kalselprov.go.id/api/ambilfinger/"+iddarimesin, function(data, status){
+        //console.log(data=='');
+        if(data=='') { swal( nama, '[BELUM ada data PIN/Sidik Jari] di server eabsen.kalselprov.go.id', "error"); }
+        else { swal( nama, '[SUDAH ada data PIN/Sidik Jari] di server eabsen.kalselprov.go.id', "success"); }
     });
 });
 

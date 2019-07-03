@@ -95,9 +95,9 @@ class tampilData extends mesinFinger
     $response = array();
     //cek data pegawai dulu, untuk mengetahui ada atau tidaknya data password,
     //jika tidak ada proses untuk upload data finger
-    if(!empty($datapegawai['Password'])) //prosesPin
+    if(!empty($datapinfp['Password'])) //prosesPin
     {
-        $jenis = 'Password/PIN';
+        $jenis = 'Sudah ada data Password/PIN';
         $status = "1";
     }
     else //prosesfp
@@ -107,14 +107,14 @@ class tampilData extends mesinFinger
         if(!empty($fp['Template']))
         {
           //eksekusi perintah upload
-          $status = '1';
-          $jenis = 'Sidik Jari';
+          $status = '2';
+          $jenis = 'Sudah ada data Sidik Jari';
 
         }
         else
         {
           $status = '0';
-          $jenis = 'Tidak ada Data PIN dan Password pada mesin!';
+          $jenis = 'Tidak ada Data PIN dan Password !';
         }
     }
     $response = array(
