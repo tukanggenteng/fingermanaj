@@ -66,3 +66,6 @@ $(document).on('click','#cekkon',function (){
 
   });
   // ./Wipe data pegawai-----------------------------------------------------------
+  $(function() {
+    $('#toggle-one').bootstrapToggle();
+  })

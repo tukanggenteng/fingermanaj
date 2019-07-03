@@ -85,3 +85,4 @@ Route::get('/instansi', 'db_instansi@data_instansi_v')->name('db.instansi');
 Route::resource('/instansi_r', 'db_instansi');
 Route::get('/instansi/cari','db_instansi@cari')->name('cariinstansi');
 //Route::get('/testing','db_instansi@testing');
+Route::resource('/alamatip', 'db_alamatip');

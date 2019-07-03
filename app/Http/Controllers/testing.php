@@ -106,9 +106,12 @@ class testing extends mesinFinger
       //$data = $mesin->getKehadiranP(7239);
       //$data = $mesin->getSemuaKehadiran();
       //$data = $mesin->cekdatafinger_p(1200, 0);
-      $data = $this->cekdataPinFp(2536);
+      //$data = $this->cekdataPinFp(2536);
+      //dd($data);
+      //return $data;
+
+      $data = $this->tesUDP();
       dd($data);
-      return $data;
     }
 
     public function tesPost()
@@ -116,47 +119,51 @@ class testing extends mesinFinger
       return view('tesview');
     }
 
-
-    //testing... fungsi eaben, bisa dihapus semuanya
-    public function cekdataPinFp($id)
+    /*
+    testing di bawah ini... fungsi  bisa dihapus semuanya jika sudah digunakan
+    */
+    public function tesUDP()
     {
-      $mesin = new mesinFinger;
-      $datapinfp = $mesin->cekdatapegawai_tunggal($id);
-      //$datapegawai = $mesin->cekdatapegawai_finger();
-      //dd($datapinfp);
+      $url = session('set_ip'); //get data ip dari var session
+      $kon = $this->connHealthCheck($url);
 
-      $response = array();
-      //cek data pegawai dulu, untuk mengetahui ada atau tidaknya data password,
-      //jika tidak ada proses untuk upload data finger
-      if(!empty($datapegawai['Password'])) //prosesPin
+      if($kon=='dead')
       {
-          $jenis = 'Password/PIN';
-          $status = "1";
+          $seluruh['status']="0";
+          return $seluruh; //data dibiarkan tanpa terisi
       }
-      else //prosesfp
+      else
       {
-          //kemudian cek ketersedian data sidik jari pada mesin
-          $fp = $mesin->cekdatafinger_p($id, 0);
-          if(!empty($fp['Template']))
-          {
-            //eksekusi perintah upload
-            $status = '1';
-            $jenis = 'Sidik Jari';
+          $Connect = fsockopen("10.10.10.10", "80", $errno, $errstr, 1);
 
-          }
-          else
-          {
-            $status = '0';
-            $jenis = 'Tidak ada Data PIN dan Password pada mesin!';
-          }
+          /*
+          opsi 1 del all log information
+          opsi 2 del all fingerprint template
+          opsi 3 del all user information
+          */
+          /* yang lama
+          opsi 1 del all user information
+          opsi 2 del all fingerprint template
+          opsi 3 del all user information
+          */
+          $soap_request= $this->GetAllUserInfo();
+          $buffer="";
+          $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefinisikan sebagai variable agar menyimpan data
+
+          dd($buffer);
+
+          $buffer= $this->Parse_Data($buffer,"<ClearDataResponse>","</ClearDataResponse>");
+          $buffer= $this->Parse_Data($buffer,"<Information>","</Information>");
+          //dd($buffer);
+
+          $Response = $buffer; //response yang dibalikkan ke viewerblade
+
+          //Refresh DB---------------------------------------------
+          $this->RefreshDB($url);
+          //End.RefreshDB--------------------------------
+
+          $seluruh['status']="1";
+          return $seluruh;
+        }
       }
-      $response = array(
-          'status' => $status, //data dari fungsi mesin
-          'nama' => $datapinfp['Name'],
-          'id' => $id,
-          'jenis' => $jenis,
-        );
-
-      return $response;
-    }
 }

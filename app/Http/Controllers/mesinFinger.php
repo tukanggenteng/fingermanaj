@@ -71,10 +71,10 @@ class mesinFinger extends Controller
       return $GetUserTemplate;
     }
 
-    public function GetOption($nama)
+    public function GetOption($nama, $argkey)
     {
       $GetOption         = '<GetOption>
-                                    <ArgComKey xsi:type=\"xsd:integer\">0</ArgComKey>
+                                    <ArgComKey xsi:type=\"xsd:integer\">'.$argkey.'</ArgComKey>
                                     <Arg>
                                       <Name xsi:type=\"xsd:string\">'.$nama.'</Name>
                                     </Arg>

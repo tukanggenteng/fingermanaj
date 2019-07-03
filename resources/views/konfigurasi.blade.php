@@ -112,6 +112,82 @@
           </div>
       </div> <!--/.Row 2 -->
 
+      <div class="row"> <!-- Row 3 -->
+        <div class="col-md-6">
+            <!-- Konfigurasi IP -->
+            <div class="box box-default ">
+              <div class="box-header with-border">
+                <h3 class="box-title">Daftar Alamat IP yang biasa digunakan :</h3>
+              </div>
+              <!-- /.box-header -->
+              <div class="box-body">
+                <div class="row">
+                  <div class="col-md-12">
+                    @if (session('pesan_ip'))
+                        <div class="alert alert-warning fade in alert-dismissible text-center">
+                          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                          <i class="fa fa-warning"></i> <strong>{{ session('pesan_ip') }}</strong>
+                        </div>
+                    @endif
+                    @if (session('success_ip'))
+                        <div class="alert alert-success fade in alert-dismissible text-center">
+                          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                          <i class="fa fa-warning"></i> <strong>{{ session('success_ip') }}</strong>
+                        </div>
+                    @endif
+                    @if ($errors->has('alamatip'))
+                        <div class="alert alert-danger fade in alert-dismissible text-center">
+                          <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                          <i class="fa fa-warning"></i> <strong>{{ $errors->first('alamatip') }}</strong>
+                        </div>
+                    @endif
+                    <hr>
+                    <form action="{{route('alamatip.store')}}" method="post">
+                      <div class="input-group">
+                        @csrf
+                        <input type="text" name="alamatip" placeholder="Isikan Alamat IP ..." class="form-control">
+                        <span class="input-group-btn">
+                          <button type="submit" class="btn btn-success btn-flat" style=" width: 100px;"><i class="fa fa-save"></i></button>
+                        </span>
+
+                      </div>
+                    </form>
+                    <hr>
+                    <table class="table table-bordered thead-dark table-striped table-hover dataTable no-footer">
+                      <tbody>
+                        @foreach($alamatips as $alamatip)
+                            <tr role="row">
+                              <td class="col-md-1">{{ $loop->iteration }}</td>
+                              <td class="col-md-11">{{ $alamatip->alamat }}</td>
+                              <td><input id="toggle-one" type="checkbox" checked data-toggle="toggle" data-onstyle="success" data-offstyle="danger"></td>
+                              <td class="col-md-1"><i class="fas fa-lightbulb fa-2x border border-dark" style="color:yellow; text-shadow: 2px 2px 4px #000000;"></i></td>
+                              <td class="col-md-1">
+                                <form action="{{route('alamatip.destroy',$alamatip->id)}}" method="post">
+                                  @csrf
+                                  @method('DELETE')
+                                  <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                </form>
+                              </td>
+                            </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+
+                  </div>
+                </div>
+              </div>
+              <!-- /.box-body -->
+              <div class="box-footer">
+
+              </div>
+              <!-- /.box-footer-->
+            </div>
+            <!--/.Konfigurasi IP -->
+          </div>
+
+
+        </div> <!--/.Row 3-->
+
 
       <!-- modal Wipe data-->
       <div class="modal modal-danger fade" id="modal_wipe">
@@ -167,7 +243,7 @@
 @stop
 
 @section('css')
-
+<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
 <!--css custom section   -->
 <!-- code below -->
 <!-- <link rel="stylesheet" href="/css/admin_custom.css"> -->
@@ -177,5 +253,6 @@
 <!--javascript custom section   -->
 <!-- code below -->
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
 <script src="/js/fm/mesinkon.js"></script>
 @stop

@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Ping;
 use App\Http\Controllers\Controller;
+//Models Database
+use App\Alamatip;
 
 class tampilData extends mesinFinger
 {
@@ -312,7 +315,9 @@ class tampilData extends mesinFinger
     $url = session('set_ip'); //get data ip dari var session
     $mesin->kondConn($url);
 
-    return view('konfigurasi', ['session_d' => $url]);
+    $alamatip = Alamatip::all();
+
+    return view('konfigurasi', ['session_d' => $url, 'alamatips' => $alamatip]);
   }
   //END.------------------------------------------------------------------------------------------------------------------------------
 
@@ -328,13 +333,13 @@ class tampilData extends mesinFinger
       $Connect = fsockopen($url, "80", $errno, $errstr, 1);
 
 	    //$nama = '~SerialNumber';
-      $nama = 'MAC'; //opsi menggunakan data MAC Address
-      $soap_request= $mesin->GetOption($nama);
+      $nama = '~ZKFPVersion'; //opsi menggunakan data MAC Address
+      $soap_request= $mesin->GetOption($nama, '2');
       $buffer="";
       $buffer = $mesin->SoapConnect($Connect, $soap_request, $buffer); //harus didefiniskan sebagai variable agar menyimpan data
 
       //Response data
-	    // dd($buffer); //cek sebagai format xml
+	    dd($buffer); //cek sebagai format xml
       $buffer= $mesin->Parse_Data($buffer,"<GetOptionResponse>","</GetOptionResponse>");
       $buffer=explode("\r\n",$buffer);
 
