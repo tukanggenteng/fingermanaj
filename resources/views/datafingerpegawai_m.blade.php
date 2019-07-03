@@ -81,16 +81,16 @@ $(document).ready(function(){
       var id = $(this).parent().siblings('.id_finger').text();
       var tester = $(this).parent().siblings('.cek_data_finger').text();
 
-      $.get("http://manajfinger.go.id/pegawai/fingerpegawai_m/"+{{$ID}}+"/"+id, function(data, status){
+      $.get("/pegawai/fingerpegawai_m/"+{{$ID}}+"/"+id, function(data, status){
         //alert(data.PIN);
         //if(typeof data.PIN!=="undefined") {
         if(data.PIN!="") {
                 idfinger = data.FingerID;
                 ada = '<span class="btn btn-success form-control">Tersedia !</span>';
-                aksi ="<a class='btn btn-warning' href='http://manajfinger.go.id/pegawai/fingerpegawai_m_v/{{$ID}}/{{$nama}}/"+idfinger+"' >Edit <i class='fa fa-pencil'></a>";}
+                aksi ="<a class='btn btn-warning' href='/pegawai/fingerpegawai_m_v/{{$ID}}/{{$nama}}/"+idfinger+"' >Edit <i class='fa fa-pencil'></a>";}
         else {
                 ada = '<span class="btn btn-danger form-control">Tidak Tersedia !</span>';
-                aksi ="<a class='btn btn-warning' href='http://manajfinger.go.id/pegawai/fingerpegawai_m_vt/{{$ID}}/{{$nama}}/"+id+"' >Tambah <i class='fa fa-plus' ></a>";}
+                aksi ="<a class='btn btn-warning' href='/pegawai/fingerpegawai_m_vt/{{$ID}}/{{$nama}}/"+id+"' >Tambah <i class='fa fa-plus' ></a>";}
         //alert(ada);
         //$('.cek_data_finger').parent().siblings('.data_sidikjari_').text(ada);
         $('#data_sidikjari_'+id).html(ada);

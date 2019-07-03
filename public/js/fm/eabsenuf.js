@@ -111,24 +111,40 @@ $(document).on('click','#uploadman',function (){
 // lakukan perulangan penambahan finger sesuai jumlah row
 $(document).on('click','#uploadf_all',function (){
 
-  var _token= $("input[name=_token]").val();
-  var url = '/eabsen/upload_dfingerall';
-  //var datarow = $('#datapegawaifinger tbody tr:eq(5) td:eq(2)').text(); cek data /row
+  var url = '/eabsen/upload_dfinger';
 
-  //-------- var progres
-  var valuemax = 1;
-  var valuemin = 0;
-  var valuenow = 1;
-  var stylewidth = 0;
-  var init_p =1;
+  $.getJSON("/konfig/jlhpeg", function(data, status){
 
-  $('#progresstambah').empty();
-  $('#datatambah').empty();
-  $('#modal_uploadall').modal('hide');
+        var _token= $("input[name=_token]").val();
+        var jlhdatapeg = Object.keys(data).length;
+        //-------- var progres
+        var valuemax = jlhdatapeg;
+        var valuemin = 0;
+        var valuenow = 1;
+        var stylewidth = 0;
+        var init_p =1;
 
-  progresstambah(valuenow, valuemax, stylewidth);
-  tambahDataFPkeServer(url, '', '', '', _token, valuenow, valuemax, stylewidth);
-  //console.log(_token);
+        $('#progresstambah').empty();
+        $('#datatambah').empty();
+        $('#modal_uploadall').modal('hide');
+
+        progresstambah(valuenow, valuemax, stylewidth);
+
+        for(var i=1; i<=jlhdatapeg;i++)
+        {
+          var iddarimesin = data[i].PIN2;
+          var iddarieabsen = iddarimesin;
+          var Nama = data[i].Name;
+          valuenow = init_p;
+          stylewidth = ((init_p/jlhdatapeg)*100).toFixed(2);
+
+          progresstambah(valuenow, valuemax, stylewidth);
+          tambahDataFPkeServer(url, iddarimesin, iddarieabsen, Nama, _token, valuenow, valuemax, stylewidth);
+          //console.log(_token);
+
+          init_p++;
+        }
+  });
 
 });
 
