@@ -13,12 +13,12 @@
 @section('content')
   @if(session()->has('message'))
     <div class="alert alert-success fade in alert-dismissible">
-      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <button href="#" class="close" data-dismiss="alert" aria-label="close">&times;</button>
     <center> {!! session()->get('message') !!} </center>
     </div>
   @elseif(session()->has('warning'))
     <div class="alert alert-danger fade in alert-dismissible">
-      <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+      <button href="#" class="close" data-dismiss="alert" aria-label="close">&times;</button>
       <center> {!! session()->get('warning') !!} </center>
     </div>
   @endif
