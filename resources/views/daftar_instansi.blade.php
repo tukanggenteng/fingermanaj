@@ -1,8 +1,8 @@
-{{-- resources/views/datapegawai_m.blade.php --}}
+{{-- resources/views/daftar_instansi.blade.php --}}
 
 @extends('adminlte::page')
 
-@section('title', 'Data Pegawai di Masin Finger')
+@section('title', 'Data Instansi di Basis Data')
 
 @section('content_header')
 <!--content header custom section   -->

@@ -1,8 +1,8 @@
-{{-- resources/views/datapegawai_m.blade.php --}}
+{{-- resources/views/datamac.blade.php --}}
 
 @extends('adminlte::page')
 
-@section('title', 'Data Pegawai di Masin Finger')
+@section('title', 'Data MAC address di Masin Finger')
 
 @section('content_header')
 <!--content header custom section   -->

@@ -1,8 +1,8 @@
-{{-- resources/views/datapegawai_m.blade.php --}}
+{{-- resources/views/datapinpegawai_m_v.blade.php --}}
 
 @extends('adminlte::page')
 
-@section('title', 'Data Pegawai di Masin Finger')
+@section('title', 'Data PIN/Password Pegawai di Mesin Finger')
 
 @section('content_header')
 <!--content header custom section   -->

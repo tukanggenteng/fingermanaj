@@ -1,13 +1,13 @@
-{{-- resources/views/datapegawai_m.blade.php --}}
+{{-- resources/views/eabsen_df.blade.php --}}
 
 @extends('adminlte::page')
 
-@section('title', 'Data Pegawai di Masin Finger')
+@section('title', 'Download Data Fingerprint')
 
 @section('content_header')
 <!--content header custom section   -->
 <!-- code below -->
-    <h1>Download Data Finger dari eabsen.kalselprov.go.id</h1>
+    <h1>Download Data Fingerprint dari eabsen.kalselprov.go.id</h1>
 @stop
 
 @section('content')

@@ -2,7 +2,7 @@
 
 @extends('adminlte::page')
 
-@section('title', 'Data Pegawai di Masin Finger')
+@section('title', 'Download Data Pegawai')
 
 @section('content_header')
 <!--content header custom section   -->

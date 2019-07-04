@@ -1,8 +1,8 @@
-{{-- resources/views/datapegawai_m.blade.php --}}
+{{-- resources/views/datafingerpegawai_m_vt.blade.php --}}
 
 @extends('adminlte::page')
 
-@section('title', 'Data Pegawai di Masin Finger')
+@section('title', 'Data Sidik Jari di Mesin Fingerprint')
 
 @section('content_header')
 <!--content header custom section   -->

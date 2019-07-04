@@ -2,7 +2,7 @@
 
 @extends('adminlte::page')
 
-@section('title', 'Data Pegawai di Masin Finger')
+@section('title', 'Konfigurasi')
 
 @section('content_header')
 <!--content header custom section   -->
@@ -54,7 +54,7 @@
                     <hr>
                       <h3 class="box-title">Daftar Alamat IP yang biasa digunakan :</h3>
                     <hr>
-                      <button type="button" class="btn btn-success cek_ip form-control flat" id="cek_kondisi_ip">Cek Kondisi Alamat IP</button>
+                      <button type="button" class="btn btn-success cek_ip form-control flat" id="cek_kondisi_ip">Cek Kondisi Alamat IP di dalam daftar</button>
                     <hr>
                     <table class="table table-bordered thead-dark table-striped table-hover dataTable no-footer" id="daftaralamatip">
                       <thead>
@@ -70,7 +70,10 @@
                             <tr role="row">
                               <td class="col-md-1 text-right">{{ $loop->iteration }}</td>
                               <td class="col-md-8">{{ $alamatip->alamat }}</td>
-                              <td class="col-md-1 text-center"><span id="lightbulb_{{$loop->iteration}}" class="lightbulb"></span></td>
+                              <td class="col-md-1 text-center">
+                                <span id="lightbulb_{{$loop->iteration}}" class="lightbulb"><i class="fas fa-lightbulb fa-2x" style=""></i></span>
+                                <span id="load_{{$loop->iteration}}" style="position:absolute"></span>
+                              </td>
                               <td class="col-md-2 text-center">
                                 <form action="{{route('alamatip.destroy',$alamatip->id)}}" method="post">
                                   <button type="button" class="btn btn-success set-ip">SET</button>
@@ -168,7 +171,7 @@
                   <div class="box-footer">
                     <form action="#" method="post">
                       <div class="">
-                        <button type="button" class="btn btn-success btn-flat form-control" id="cekkon">Cek Koneksi</button>
+                        <button type="button" class="btn btn-success btn-flat form-control" id="cekkon">Cek Koneksi Alamat IP yang digunakan</button>
                       </div>
                     </form>
                   </div>

@@ -1,13 +1,13 @@
-{{-- resources/views/datapegawai_m.blade.php --}}
+{{-- resources/views/eabsen_uf.blade.php --}}
 
 @extends('adminlte::page')
 
-@section('title', 'Data Pegawai di Masin Finger')
+@section('title', 'Upload Data Fingerprint')
 
 @section('content_header')
 <!--content header custom section   -->
 <!-- code below -->
-    <h1>Upload Data Finger ke eabsen.kalselprov.go.id</h1>
+    <h1>Upload Data Fingerprint ke eabsen.kalselprov.go.id</h1>
 @stop
 
 @section('content')
