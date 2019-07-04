@@ -900,7 +900,7 @@ class mesinFinger extends Controller
     // tes Ping
     public function konping(Request $request)
     {
-        $respon = $this->connHealthCheck(session('set_ip'));
+        $respon = $this->connHealthCheck($request->ipaddr);
         return $respon;
     }
     //END.------------------------------------------------------------------------------------------------------------------------------

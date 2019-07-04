@@ -82,7 +82,7 @@
                 </div>
                 @endif
                 <ul class="nav navbar-nav ">
-                  <li class=""><a href="#">Alamat IP yang digunakan saat ini : [ <span id="data_ip"></span> ]  </a></li>
+                  <li class=""><a href="#">Alamat IP yang digunakan saat ini : [ <span id="data_ip" class="data_ip"></span> ]  </a></li>
                 </ul>
             </nav>
         </header>
@@ -144,9 +144,9 @@
 
         function updateInfoIP(){
             $.get("/konfig/ip", function(data, status){
-              $("#data_ip").fadeOut();
-              $("#data_ip").html("<b>"+data+"</b>");
-              $("#data_ip").fadeIn();
+              $(".data_ip").fadeOut();
+              $(".data_ip").html("<b>"+data+"</b>");
+              $(".data_ip").fadeIn();
             });
           }
     </script>

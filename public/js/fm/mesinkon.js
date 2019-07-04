@@ -3,25 +3,27 @@ $(document).on('click','#cekkon',function (){
   var _token=$("input[name=_token]").val();
   $('#progress').show();
   $('#hasil').hide();
-  $.ajax({
-      type:'post',
-      url:'/cekkon',
-      data : {   _token:_token },
-      success:function(response){
-          //console.log(response);
-          $('#progress').hide();
-          if((response=='alive')){
-              $('#hasil').html('<div class="alert alert-success text-center"><h4>Mesin dapat dihubungi!</h4></div>');
-              $('#hasil').fadeIn('slow');
-          }
-          else
-            {
-              $('#hasil').html('<div class="alert alert-warning text-center"><h4>Mesin tidak dapat dihubungi!</h4></div>');
-              $('#hasil').fadeIn('slow');
+  $.get("/konfig/ip", function(data, status){
+    $.ajax({
+        type:'post',
+        url:'/cekkon',
+        data : {   _token:_token,ipaddr:data },
+        success:function(response){
+            //console.log(response);
+            $('#progress').hide();
+            if((response=='alive')){
+                $('#hasil').html('<div class="alert alert-success text-center flat"><h4>Mesin dapat dihubungi!</h4></div>');
+                $('#hasil').fadeIn('slow');
             }
-
-        },
+            else
+              {
+                $('#hasil').html('<div class="alert alert-warning text-center flat"><h4>Mesin tidak dapat dihubungi!</h4></div>');
+                $('#hasil').fadeIn('slow');
+              }
+          },
+      });
     });
+
     //return false;
 
   });
@@ -66,6 +68,68 @@ $(document).on('click','#cekkon',function (){
 
   });
   // ./Wipe data pegawai-----------------------------------------------------------
-  $(function() {
-    $('#toggle-one').bootstrapToggle();
-  })
+
+  //Set ip from list function
+  $(document).on('click', '.set-ip', function(){
+     var currentRow = $(this).closest('tr');
+     var no = currentRow.find('td:eq(0)').text();
+     var ip = currentRow.find('td:eq(1)').text();
+     var _token= $("input[name=_token]").val();
+     updateInfoIP();
+     $('#lightbulb_'+no).html('<i class="fas fa-lightbulb fa-2x" style="color:yellow; text-shadow: 2px 2px 4px #000000;"></i>');
+
+     //$(".lightbulb").html('<i class="fas fa-lightbulb fa-2x border border-dark" style="color:yellow; text-shadow: 2px 2px 4px #000000;"></i>');
+     //console.log('klik');
+     $.ajax({
+         type:'post',
+         url:'/konfigurasi_set',
+         data : {
+                 alamat_ip:ip,
+                 _token:_token
+                 },
+         success:function(response){
+
+         },
+     });
+     //---------------------
+  });
+
+  //Set ip from list function
+
+  $(document).on('click', '#cek_kondisi_ip', function(){
+      var jlhipaddr = $("#daftaralamatip tbody tr").length;
+      var init = 1;
+      for(var i=0;i<jlhipaddr;i++)
+      {
+        var ipaddrs = $("#daftaralamatip tbody tr:eq("+i+") td:eq(1)").text();
+        cekkontabel(ipaddrs, init);
+        init++;
+      }
+  });
+
+  var lightb = '<i class="fas fa-lightbulb fa-2x" style=""></i>';
+  var lightg = '<i class="fas fa-lightbulb fa-2x" style="color:green; text-shadow: 2px 2px 4px #000000;""></i>';
+  var lightr = '<i class="fas fa-lightbulb fa-2x" style="color:red; text-shadow: 2px 2px 4px #000000;""></i>';
+
+  function cekkontabel(ippadd, no)
+  {
+    var _token= $("input[name=_token]").val();
+    $.ajax({
+        type:'post',
+        url:'/cekkon',
+        data : {   _token:_token,ipaddr:ippadd },
+        success:function(response){
+          //console.log(response);
+          $('#progress_ck').hide();
+          if((response=='alive')){
+              $('#lightbulb_'+no).html(lightg);
+              $('#lightbulb_'+no).fadeIn('slow');
+            }
+            else
+              {
+                $('#lightbulb_'+no).html(lightr);
+                $('#lightbulb_'+no).fadeIn('slow');
+              }
+            },
+        });
+  }
