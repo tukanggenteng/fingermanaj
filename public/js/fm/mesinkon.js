@@ -75,8 +75,7 @@ $(document).on('click','#cekkon',function (){
      var no = currentRow.find('td:eq(0)').text();
      var ip = currentRow.find('td:eq(1)').text();
      var _token= $("input[name=_token]").val();
-     updateInfoIP();
-     $('#lightbulb_'+no).html('<i class="fas fa-lightbulb fa-2x" style="color:yellow; text-shadow: 2px 2px 4px #000000;"></i>');
+     $('#load_'+no).html('<i class="fa fa-refresh fa-spin"></i>');
 
      //$(".lightbulb").html('<i class="fas fa-lightbulb fa-2x border border-dark" style="color:yellow; text-shadow: 2px 2px 4px #000000;"></i>');
      //console.log('klik');
@@ -88,7 +87,10 @@ $(document).on('click','#cekkon',function (){
                  _token:_token
                  },
          success:function(response){
-
+           $('#load_'+no).empty();
+            $('#lightbulb_'+no).html('<i class="fas fa-lightbulb fa-2x" style="color:#ffffa5; text-shadow: 2px 2px 4px #b3ca00;"></i>');
+            updateInfoIP();
+            swal('','','success');
          },
      });
      //---------------------
@@ -102,14 +104,15 @@ $(document).on('click','#cekkon',function (){
       for(var i=0;i<jlhipaddr;i++)
       {
         var ipaddrs = $("#daftaralamatip tbody tr:eq("+i+") td:eq(1)").text();
+        $('#load_'+init).html('<i class="fa fa-refresh fa-spin"></i>');
         cekkontabel(ipaddrs, init);
         init++;
       }
   });
 
   var lightb = '<i class="fas fa-lightbulb fa-2x" style=""></i>';
-  var lightg = '<i class="fas fa-lightbulb fa-2x" style="color:green; text-shadow: 2px 2px 4px #000000;""></i>';
-  var lightr = '<i class="fas fa-lightbulb fa-2x" style="color:red; text-shadow: 2px 2px 4px #000000;""></i>';
+  var lightg = '<i class="fas fa-lightbulb fa-2x" style="color:#42af41; text-shadow: 2px 2px 19px #00ce00;""></i>'; //glow green
+  var lightr = '<i class="fas fa-lightbulb fa-2x" style="color:#ff0707; text-shadow: 2px 2px 19px #ff0909;""></i>'; //glow red
 
   function cekkontabel(ippadd, no)
   {
@@ -122,11 +125,13 @@ $(document).on('click','#cekkon',function (){
           //console.log(response);
           $('#progress_ck').hide();
           if((response=='alive')){
+              $('#load_'+no).empty();
               $('#lightbulb_'+no).html(lightg);
               $('#lightbulb_'+no).fadeIn('slow');
             }
             else
               {
+                $('#load_'+no).empty();
                 $('#lightbulb_'+no).html(lightr);
                 $('#lightbulb_'+no).fadeIn('slow');
               }
