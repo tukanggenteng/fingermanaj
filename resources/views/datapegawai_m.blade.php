@@ -37,7 +37,7 @@
               <hr>
               <a href="/absensi/daftarabsensi_m" class="btn btn-info form-control">Cek data Absensi <i class="fa fa-search"></i></a>
               <hr>
-              <button class="btn btn-danger form-control" id="peringatanwipe" data-toggle="modal" id="tambah" data-target="#modal_swipe">Hapus Semua Data di dalam mesin fingerscan <i class="fa fa-trash"></i></button>
+              <button class="btn btn-danger form-control" id="peringatanwipe" data-toggle="modal" data-target="#modal_swipe">Hapus Semua Data di dalam mesin fingerscan <i class="fa fa-trash"></i></button>
             </div>
             <div class="box-footer">
             </div>
@@ -118,6 +118,7 @@
                       </div>
                       <div class="form-group text-center">
                         <h3>Apakah anda yakin ???</h3>
+                        <h4>ClearData(1)</h4>
                       </div>
                     </div>
                   </div>

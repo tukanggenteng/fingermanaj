@@ -229,6 +229,7 @@
                       </div>
                       <div class="form-group text-center">
                         <h3>Apakah anda yakin ???</h3>
+                        <h4>ClearData(1)</h4>
                       </div>
                     </div>
                   </div>

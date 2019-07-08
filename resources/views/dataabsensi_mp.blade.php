@@ -55,38 +55,38 @@
 <!--javascript custom section   -->
 <!-- code below -->
 <script>
+var datatabelf = $('#dataabsensipegawai').DataTable( {
+                    "processing": true,
+                    "serverSide": true,
+                    "ajax": "/absensi/dtdaftarabsensi_p/"+{{$id}},
+                    columns: [
+                          { data: 'no'},
+                          { data: 'tanggal' },
+                          { data: 'jam' },
+                          { data: 'keteranganabsen' },
 
-  var datatabelf = $('#dataabsensipegawai').DataTable( {
-                      "processing": true,
-                      "serverSide": true,
-                      "ajax": "/absensi/dtdaftarabsensi_p/"+{{$id}},
-                      columns: [
-                            { data: 'no'},
-                            { data: 'tanggal' },
-                            { data: 'jam' },
-                            { data: 'keteranganabsen' },
+                      ],
+                      columnDefs: [
+                          { targets: [0] , className: 'text-right' },
+                          { targets: [1,2] ,className: 'text-center'},
+                          {
+                            targets: [3] ,className: 'text-center',
+                            "render" : function ( data, type, row, meta ) {
+                              if(data=='Masuk') { dataN = "<i class='fa fa-sign-in'></i> "+data; }
+                              else if(data=='Pulang') { dataN = data+" <i class='fa fa-sign-out'></i>"; }
+                              else if(data=='Mulai Istirahat') { dataN = data+" <i class='fa fa-sign-out'></i>"; }
+                              else if(data=='Selesai Istirahat') { dataN = "<i class='fa fa-sign-in'></i> "+data; }
+                              else { dataN = "<i class='fa fa-warning'></i> Tidak ada Data"; }
 
-                        ],
-                        columnDefs: [
-                            { targets: [0] , className: 'text-right' },
-                            { targets: [1,2] ,className: 'text-center'},
-                            {
-                              targets: [3] ,className: 'text-center',
-                              "render" : function ( data, type, row, meta ) {
-                                if(data=='Masuk') { dataN = "<i class='fa fa-sign-in'></i> "+data; }
-                                else if(data=='Pulang') { dataN = data+" <i class='fa fa-sign-out'></i>"; }
-                                else if(data=='Mulai Istirahat') { dataN = data+" <i class='fa fa-sign-out'></i>"; }
-                                else if(data=='Selesai Istirahat') { dataN = "<i class='fa fa-sign-in'></i> "+data; }
-                                else { dataN = "<i class='fa fa-warning'></i> Tidak ada Data"; }
+                              return dataN;
+                            }
+                          },
+                      ]
+                    } );
 
-                                return dataN;
-                              }
-                            },
-                        ]
-                      } );
+  $('#refresh').click(function(){
+    datatabelf.ajax.reload();
+  });
 
-    $('#refresh').click(function(){
-      datatabelf.ajax.reload();
-    });
 </script>
 @stop

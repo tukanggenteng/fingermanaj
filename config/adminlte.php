@@ -145,13 +145,13 @@ return [
         'icon' => 'group',
         ],
         [
-        'text' => 'Upload Fingerprint',
-        'url'  => 'eabsen/uploadfinger',
+        'text' => 'Download Fingerprint',
+        'url'  => 'eabsen/downloadfinger',
         'icon' => 'thumbs-o-up',
         ],
         [
-        'text' => 'Download Fingerprint',
-        'url'  => 'eabsen/downloadfinger',
+        'text' => 'Upload Fingerprint',
+        'url'  => 'eabsen/uploadfinger',
         'icon' => 'thumbs-o-up',
         ],
 

@@ -761,11 +761,12 @@ class mesinFinger extends Controller
 
     //---------------------------------------------------------------------------------------------------------------------------------
   	// Wipe Data di mesin finger
-    public function wipeData()
+    public function wipeData(Request $request)
     {
       //dd($template);
       $url = session('set_ip'); //get data ip dari var session
       $kon = $this->connHealthCheck($url);
+      $opsi = $request->opsi;
 
       if($kon=='dead')
       {
@@ -777,16 +778,16 @@ class mesinFinger extends Controller
           $Connect = fsockopen($url, "80", $errno, $errstr, 1);
 
           /*
-          opsi 1 del all log information
+          opsi 1 del all user information
           opsi 2 del all fingerprint template
-          opsi 3 del all user information
+          opsi 3 del all data information
           */
           /* yang lama
           opsi 1 del all user information
-          opsi 2 del all fingerprint template
-          opsi 3 del all user information
+          opsi 2 del all log template
+          opsi 3 del all information
           */
-          $soap_request= $this->ClearData(1);
+          $soap_request= $this->ClearData($opsi);
           $buffer="";
           $buffer = $this->SoapConnect($Connect, $soap_request, $buffer); //harus didefinisikan sebagai variable agar menyimpan data
 

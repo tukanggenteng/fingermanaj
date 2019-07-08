@@ -82,7 +82,7 @@
                 </div>
                 @endif
                 <ul class="nav navbar-nav ">
-                  <li class=""><a href="#">Alamat IP yang digunakan saat ini : [ <span id="data_ip" class="data_ip"></span> ]  </a></li>
+                  <li class=""><a href="/konfigurasi">Alamat IP yang digunakan saat ini : [ <span id="data_ip" class="data_ip"></span> ]  </a></li>
                 </ul>
             </nav>
         </header>
