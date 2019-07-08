@@ -105,6 +105,7 @@ $(document).ready(function() {
     // ./hapus data pegawai-----------------------------------------------------------
 
     //Wipe data pegawai-----------------------------------------------------------
+    // clear data (1)
     $(document).on('click','#swipedatapegawai',function (){
       var _token= $("input[name=_token]").val();
 
@@ -113,12 +114,13 @@ $(document).ready(function() {
           type:'post',
           url:'/wipedata',
           data : {
+                  opsi: 1,
                   _token:_token
                   },
           success:function(response){
             if((response.status==1)){
                 $('.error').addClass('hidden');
-                swal("Sukses Menghapus Semua Data pada mesin!", "", "warning");
+                swal("Sukses Menghapus Semua Data Pegawai pada mesin!", "", "warning");
                 $('#modal_swipe').modal('hide');
                 //console.log(response.nama);
                 datatabelf.ajax.reload();

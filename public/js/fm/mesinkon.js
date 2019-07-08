@@ -39,7 +39,7 @@ $(document).on('click','#cekkon',function (){
   }
   //-------------------------------
 
-  //Wipe data pegawai-----------------------------------------------------------
+  //Wipe data semua-----------------------------------------------------------
   $(document).on('click','#wipedata_',function (){
     var _token= $("input[name=_token]").val();
     //console.log(_token);
@@ -47,6 +47,7 @@ $(document).on('click','#cekkon',function (){
         type:'post',
         url:'/wipedata',
         data : {
+                opsi: 1,
                 _token:_token
                 },
         success:function(response){
@@ -67,7 +68,7 @@ $(document).on('click','#cekkon',function (){
     });
 
   });
-  // ./Wipe data pegawai-----------------------------------------------------------
+  // ./Wipe data semua-----------------------------------------------------------
 
   //Set ip from list function
   $(document).on('click', '.set-ip', function(){
