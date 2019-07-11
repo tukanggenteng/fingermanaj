@@ -8,7 +8,12 @@
   //+set tabel data pegawai
   function tabelDataPegawai()
   {
-     $("#datadarieabsen").html("<table id='datapegawaifinger' class='table table-bordered thead-dark table-striped table-hover'><thead class='bg bg-navy'><tr><th class='col-md-1'>ID</th><th class='col-md-1'>NIP</th><th class='col-md-6'>Nama</th></tr></thead><tbody></tbody></table>");
+     var table = "<table id='datapegawaifinger' class='table table-bordered thead-dark table-striped table-hover'><thead class='bg bg-navy'>";
+     var row = "<tr>";
+     var column = "<th class='col-md-1'>ID</th><th class='col-md-1'>NIP</th><th class='col-md-6'>Nama</th><th class='col-md-1'>Aksi</th>";
+     var row_end = "</tr>";
+     var table_end = "</thead><tbody></tbody></table>";
+     $("#datadarieabsen").html(table+row+column+row_end+table_end);
   }
   //-------------------------------
 
@@ -26,12 +31,20 @@
                                   { data: 'id'},
                                   { data: 'nip' },
                                   { data: 'nama' },
+                                  { data: null },
 
                               ],
                               columnDefs: [
                                   { targets: [0] , className: 'text-right' },
                                   { targets: [2] , className: 'text-left' },
                                   { targets: [1] , className: 'text-center' },
+                                  {
+                                    targets: [3] ,className: 'text-center',
+                                    'render': function (data, type, row) {
+                                        var aksi = '<button class="tambah_'+data.PIN2+' btn btn-info" id="tambahp"><i class="fas fa-user"></i><i class="fa fa-download"></i></button>';
+                                        return aksi;
+                                    }
+                                  }
                               ]
                             } );
       }
@@ -182,6 +195,20 @@
 
     });
     // ./Tambah Data Pegawai-----------------------------------------------------------
+
+    $(document).on('click','#tambahp',function (){
+      var currentRow = $(this).closest('tr');
+      var id = currentRow.find('td:eq(0)').text();
+      var nip = currentRow.find('td:eq(1)').text();
+      var nama = currentRow.find('td:eq(2)').text();
+      var _token= $("input[name=_token]").val();
+      //console.log(nama);
+      $('#progresstambah').empty();
+      $('#datatambah').empty();
+
+      simpankeF(id, nip, nama, 1, 1, 100);
+
+    });
 
     //fungsi tombol modal untuk menghapus data html
     $(document).on('click','#tambah_dpf',function (){ $('#progresstambah').empty(); $('#datatambah').empty(); }); //jangan menghapus id rootnya

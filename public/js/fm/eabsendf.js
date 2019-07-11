@@ -17,8 +17,8 @@ var datatabelf = $('#datapegawaifinger').DataTable( {
                           {
                             targets: [4] ,className: 'text-center',
                             'render': function (data, type, row) {
-                                var aksi1 = '<button class="hapus_'+data.PIN2+' hapusfinger btn btn-info" id="tambahf"><i class="fas fa-fingerprint"></i><i class="fa fa-download"></i></button>';
-                                var aksi2 = '<button class="hapus_'+data.PIN2+' hapusfinger btn btn-danger" id="hapusf"><i class="fas fa-fingerprint"></i><i class="fa fa-trash"></button>';
+                                var aksi1 = '<button class="tambah_'+data.PIN2+' btn btn-info" id="tambahf"><i class="fas fa-fingerprint"></i><i class="fa fa-download"></i></button>';
+                                var aksi2 = '<button class="hapus_'+data.PIN2+' btn btn-danger" id="hapusf"><i class="fas fa-fingerprint"></i><i class="fa fa-trash"></button>';
                                 var aksi = aksi1+aksi2;
                                 return aksi;
                             }
