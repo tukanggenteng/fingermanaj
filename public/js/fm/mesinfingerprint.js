@@ -29,7 +29,7 @@ $(document).ready(function() {
                       } );
 
     $('#refresh').click(function(){
-      datatabelf.ajax.reload();
+      datatabelf.ajax.reload(null, false);
     });
 
     // Tambah Data Pegawai-----------------------------------------------------------
@@ -89,7 +89,7 @@ $(document).ready(function() {
                 swal("Sukses Menghapus Data "+response.nama, "", "warning");
                 $('#modal_add').modal('hide');
                 //console.log(response.nama);
-                datatabelf.ajax.reload();
+                datatabelf.ajax.reload(null, false);
             }
             else
               {
@@ -97,7 +97,7 @@ $(document).ready(function() {
                 swal("Terjadi Kesalahan", "", "error");
                 $('#modal_add').modal('hide');
                 //console.log(response);
-                datatabelf.ajax.reload();
+                datatabelf.ajax.reload(null, false);
                 }
           },
       });

@@ -35,7 +35,7 @@ $('#clearprogres').click(function(){
 //----------------------
 //refresh table
 $('#refresh').click(function(){
-  datatabelf.ajax.reload();
+  datatabelf.ajax.reload(null, false);
 });
 //----------------------
 //peringatan hapus

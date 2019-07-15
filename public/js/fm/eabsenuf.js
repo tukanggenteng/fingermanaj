@@ -37,7 +37,7 @@ $('#clearprogres').click(function(){
 //----------------------
 //refresh table
 $('#refresh').click(function(){
-  datatabelf.ajax.reload();
+  datatabelf.ajax.reload(null, false);
 });
 //----------------------
 
@@ -206,7 +206,7 @@ function tambahDataFPkeServer(url, iddarimesin, iddarieabsen, nama, _token, valu
             else { var opsi = 'full'; }
 
             datatambah(nama, 0, opsi, response.jenis);
-            datatabelf.ajax.reload();
+            datatabelf.ajax.reload(null, false);
           }
           else
             {
@@ -217,7 +217,7 @@ function tambahDataFPkeServer(url, iddarimesin, iddarieabsen, nama, _token, valu
               var opsi = 'kosong';
 
               datatambah(response.nama, 0, opsi, response.jenis);
-              datatabelf.ajax.reload();
+              datatabelf.ajax.reload(null, false);
               console.log(response);
             }
       },

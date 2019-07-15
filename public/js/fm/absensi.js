@@ -31,7 +31,7 @@ var datatabelf = $('#datasemuaabsensi').DataTable( {
                     } );
 
   $('#refresh').click(function(){
-    datatabelf.ajax.reload();
+    datatabelf.ajax.reload(null, false);
   });
   //Wipe data pegawai-----------------------------------------------------------
   // clear data (1)
@@ -52,7 +52,7 @@ var datatabelf = $('#datasemuaabsensi').DataTable( {
               swal("Sukses Menghapus Semua Data Absensi pada mesin!", "", "warning");
               $('#modal_swipe_a').modal('hide');
               //console.log(response.nama);
-              datatabelf.ajax.reload();
+              datatabelf.ajax.reload(null, false);
           }
           else
             {
@@ -60,7 +60,7 @@ var datatabelf = $('#datasemuaabsensi').DataTable( {
               swal("Terjadi Kesalahan", "", "error");
               $('#modal_swipe_a').modal('hide');
               //console.log(response);
-              datatabelf.ajax.reload();
+              datatabelf.ajax.reload(null, false);
               }
         },
     });
