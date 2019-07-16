@@ -96,8 +96,36 @@ $(document).on('click','#cekkon',function (){
      });
      //---------------------
   });
+  //./Set ip from list function
 
-  //Set ip from list function
+  //Set Server from list function
+  $(document).on('click', '.set-sv', function(){
+     var currentRow = $(this).closest('tr');
+     var no = currentRow.find('td:eq(0)').text();
+     var url_server = currentRow.find('td:eq(1)').text();
+     var _method = 'PATCH';
+     var _token= $("input[name=_token]").val();
+     $('#loadsv_'+no).html('<i class="fa fa-refresh fa-spin"></i>');
+
+     //$(".lightbulb").html('<i class="fas fa-lightbulb fa-2x border border-dark" style="color:yellow; text-shadow: 2px 2px 4px #000000;"></i>');
+     //console.log('klik');
+     $.ajax({
+         type:'post',
+         url:'/urlServer',
+         data : {
+                 url_server:url_server,
+                 _token:_token,
+                 _method:_method,
+                 },
+         success:function(response){
+           $('#loadsv_'+no).empty();
+            updateInfoSV();
+            swal('','','success');
+         },
+     });
+     //---------------------
+  });
+  //./Set Server from list function
 
   $(document).on('click', '#cek_kondisi_ip', function(){
       var jlhipaddr = $("#daftaralamatip tbody tr").length;

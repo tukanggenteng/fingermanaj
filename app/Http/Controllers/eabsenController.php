@@ -220,7 +220,7 @@ class eabsenController extends mesinFinger
           else
           {
             $status = '0';
-            $jenis = 'Tidak ada Data PIN dan Password pada mesin!';
+            $jenis = 'Tidak ada Data Sidik Jari, PIN dan Password pada mesin!';
             $status_pesan ='';
           }
       }
@@ -325,7 +325,7 @@ class eabsenController extends mesinFinger
     return $response;
     }
   }
-  // END./Upload data Sidik Jari/PIN/Password dari mesin
+  // END./Upload data Sidik Jari/PIN/Password dari mesin------------------------------------------------------------------------
 
 
   //Menghapus data Sidik Jari/PIN/Password pada mesin

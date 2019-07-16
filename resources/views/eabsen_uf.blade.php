@@ -24,9 +24,9 @@
                   <tr>
                     <th class="col-md-1">No</th>
                     <th class="col-md-1">ID</th>
-                    <th class="col-md-6">Nama</th>
+                    <th class="col-md-5">Nama</th>
                     <th class="col-md-1">Privilege</th>
-                    <th class="col-md-3">Aksi</th>
+                    <th class="col-md-4">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>

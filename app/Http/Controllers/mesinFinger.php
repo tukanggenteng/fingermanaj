@@ -884,7 +884,7 @@ class mesinFinger extends Controller
 
       if(empty(session('set_ip')))
         {
-          session(['set_ip' => '10.10.10.10']);
+          session(['set_ip' => '127.0.0.1']);
         }
       else
         {

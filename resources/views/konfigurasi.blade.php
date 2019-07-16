@@ -103,7 +103,7 @@
               <!-- Konfigurasi IP -->
               <div class="box box-default ">
                 <div class="box-header with-border">
-                  <h3 class="box-title">Konfigurasi Alamat IP</h3>
+                  <h3 class="box-title"><strong>Konfigurasi Alamat IP</strong></h3>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -168,6 +168,7 @@
                     </div>
                   </div>
                   <!-- /.box-body -->
+
                   <div class="box-footer">
                     <form action="#" method="post">
                       <div class="">
@@ -178,6 +179,81 @@
                   <!-- /.box-footer-->
                 </div>
                 <!--/.Cek Koneksi -->
+
+                <!-- Konfigurasi IP -->
+                <div class="box box-default ">
+                  <div class="box-header with-border">
+                    <h3 class="box-title"><strong>Konfigurasi Server Absensi yang digunakan</strong></h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                    <div class="row">
+                      <div class="col-md-12">
+                        @if (session('pesan_sv'))
+                            <div class="alert alert-warning fade in alert-dismissible text-center">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <i class="fa fa-warning"></i> <strong>{{ session('pesan_sv') }}</strong>
+                            </div>
+                        @endif
+                        @if (session('success_sv'))
+                            <div class="alert alert-success fade in alert-dismissible text-center">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <i class="fa fa-warning"></i> <strong>{{ session('success_sv') }}</strong>
+                            </div>
+                        @endif
+                        @if (session('error_sv'))
+                            <div class="alert alert-danger fade in alert-dismissible text-center">
+                              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                              <i class="fa fa-warning"></i> <strong>{{ session('error_sv') }}</strong>
+                            </div>
+                        @endif
+                        <hr>
+                        <div class="text-center"><h3>Server yang digunakan saat ini : <strong><span id="data_sv" class="data_sv"></span></strong></h3></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- /.box-body -->
+                  <div class="box-footer">
+                    <form action="{{route('urlaccess.store')}}" method="post">
+                      <div class="input-group">
+                        @csrf
+                        <input type="text" name="url_server" placeholder="Isikan Alamat URL Server ..." class="form-control">
+                            <span class="input-group-btn">
+                              <button type="submit" class="btn btn-success btn-flat" style=" width: 100px;"><i class="fa fa-save"></i></button>
+                            </span>
+                      </div>
+                    </form>
+                    <hr>
+                    <table class="table table-bordered thead-dark table-striped table-hover dataTable no-footer" id="daftaralamatip">
+                      <thead>
+                        <tr class="bg-navy text-center">
+                          <td>No</td>
+                          <td>Alamat Server</td>
+                          <td>Aksi</td>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        @foreach($alamatservers as $alamatserver)
+                            <tr role="row">
+                              <td class="col-md-1 text-right">{{ $loop->iteration }}</td>
+                              <td class="col-md-9">{{ $alamatserver->url_server }}<span id="loadsv_{{$loop->iteration}}" style="position:absolute"></span></td>
+                              <td class="col-md-2 text-center">
+                                <form action="{{route('urlaccess.destroy',$alamatserver->id)}}" method="post">
+                                  <button type="button" class="btn btn-success set-sv">SET</button>
+                                  @csrf
+                                  @method('DELETE')
+                                  <button type="submit" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                                </form>
+                              </td>
+                            </tr>
+                        @endforeach
+                      </tbody>
+                    </table>
+                  </div>
+                  <!-- /.box-footer-->
+                </div>
+                <!--/.Konfigurasi IP -->
+
               </div>
 
 

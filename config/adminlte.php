@@ -110,7 +110,7 @@ return [
     'menu' => [
 
         'EABSEN KALSELPROV',
-        '======[eAbsen App]',
+        '======[eAbsen App]======',
         /*
         [
             'text' => 'eAbsen App',
@@ -147,12 +147,12 @@ return [
         [
         'text' => 'Download Fingerprint',
         'url'  => 'eabsen/downloadfinger',
-        'icon' => 'thumbs-o-up',
+        'icon' => 'thumbs-up',
         ],
         [
         'text' => 'Upload Fingerprint',
         'url'  => 'eabsen/uploadfinger',
-        'icon' => 'thumbs-o-up',
+        'icon' => 'thumbs-up',
         ],
 
         'DATA DI DALAM MESIN',
@@ -178,6 +178,11 @@ return [
             'text'        => 'Daftar Instansi',
             'url'         => 'instansi',
             'icon'        => 'building',
+        ],
+        [
+            'text' => 'Data Backup Sidik Jari',
+            'url'  => 'sidikjari',
+            'icon' => 'fingerprint',
         ],
 
         /*

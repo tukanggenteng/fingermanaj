@@ -8,6 +8,7 @@ use Ping;
 use App\Http\Controllers\Controller;
 //Models Database
 use App\Alamatip;
+use App\ServerAccs;
 
 class tampilData extends mesinFinger
 {
@@ -316,8 +317,9 @@ class tampilData extends mesinFinger
     $mesin->kondConn($url);
 
     $alamatip = Alamatip::all();
+    $alamatserver = ServerAccs::all();
 
-    return view('konfigurasi', ['session_d' => $url, 'alamatips' => $alamatip]);
+    return view('konfigurasi', ['session_d' => $url, 'alamatips' => $alamatip, 'alamatservers' => $alamatserver]);
   }
   //END.------------------------------------------------------------------------------------------------------------------------------
 
@@ -373,6 +375,12 @@ class tampilData extends mesinFinger
     $ip = session('set_ip');
     return $ip;
   }
+  public function sv()//get data ip
+  {
+    $sv = ServerAccs::where('status', 1)->first();
+    return $sv;
+  }
+
   public function jlhpeg()//get jumlah data pegawai di finger
   {
     $jlhpeg = new mesinFinger;

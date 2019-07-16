@@ -21,7 +21,8 @@ var datatabelf = $('#datapegawaifinger').DataTable( {
                                 var aksi2 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-aqua" id="cek_fpea" data-toggle="tooltip" data-placement="top" title="Cek Data Finger '+data.Name+' yang ada di eabsen.kalselprov.go.id"><i class="fas fa-fingerprint"></i><i class="fa fa-search"></i>[eabsen]</button>';
                                 var aksi3 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-primary" id="uploadf" data-toggle="tooltip" data-placement="top" title="Upload Data Finger '+data.Name+'"><i class="fas fa-fingerprint"></i><i class="fa fa-upload"></i></button>';
                                 var aksi4 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-blue" id="uploadf_man" data-toggle="modal" data-target="#modal_uploadfp" data-toggle="tooltip" data-placement="top" title="Upload Data Finger Manual '+data.Name+'"><i class="fas fa-fingerprint"></i><i class="fa fa-upload"></i>Manual</button>';
-                                var aksi = aksi1+' '+aksi2+' '+aksi3+' '+aksi4;
+                                var aksi5 = '<button class="upload_'+data.PIN2+' uploadfinger btn bg-blue" id="backup_fp" data-toggle="tooltip" data-placement="top" title="BackUp Data Finger '+data.Name+'"><i class="fas fa-fingerprint"></i><i class="fa fa-hdd"></i></button>';
+                                var aksi = aksi1+' '+aksi2+' '+aksi3+' '+aksi4+' '+aksi5;
                                 return aksi;
                             }
                          },
@@ -66,7 +67,7 @@ $(document).on('click','#uploadf',function (){
 
   progresstambah(valuenow, valuemax, stylewidth); //progress
   tambahDataFPkeServer(url, iddarimesin, iddarieabsen, nama, _token, valuenow, valuemax, stylewidth);
-  console.log(iddarimesin+iddarieabsen+nama+_token);
+  //console.log(iddarimesin+iddarieabsen+nama+_token);
 
 });
 // END./Upload data FingerPrint perorang------------------------------------------
@@ -107,7 +108,7 @@ $(document).on('click','#uploadman',function (){
 // END./Upload data FingerPrint perorang------------------------------------------
 
 // Upload data FingerPrint keseluruhan-----------------------------------------------
-// cek dari data table saja, hitung jumlah row, ambil data dari setiap id
+// cek dari data mesin, hitung jumlah data, ambil data dari setiap id
 // lakukan perulangan penambahan finger sesuai jumlah row
 $(document).on('click','#uploadf_all',function (){
 
@@ -178,6 +179,31 @@ $(document).on('click','#cek_fpea',function (){
     });
 });
 
+// BackUp data FingerPrint-----------------------------------------------
+//
+$(document).on('click','#backup_fp',function (){
+  var currentRow = $(this).closest('tr');
+  var iddarimesin = currentRow.find('td:eq(1)').text();
+  var iddarieabsen = currentRow.find('td:eq(1)').text();
+  var nama = currentRow.find('td:eq(2)').text();
+  var url = '/sidikjari';
+  var _token= $("input[name=_token]").val();
+  //-------- var progres
+  var valuemax = 1;
+  var valuemin = 0;
+  var valuenow = 1;
+  var stylewidth = 100;
+  //console.log(nama);
+  $('#progresstambah').empty();
+  $('#datatambah').empty();
+
+  progresstambah(valuenow, valuemax, stylewidth); //progress
+  tambahDataFPkeServer(url, iddarimesin, iddarieabsen, nama, _token, valuenow, valuemax, stylewidth);
+  //console.log(iddarimesin+iddarieabsen+nama);
+
+});
+// END./BackUp data FingerPrint ------------------------------------------
+
 
 
 //Fungsi menambahkan data finger ke server eabsen------------------
@@ -194,8 +220,17 @@ function tambahDataFPkeServer(url, iddarimesin, iddarieabsen, nama, _token, valu
               _token:_token
               },
       success:function(response){
-          console.log(response);
-          if((response.status!=0)){
+          //console.log(response);
+          if((response.status==2)){
+            //  $('.error').addClass('hidden');
+            // swal(response.status_pesan, "", "success");
+            progresstambah(valuenow, valuemax, stylewidth);
+            var opsi_i = 'bu_datapin';
+            datatambah(nama, 0, opsi_i, response.jenis);
+
+            datatabelf.ajax.reload(null, false);
+          }
+          else if((response.status!=0)){
             //  $('.error').addClass('hidden');
             // swal(response.status_pesan, "", "success");
             progresstambah(valuenow, valuemax, stylewidth);
@@ -218,7 +253,7 @@ function tambahDataFPkeServer(url, iddarimesin, iddarieabsen, nama, _token, valu
 
               datatambah(response.nama, 0, opsi, response.jenis);
               datatabelf.ajax.reload(null, false);
-              console.log(response);
+              //console.log(response);
             }
       },
   });
@@ -265,6 +300,14 @@ function datatambah(nama, index, opsi, jenis)
       var item = 'warning';
       var bg_item = 'orange';
       var pesan = 'sudah ada data Sidik Jari/PIN <i class="fa fa-user"></i> '+nama+' ke-'+index+' di basis data eabsen.kalselprov.go.id';
+    }
+
+    else if(opsi=='bu_datapin')
+    {
+      var bg = 'warning';
+      var item = 'warning';
+      var bg_item = 'orange';
+      var pesan = 'Data PIN <i class="fa fa-user"></i> '+nama+' tidak akan diBackup!';
     }
     else if(opsi=='kosong')
     {

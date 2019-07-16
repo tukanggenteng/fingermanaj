@@ -84,6 +84,9 @@
                 <ul class="nav navbar-nav ">
                   <li class=""><a href="/konfigurasi">Alamat IP yang digunakan saat ini : [ <span id="data_ip" class="data_ip"></span> ]  </a></li>
                 </ul>
+                <ul class="nav navbar-nav ">
+                  <li class=""><a href="/konfigurasi">Server Absensi yang digunakan : [ <span id="data_sv" class="data_sv"></span> ]  </a></li>
+                </ul>
             </nav>
         </header>
 
@@ -138,7 +141,9 @@
     <script>
         $(document).ready(function(){
           updateInfoIP();
+          updateInfoSV();
           var interval = setInterval(updateInfoIP, 5000);
+          var interval = setInterval(updateInfoSV, 5000);
           });
 
 
@@ -149,6 +154,13 @@
               $(".data_ip").fadeIn();
             });
           }
+          function updateInfoSV(){
+              $.get("/konfig/sv", function(data, status){
+                $(".data_sv").fadeOut();
+                $(".data_sv").html("<b>"+data.url_server+"</b>");
+                $(".data_sv").fadeIn();
+              });
+            }
     </script>
     @stack('js')
     @yield('js')

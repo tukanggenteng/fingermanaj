@@ -53,6 +53,7 @@ Route::get('/cekmac', 'tampilData@checkMac')->name('mesin.mac');
 Route::get('/konfigurasi', 'tampilData@config')->name('mesin.konfig');
 Route::post('/konfigurasi_set', 'tampilData@config_set')->name('mesin.konfig_set');
 Route::get('/konfig/ip', 'tampilData@ip')->name('mesin.ip');
+Route::get('/konfig/sv', 'tampilData@sv')->name('mesin.ip');
 Route::get('/konfig/jlhpeg', 'tampilData@jlhpeg')->name('mesin.jlhpeg'); //data pegawai dalam json array
 Route::post('/cekkon', 'mesinFinger@konping')->name('mesin.konping');
 
@@ -86,3 +87,12 @@ Route::resource('/instansi_r', 'db_instansi');
 Route::get('/instansi/cari','db_instansi@cari')->name('cariinstansi');
 //Route::get('/testing','db_instansi@testing');
 Route::resource('/alamatip', 'db_alamatip');
+
+//url server
+Route::post('/urlServer', 'urlaccess@store')->name('urlaccess.store');
+Route::patch('/urlServer', 'urlaccess@update')->name('urlaccess.update');
+Route::delete('/urlServer/{id}', 'urlaccess@destroy')->name('urlaccess.destroy');
+
+//sidik jari
+Route::get('/dtsidikjari', 'sidikjari@dtsidikjari')->name('db.dtsidikjari');
+Route::resource('/sidikjari', 'sidikjari');
