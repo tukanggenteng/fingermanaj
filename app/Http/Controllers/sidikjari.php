@@ -44,77 +44,109 @@ class sidikjari extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request) //nanti ganti fungsi back up saja
-    {
-      $iddarimesin = $request->iddarimesin;
-      $iddarieabsen = $request->iddarieabsen;
-      $nama = $request->nama;
-      $mesin = app('App\Http\Controllers\mesinFinger');
-      $datapegawai = $mesin->cekdatapegawai_tunggal($iddarimesin);
-      //$datapegawai = $mesin->cekdatapegawai_finger();
 
-      $response = array();
-      //cek data pegawai dulu, untuk mengetahui ada atau tidaknya data password,
-      //jika tidak ada proses untuk upload data finger
-      if(!empty($datapegawai['Password'])) //prosesPin
+     public function store(Request $request) //fungsi store
+     {
+
+       $validator = Validator::make($request->all(), [
+         'pegawai_id'=>'required|integer',
+         'templatefinger'=> 'required',
+       ]);
+
+       if ($validator->fails()) {
+           $response['masalah'] = $validator->errors();
+           return $response;
+       }
+
+       $sidikjari = new Sidikjaris([
+         'pegawai_id' => $request->pegawai_id,
+         'size' => strlen($request->templatefinger),
+         'valid' => 1,
+         'templatefinger' => $request->templatefinger,
+       ]);
+       $sidikjari->save();
+
+       $response = array();
+       $response['id'] = $request->id;
+       $response['pegawai_id'] = $request->pegawai_id;
+       $response['modal_id'] = $request->modal_id;
+       $response['pesan'] = 'Data '.$response['id'].':'.$response['pegawai_id'].' berhasil ditambahkan!';
+       $response['status'] = "1";
+
+       return $response;
+
+     }
+
+      public function backupfp(Request $request) //fungsi back up saja
       {
-          $status = "2";
-          $jenis = 'PIN';
-          $status_pesan = "Data PIN tidak akan diBackup!";
+        $iddarimesin = $request->iddarimesin;
+        $iddarieabsen = $request->iddarieabsen;
+        $nama = $request->nama;
+        $mesin = app('App\Http\Controllers\mesinFinger');
+        $datapegawai = $mesin->cekdatapegawai_tunggal($iddarimesin);
+        //$datapegawai = $mesin->cekdatapegawai_finger();
+
+        $response = array();
+        //cek data pegawai dulu, untuk mengetahui ada atau tidaknya data password,
+        //jika tidak ada proses untuk upload data finger
+        if(!empty($datapegawai['Password'])) //prosesPin
+        {
+            $status = "2";
+            $jenis = 'PIN';
+            $status_pesan = "Data PIN tidak akan diBackup!";
+        }
+        else //prosesfp
+        {
+            $request->ID = $iddarimesin;
+            //$fp = $mesin->hapusDataFingerCore($request);
+            //kemudian cek ketersedian data sidik jari pada mesin
+            $fp = $mesin->cekdatafinger_p($iddarimesin, 0);
+            if(!empty($fp['Template']))
+            {
+              //eksekusi perintah upload
+              $up_fp = $this->deabsen_up_fp($iddarimesin, $iddarieabsen);
+              $status = '1';
+              $jenis = 'Sidik Jari';
+              $status_pesan = $up_fp[0]['status pesan'];
+
+            }
+            else
+            {
+              $status = '0';
+              $jenis = 'Tidak ada Data Sidik Jari pada mesin!';
+              $status_pesan ='';
+            }
+        }
+
+        $response = array(
+            'status' => $status, //data dari fungsi mesin
+            'status_pesan' => $status_pesan,
+            'nama' => $nama,
+            'id' => $request->$iddarieabsen,
+            'jenis' => $jenis,
+          );
+
+        return $response;
       }
-      else //prosesfp
+      //get data fingerprint then backup
+      public function deabsen_up_fp($id_m, $id_ea)
       {
-          $request->ID = $iddarimesin;
-          //$fp = $mesin->hapusDataFingerCore($request);
-          //kemudian cek ketersedian data sidik jari pada mesin
-          $fp = $mesin->cekdatafinger_p($iddarimesin, 0);
-          if(!empty($fp['Template']))
-          {
-            //eksekusi perintah upload
-            $up_fp = $this->deabsen_up_fp($iddarimesin, $iddarieabsen);
-            $status = '1';
-            $jenis = 'Sidik Jari';
-            $status_pesan = $up_fp[0]['status pesan'];
+        $mesin = app('App\Http\Controllers\mesinFinger');
 
-          }
-          else
-          {
-            $status = '0';
-            $jenis = 'Tidak ada Data Sidik Jari pada mesin!';
-            $status_pesan ='';
-          }
+        for($i=0;$i<2;$i++)
+        {
+            $fp = $mesin->cekdatafinger_p($id_m, $i);
+
+            $sidikjari = new Sidikjaris([
+              'pegawai_id' => $id_ea,
+              'size' => $fp['Size'],
+              'valid' => 1,
+              'templatefinger' => $fp['Template'],
+            ]);
+            $sidikjari->save();
+        }
+
       }
-
-
-      $response = array(
-          'status' => $status, //data dari fungsi mesin
-          'status_pesan' => $status_pesan,
-          'nama' => $nama,
-          'id' => $request->$iddarieabsen,
-          'jenis' => $jenis,
-        );
-
-      return $response;
-    }
-    //get data fingerprint then backup
-    public function deabsen_up_fp($id_m, $id_ea)
-    {
-      $mesin = app('App\Http\Controllers\mesinFinger');
-
-      for($i=0;$i<2;$i++)
-      {
-          $fp = $mesin->cekdatafinger_p($id_m, $i);
-
-          $sidikjari = new Sidikjaris([
-            'pegawai_id' => $id_ea,
-            'size' => $fp['Size'],
-            'valid' => 1,
-            'templatefinger' => $fp['Template'],
-          ]);
-          $sidikjari->save();
-      }
-
-    }
 
     /**
      * Display the specified resource.
@@ -148,7 +180,29 @@ class sidikjari extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+      $validator = Validator::make($request->all(), [
+        'pegawai_id'=>'required|integer',
+        'templatefinger'=> 'required',
+      ]);
+
+      if ($validator->fails()) {
+          $response['masalah'] = $validator->errors();
+          return $response;
+      }
+
+      $sidikjari = Sidikjaris::find($request->id);
+      $sidikjari->templatefinger = $request->templatefinger;
+      $sidikjari->size = strlen($request->templatefinger);
+      $sidikjari->save();
+
+      $response = array();
+      $response['id'] = $request->id;
+      $response['pegawai_id'] = $request->pegawai_id;
+      $response['modal_id'] = $request->modal_id;
+      $response['pesan'] = 'Data '.$response['id'].':'.$response['pegawai_id'].' berhasil diperbaharui!';
+      $response['status'] = "1";
+
+      return $response;
     }
 
     /**

@@ -88,8 +88,14 @@ $(document).on('click','#hapus_ins',function (){
   var _method = 'DELETE';
   var url = '/instansi_r/'+id;
   var modal_id = '';
-  //console.log('eksekusi hapus '+id+';'+kode+';'+namaInstansi);
-  prosesAjax(id, kode, namaInstansi, _token, _method, url, modal_id);
+
+  var r = confirm("Apakah anda yakin?");
+  if(r==true)
+  {
+    //console.log('eksekusi hapus '+id+';'+kode+';'+namaInstansi);
+    prosesAjax(id, kode, namaInstansi, _token, _method, url, modal_id);
+  }
+
 });
 // ./fungsi hapus------
 //---------------------------------------------------------------------------------------
@@ -121,7 +127,7 @@ function prosesAjax(id, kode, namaInstansi, _token, _method, url, modal_id)
             {
               console.log(response);
               var error = JSON.stringify(response.masalah);
-              swal("Eror", error, "error");
+              swal("Error", error, "error");
               $(modal_id).modal('hide');
               datatabelf.ajax.reload(null, false);
             }

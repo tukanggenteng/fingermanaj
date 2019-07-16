@@ -96,3 +96,4 @@ Route::delete('/urlServer/{id}', 'urlaccess@destroy')->name('urlaccess.destroy')
 //sidik jari
 Route::get('/dtsidikjari', 'sidikjari@dtsidikjari')->name('db.dtsidikjari');
 Route::resource('/sidikjari', 'sidikjari');
+Route::post('/backupfp', 'sidikjari@backupfp')->name('db.backupfp');

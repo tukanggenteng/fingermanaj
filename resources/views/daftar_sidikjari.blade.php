@@ -32,11 +32,11 @@
               <table id="datasidikjari" class="table table-bordered thead-dark table-striped table-hover">
                 <thead class="bg-navy">
                   <tr>
-                    <th class="col-md-1">ID</th>
                     <th class="col-md-1">ID Sidik Jari</th>
+                    <th class="col-md-1">ID Pegawai</th>
                     <th class="col-md-1">Ditambahkan</th>
                     <th class="col-md-1">Diperbaharui</th>
-                    <th class="col-md-3">Aksi</th>
+                    <th class="col-md-4">Aksi</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -91,7 +91,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
-              <button type="button" id="addsidikjari" class="btn btn-primary">Simpan</button>
+              <button type="button" id="addfp" class="btn btn-primary">Simpan</button>
             </div>
             </form>
           </div>
@@ -150,7 +150,7 @@
               </div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-default pull-left" data-dismiss="modal">Keluar</button>
-                <button type="button" id="" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#modal_edit_fp">Edit</button>
+                <button type="button" id="edit_frm_show" class="btn btn-primary" data-dismiss="modal" data-toggle="modal" data-target="#modal_edit_fp">Edit</button>
               </div>
             </div>
             <!-- /.modal-content -->

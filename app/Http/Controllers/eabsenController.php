@@ -2,10 +2,22 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
+//DB
+use App\ServerAccs;
 
 class eabsenController extends mesinFinger
 {
+
+  public function  urlaccess()
+  {
+    $serveraccs = ServerAccs::select('url_server')->where('status', 1)->first();
+    if(empty($serveraccs)) { $serveraccs = '127.0.0.1'; }
+    else { $serveraccs = $serveraccs->url_server; }
+    return $serveraccs;
+  }
 
   // Download Data Pegawai yang sudah memiliki Sidik Jari
   public function dteabsen_dp_af($id)
@@ -18,7 +30,7 @@ class eabsenController extends mesinFinger
       //$data = curl_exec($ch);
       //curl_close($ch);
 
-      $datafromeabsen = file_get_contents("http://eabsen.kalselprov.go.id/api/cekpegawai/".$id);
+      $datafromeabsen = file_get_contents("http://".$this->urlaccess()."/api/cekpegawai/".$id);
       $decode_c= json_decode($datafromeabsen);
       //return $datafromeabsen;
       return datatables()->of($decode_c)->toJson();
@@ -28,10 +40,10 @@ class eabsenController extends mesinFinger
   // Download Data Pegawai yang BELUM memiliki Sidik Jari
   public function eabsen_dp_tf($id)
   {
-      $data_fps = file_get_contents("http://eabsen.kalselprov.go.id/api/cekpegawai/".$id);
+      $data_fps = file_get_contents("http://".$this->urlaccess()."/api/cekpegawai/".$id);
       $p_sdhfinger= json_decode($data_fps);
 
-      $data_p = file_get_contents("http://eabsen.kalselprov.go.id/api/cekpegawai/data/".$id);
+      $data_p = file_get_contents("http://".$this->urlaccess()."/api/cekpegawai/data/".$id);
       $p_semua= json_decode($data_p);
 
       $hpmsua = count($p_semua);
@@ -84,7 +96,7 @@ class eabsenController extends mesinFinger
     $mesin = new mesinFinger;
     //$response = array();
 
-    $data_down_fp = file_get_contents("http://eabsen.kalselprov.go.id/api/ambilfinger/".$id);
+    $data_down_fp = file_get_contents("http://".$this->urlaccess()."/api/ambilfinger/".$id);
     $p_finger_d = json_decode($data_down_fp); //format datanya adalah object
     $jumlah_dfp = count($p_finger_d);
     //$response = $p_finger_d[0]->id;
@@ -292,7 +304,7 @@ class eabsenController extends mesinFinger
 ;
 
     curl_setopt_array($curl, array(
-    CURLOPT_URL => "http://eabsen.kalselprov.go.id/api/addfinger",
+    CURLOPT_URL => "http://".$this->urlaccess()."/api/addfinger",
     CURLOPT_RETURNTRANSFER => true,
     CURLOPT_ENCODING => "",
     CURLOPT_MAXREDIRS => 10,
@@ -409,7 +421,7 @@ class eabsenController extends mesinFinger
       //$redirect = array();
       $redirect->datapegawai = $mesin->cekdatapegawai_finger();
       $redirect->d_session = 'pesan';
-      $redirect->d_session_msg = 'Data Pegawai masih kosong, silahkan tambah data pegawai!';
+      $redirect->d_session_msg = 'Data Pegawai di mesin sidik jari masih KOSONG, silahkan tambah data pegawai!';
 
       // set kondisi redirect pada fungsi view
       /*

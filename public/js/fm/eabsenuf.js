@@ -186,7 +186,7 @@ $(document).on('click','#backup_fp',function (){
   var iddarimesin = currentRow.find('td:eq(1)').text();
   var iddarieabsen = currentRow.find('td:eq(1)').text();
   var nama = currentRow.find('td:eq(2)').text();
-  var url = '/sidikjari';
+  var url = '/backupfp';
   var _token= $("input[name=_token]").val();
   //-------- var progres
   var valuemax = 1;

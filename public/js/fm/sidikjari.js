@@ -5,10 +5,10 @@ var datatabelf = $('#datasidikjari').DataTable( {
                     "ajax": "/dtsidikjari",
                     columns: [
                           { data: 'id'},
-                          { data: 'pegawai_id' },
-                          { data: 'created_at' },
-                          { data: 'updated_at' },
-                          { data: null }, //jika ingin mengisi data pada opsi columnDefs, parameter bagian ini harus diisi oleh null
+                          { data: 'pegawai_id'},
+                          { data: 'created_at'},
+                          { data: 'updated_at'},
+                          { data: null, "searchable": false }, //jika ingin mengisi data pada opsi columnDefs, parameter bagian ini harus diisi oleh null
 
                       ],
                       columnDefs: [
@@ -17,7 +17,7 @@ var datatabelf = $('#datasidikjari').DataTable( {
                           {
                             targets: [4] ,className: 'text-center',
                             'render': function (data, type, row) {
-                                var aksi1 = '<button class="cn_'+data.id+' btn btn-default" id="cn" data-toggle="modal" data-target="#modal_cn">[Nama]<i class="fa fa-search"></i></button>';
+                                var aksi1 = '<button class="cn_'+data.pegawai_id+' btn btn-default" id="cn" data-toggle="modal" data-target="#modal_cn">[Nama]<i class="fa fa-search"></i></button>';
                                 var aksi2 = '<button class="cfp_'+data.id+' btn btn-default" id="cfp" data-toggle="modal" data-target="#modal_fp"><i class="fas fa-fingerprint"></i><i class="fa fa-search"></i></button>';
                                 var aksi3 = '<button class="edit_'+data.id+' btn btn-warning" id="edit_fp" data-toggle="modal" data-target="#modal_edit_fp"><i class="fa fa-pencil"></i></button>';
                                 var aksi4 = '<button class="hapus_'+data.id+' btn btn-danger" id="hapus_fp"><i class="fa fa-trash"></i></button>';
@@ -36,23 +36,25 @@ $('#refresh').click(function(){
 //----------------------
 
 //---------------------------------------------------------------------------------------
-//fungsi tambah----------------------------------------------
-$(document).on('click','#addfp',function (){
-  var pegawai_id = $('#pegawai_id').val();
-  var template_finger = $('#template_finger').val();
-  var _token= $("input[name=_token]").val();
-  var _method = 'POST';
-  var url = '/sidikjari';
-  var modal_id = '#modal_add';
-  //console.log('eksekusi tambah '+id+';'+kode+';'+namaInstansi);
-//  prosesAjax(pegawai_id, '', template_finger, _token, _method, url, modal_id);
+//+get data nama
+$(document).on('click','#cn',function (){
+  var currentRow = $(this).closest('tr');
+  var idpegawai = currentRow.find('td:eq(1)').text();
+  $.get("/konfig/sv", function(data, status){
+    var server = data.url_server;
+    $.get("http://"+server+"/api/cekpegawaidata/"+idpegawai, function(data, status){
+      // console.log(data.length==0); //coz array, if length is 0 ther is no data
+      if(data.length==0) { data = 'Data tidak ditemukan!'; }
+      else { data = '<strong class="text-center">['+data[0].nama+'] ['+data[0].nip+'] Instansi ID: '+data[0].instansi_id+'</strong>'; }
+      $(".cn_"+idpegawai).html(data);
+      //$(".cn_"+idpegawai).attr("disabled", true);
+    });
+  });
 });
-// ./fungsi tambah-------------------------------------------
-//---------------------------------------------------------------------------------------
 
 //---------------------------------------------------------------------------------------
 //fungsi show data------
-//+get data
+//+get data sidikjari
 $(document).on('click','#cfp',function (){
   var currentRow = $(this).closest('tr');
   var id = currentRow.find('td:eq(0)').text();
@@ -61,13 +63,43 @@ $(document).on('click','#cfp',function (){
       $("#pegawai_id").val(data.pegawai_id);
       $("#id_fp").val(data.id);
       $("#template_fp").val(data.templatefinger);
-
     });
 
 });
 
+
 //---------------------------------------------------------------------------------------
-//fungsi edit------
+//fungsi tambah----------------------------------------------
+$(document).on('click','#addfp',function (){
+  var pegawai_id = $('#pegawai_id_t').val();
+  var template_finger = $('#template_fp_t').val();
+  var _token= $("input[name=_token]").val();
+  var _method = 'POST';
+  var url = '/sidikjari';
+  var modal_id = '#modal_add';
+  //console.log('eksekusi tambah '+id+';'+kode+';'+namaInstansi);
+  prosesAjax(pegawai_id, '', template_finger, _token, _method, url, modal_id);
+});
+// ./fungsi tambah-------------------------------------------
+//---------------------------------------------------------------------------------------
+
+
+//---------------------------------------------------------------------------------------
+//fungsi edit from show------
+//+get data
+$(document).on('click','#edit_frm_show',function (){
+  var pegawai_id = $('#pegawai_id').val();
+  var id = $('#id_fp').val();
+  var templatefinger= $('#template_fp').val();
+
+  $.get("/sidikjari/"+id, function(data, status){
+      $("#pegawai_id_e").val(pegawai_id);
+      $("#id_fp_e").val(id);
+      $("#template_fp_e").val(templatefinger);
+
+    });
+});
+//fungsi edit normal------
 //+get data
 $(document).on('click','#edit_fp',function (){
   var currentRow = $(this).closest('tr');
@@ -79,7 +111,6 @@ $(document).on('click','#edit_fp',function (){
       $("#template_fp_e").val(data.templatefinger);
 
     });
-
 });
 //+update data
 $(document).on('click','#updatefp',function (){
@@ -88,7 +119,7 @@ $(document).on('click','#updatefp',function (){
   var template_finger = $('#template_fp_e').val();
   var _token= $("input[name=_token]").val();
   var _method = 'PATCH';
-  var url = '/sidikjari/'+id;
+  var url = '/sidikjari/'+fp_id;
   var modal_id = '#modal_edit_fp';
   //console.log('eksekusi update '+id+';'+kode+';'+namaInstansi);
   prosesAjax(pegawai_id, fp_id, template_finger, _token, _method, url, modal_id);
@@ -108,7 +139,7 @@ $(document).on('click','#hapus_fp',function (){
   var url = '/sidikjari/'+fp_id;
   var modal_id = '';
 
-  var r = confirm("apakah anda yakin");
+  var r = confirm("Apakah anda yakin?");
   if(r==true)
   {
     //console.log('eksekusi hapus '+id+';'+kode+';'+namaInstansi);
