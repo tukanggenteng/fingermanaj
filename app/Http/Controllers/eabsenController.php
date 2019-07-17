@@ -112,6 +112,7 @@ class eabsenController extends mesinFinger
           $request->size = $p_finger_d[0]->size;
           $request->template_finger = $p_finger_d[0]->templatefinger;
           //----
+          $setData = $mesin->hapusNamaPegawai($request);
           $setData = $mesin->tambahNamaPegawai($request);
 
           $response[0] = array(

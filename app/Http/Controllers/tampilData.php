@@ -145,6 +145,8 @@ class tampilData extends mesinFinger
       //----
 
       $mesin = new mesinFinger;
+      //hapus data yang ada dulu baru tambah beserta data pin
+      $mesin->hapusNamaPegawai($request);
       $mesin->tambahNamaPegawai($request);
 
       //melempar ke route hasil update atau tambah

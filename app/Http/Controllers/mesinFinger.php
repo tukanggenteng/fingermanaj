@@ -721,7 +721,7 @@ class mesinFinger extends Controller
 
       //dd($request);
       //$status_store = $request->status_store;
-      $PIN = $request->id;
+      $PIN = $request->ID;
       $nama = $request->nama;
 
       $url = session('set_ip'); //get data ip dari var session

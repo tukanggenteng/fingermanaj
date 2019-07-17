@@ -79,7 +79,7 @@ $(document).ready(function() {
           type:'post',
           url:'/pegawai/hapuspegawai',
           data : {
-                  id:id,
+                  ID:id,
                   nama:nama,
                   _token:_token
                   },
