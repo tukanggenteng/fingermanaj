@@ -4,10 +4,10 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>Laravel</title>
-
+        <title>Manajemen Mesin Sidik Jari</title>
+        <link rel="stylesheet" href="{{ asset('vendor/adminlte/vendor/bootstrap/dist/css/bootstrap.min.css') }}">
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Nunito:200,600" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <!-- Styles -->
         <style>
@@ -65,34 +65,25 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-            @if (Route::has('login'))
-                <div class="top-right links">
-                    @auth
-                        <a href="{{ url('/home') }}">Home</a>
-                    @else
-                        <a href="{{ route('login') }}">Login</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
 
             <div class="content">
-                <div class="title m-b-md">
-                    Laravel
+              <div class="md-col-12">
+                <hr>
+                <div class="alert alert-warning" role="alert">
+                  <h4 class="alert-heading"><strong>Perhatian!</strong></h4>
+                  <p>Sebelum menggunakan Manajemen Mesin Sidik Jari, pastikan pengaturan <b>Alamat IP Mesin Sidik Jari</b> dan <b>Alamat Server</b> yang digunakan untuk Absensi!</p>
+                  <hr>
+                  <p class="mb-0">Silakan melakukan Konfigurasi terlebih dahulu sebelum menggunakan!</p>
                 </div>
+                <hr>
 
-                <div class="links">
-                    <a href="https://laravel.com/docs">Docs</a>
-                    <a href="https://laracasts.com">Laracasts</a>
-                    <a href="https://laravel-news.com">News</a>
-                    <a href="https://blog.laravel.com">Blog</a>
-                    <a href="https://nova.laravel.com">Nova</a>
-                    <a href="https://forge.laravel.com">Forge</a>
-                    <a href="https://github.com/laravel/laravel">GitHub</a>
-                </div>
+                <a href="/konfigurasi">
+                  <div class="links btn btn-default">
+                    Konfigurasi <i class="fa fa-gears"></i>
+                  </div>
+                </a>
+
+              </div>
             </div>
         </div>
     </body>
