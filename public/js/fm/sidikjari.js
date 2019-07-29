@@ -5,6 +5,8 @@ var datatabelf = $('#datasidikjari').DataTable( {
                     "ajax": "/dtsidikjari",
                     columns: [
                           { data: 'id'},
+                          { data: 'nama'},
+                          { data: 'keterangan'},
                           { data: 'pegawai_id'},
                           { data: 'created_at'},
                           { data: 'updated_at'},
@@ -12,10 +14,11 @@ var datatabelf = $('#datasidikjari').DataTable( {
 
                       ],
                       columnDefs: [
-                          { targets: [0,1] , className: 'text-right' },
-                          { targets: [2,3] , className: 'text-center' },
+                          { targets: [0,3] , className: 'text-right' },
+                          { targets: [1,2] , className: 'text-left' },
+                          { targets: [4,5] , className: 'text-center' },
                           {
-                            targets: [4] ,className: 'text-center',
+                            targets: [6] ,className: 'text-center',
                             'render': function (data, type, row) {
                                 var aksi1 = '<button class="cn_'+data.pegawai_id+' btn btn-default" id="cn" data-toggle="modal" data-target="#modal_cn">[Nama]<i class="fa fa-search"></i></button>';
                                 var aksi2 = '<button class="cfp_'+data.id+' btn btn-default" id="cfp" data-toggle="modal" data-target="#modal_fp"><i class="fas fa-fingerprint"></i><i class="fa fa-search"></i></button>';
@@ -60,6 +63,8 @@ $(document).on('click','#cfp',function (){
   var id = currentRow.find('td:eq(0)').text();
 
   $.get("/sidikjari/"+id, function(data, status){
+      $("#nama").val(data.nama);
+      $("#ket").val(data.keterangan);
       $("#pegawai_id").val(data.pegawai_id);
       $("#id_fp").val(data.id);
       $("#template_fp").val(data.templatefinger);
@@ -71,6 +76,8 @@ $(document).on('click','#cfp',function (){
 //---------------------------------------------------------------------------------------
 //fungsi tambah----------------------------------------------
 $(document).on('click','#addfp',function (){
+  var nama = $('#nama_t').val();
+  var ket = $('#ket_t').val();
   var pegawai_id = $('#pegawai_id_t').val();
   var template_finger = $('#template_fp_t').val();
   var _token= $("input[name=_token]").val();
@@ -93,6 +100,8 @@ $(document).on('click','#edit_frm_show',function (){
   var templatefinger= $('#template_fp').val();
 
   $.get("/sidikjari/"+id, function(data, status){
+      $("#nama_e").val(nama);
+      $("#ket_e").val(keterangan);
       $("#pegawai_id_e").val(pegawai_id);
       $("#id_fp_e").val(id);
       $("#template_fp_e").val(templatefinger);
@@ -106,6 +115,8 @@ $(document).on('click','#edit_fp',function (){
   var id = currentRow.find('td:eq(0)').text();
 
   $.get("/sidikjari/"+id, function(data, status){
+      $("#nama_e").val(data.nama);
+      $("#ket_e").val(data.keterangan);
       $("#pegawai_id_e").val(data.pegawai_id);
       $("#id_fp_e").val(data.id);
       $("#template_fp_e").val(data.templatefinger);
@@ -114,6 +125,8 @@ $(document).on('click','#edit_fp',function (){
 });
 //+update data
 $(document).on('click','#updatefp',function (){
+  var nama = $('#nama_e').val();
+  var ket = $('#ket_e').val();
   var pegawai_id = $('#pegawai_id_e').val();
   var fp_id = $('#id_fp_e').val();
   var template_finger = $('#template_fp_e').val();
@@ -122,7 +135,7 @@ $(document).on('click','#updatefp',function (){
   var url = '/sidikjari/'+fp_id;
   var modal_id = '#modal_edit_fp';
   //console.log('eksekusi update '+id+';'+kode+';'+namaInstansi);
-  prosesAjax(pegawai_id, fp_id, template_finger, _token, _method, url, modal_id);
+  prosesAjax(nama, ket, pegawai_id, fp_id, template_finger, _token, _method, url, modal_id);
 });
 // ./fungsi edit------
 //---------------------------------------------------------------------------------------
@@ -153,12 +166,14 @@ $(document).on('click','#hapus_fp',function (){
 
 //------------------------------
 //Process Ajax
-function prosesAjax(pegawai_id, fp_id, template_finger, _token, _method, url, modal_id)
+function prosesAjax(nama, ket, pegawai_id, fp_id, template_finger, _token, _method, url, modal_id)
 {
   $.ajax({
       type:'post',
       url: url,
       data : {
+              nama: nama,
+              ket: ket,
               id: fp_id,
               pegawai_id: pegawai_id,
               templatefinger : template_finger,

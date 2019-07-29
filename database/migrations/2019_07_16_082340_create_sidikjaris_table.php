@@ -15,6 +15,8 @@ class CreateSidikjarisTable extends Migration
     {
         Schema::create('sidikjaris', function (Blueprint $table) {
           $table->bigIncrements('id');
+          $table->string('nama')->nullable();
+          $table->longText('keterangan')->nullable();
           $table->unsignedBigInteger('pegawai_id');
           $table->longText('size');
           $table->longText('valid');

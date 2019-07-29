@@ -22,7 +22,7 @@ class sidikjari extends Controller
     }
     public function dtsidikjari()
     {
-      $data_fp = Sidikjaris::select('id','pegawai_id','created_at','updated_at');
+      $data_fp = Sidikjaris::select('id','nama','keterangan','pegawai_id','created_at','updated_at');
       return datatables()->of($data_fp)->toJson();
     }
 
@@ -60,6 +60,8 @@ class sidikjari extends Controller
 
        $sidikjari = new Sidikjaris([
          'pegawai_id' => $request->pegawai_id,
+         'nama' => $request->nama,
+         'keterangan' => $request->ket,
          'size' => strlen($request->templatefinger),
          'valid' => 1,
          'templatefinger' => $request->templatefinger,
@@ -68,6 +70,8 @@ class sidikjari extends Controller
 
        $response = array();
        $response['id'] = $request->id;
+       $response['nama'] = $request->nama;
+       $response['keterangan'] = $request->ket;
        $response['pegawai_id'] = $request->pegawai_id;
        $response['modal_id'] = $request->modal_id;
        $response['pesan'] = 'Data '.$response['id'].':'.$response['pegawai_id'].' berhasil ditambahkan!';
@@ -191,12 +195,16 @@ class sidikjari extends Controller
       }
 
       $sidikjari = Sidikjaris::find($request->id);
+      $sidikjari->nama = $request->nama;
+      $sidikjari->keterangan = $request->ket;
       $sidikjari->templatefinger = $request->templatefinger;
       $sidikjari->size = strlen($request->templatefinger);
       $sidikjari->save();
 
       $response = array();
       $response['id'] = $request->id;
+      $response['nama'] = $request->nama;
+      $response['keterangan'] = $request->ket;
       $response['pegawai_id'] = $request->pegawai_id;
       $response['modal_id'] = $request->modal_id;
       $response['pesan'] = 'Data '.$response['id'].':'.$response['pegawai_id'].' berhasil diperbaharui!';

@@ -33,6 +33,8 @@
                 <thead class="bg-navy">
                   <tr>
                     <th class="col-md-1">ID Sidik Jari</th>
+                    <th class="col-md-1">Nama</th>
+                    <th class="col-md-1">Keterangan</th>
                     <th class="col-md-1">ID Pegawai</th>
                     <th class="col-md-1">Ditambahkan</th>
                     <th class="col-md-1">Diperbaharui</th>
@@ -58,7 +60,7 @@
           <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span></button>
-            <h4 class="modal-title">Tambah Data Sidik Jari <i class="fa fa-building"></i></h4>
+            <h4 class="modal-title">Tambah Data Sidik Jari <i class="fas fa-fingerprint"></i></h4>
           </div>
           <div class="modal-body">
             <div class="error alert-danger alert-dismissible">
@@ -66,6 +68,28 @@
             <form id="formfpadd" method="post" role="form" enctype="multipart/form-data" action="">
 
               @csrf
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label>Nama</label>
+                      <input id="nama_t" name="pegawai_id_t" class="form-control pull-right" type="text">
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <label>Keterangan</label>
+                      <textarea id="ket_t" name="ket_t" class="col-md-10 form-control" rows="2" cols="80"></textarea>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
               <div class="row">
                 <div class="col-md-12">
                   <div class="col-md-12">
@@ -113,6 +137,28 @@
             <div class="modal-body">
               <div class="error alert-danger alert-dismissible">
               </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Nama</label>
+                        <input id="nama" name="nama" class="form-control pull-right" type="text" disabled>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label>Keterangan</label>
+                        <textarea id="ket" name="ket" class="col-md-10 form-control" rows="2" cols="80" disabled></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
 
                  <div class="row">
                   <div class="col-md-12">
@@ -173,6 +219,28 @@
               </div>
               <form id="formfpupdate" method="post" role="form" enctype="multipart/form-data" action="">
                  @csrf
+
+                 <div class="row">
+                   <div class="col-md-12">
+                     <div class="col-md-12">
+                       <div class="form-group">
+                         <label>Nama</label>
+                         <input id="nama_e" name="nama_e" class="form-control pull-right" type="text">
+                       </div>
+                     </div>
+                   </div>
+                 </div>
+
+                 <div class="row">
+                   <div class="col-md-12">
+                     <div class="col-md-12">
+                       <div class="form-group">
+                         <label>Keterangan</label>
+                         <textarea id="ket_e" name="ket_e" class="col-md-10 form-control" rows="2" cols="80"></textarea>
+                       </div>
+                     </div>
+                   </div>
+                 </div>
 
                 <div class="row">
                   <div class="col-md-12">
