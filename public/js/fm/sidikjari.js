@@ -20,7 +20,7 @@ var datatabelf = $('#datasidikjari').DataTable( {
                           {
                             targets: [6] ,className: 'text-center',
                             'render': function (data, type, row) {
-                                var aksi1 = '<button class="cn_'+data.pegawai_id+' btn btn-default" id="cn" data-toggle="modal" data-target="#modal_cn">[Nama]<i class="fa fa-search"></i></button>';
+                                var aksi1 = '<span class="cnt_'+data.pegawai_id+'"></span><button class="cn_'+data.pegawai_id+' btn btn-default" id="cn" data-toggle="modal" data-target="#modal_cn">[Nama]<i class="fa fa-search"></i></button>';
                                 var aksi2 = '<button class="cfp_'+data.id+' btn btn-default" id="cfp" data-toggle="modal" data-target="#modal_fp"><i class="fas fa-fingerprint"></i><i class="fa fa-search"></i></button>';
                                 var aksi3 = '<button class="edit_'+data.id+' btn btn-warning" id="edit_fp" data-toggle="modal" data-target="#modal_edit_fp"><i class="fa fa-pencil"></i></button>';
                                 var aksi4 = '<button class="hapus_'+data.id+' btn btn-danger" id="hapus_fp"><i class="fa fa-trash"></i></button>';
@@ -42,14 +42,15 @@ $('#refresh').click(function(){
 //+get data nama
 $(document).on('click','#cn',function (){
   var currentRow = $(this).closest('tr');
-  var idpegawai = currentRow.find('td:eq(1)').text();
+  var idpegawai = currentRow.find('td:eq(3)').text();
   $.get("/konfig/sv", function(data, status){
     var server = data.url_server;
     $.get("http://"+server+"/api/cekpegawaidata/"+idpegawai, function(data, status){
       // console.log(data.length==0); //coz array, if length is 0 ther is no data
       if(data.length==0) { data = 'Data tidak ditemukan!'; }
-      else { data = '<strong class="text-center">['+data[0].nama+'] ['+data[0].nip+'] Instansi ID: '+data[0].instansi_id+'</strong>'; }
-      $(".cn_"+idpegawai).html(data);
+      else { data = '<div class="bg bg-success"><strong class="text-center">['+data[0].nama+'] ['+data[0].nip+'] Instansi ID: '+data[0].instansi_id+'</strong></div>'; }
+      $(".cn_"+idpegawai).remove();
+      $(".cnt_"+idpegawai).html(data);
       //$(".cn_"+idpegawai).attr("disabled", true);
     });
   });
