@@ -2,6 +2,20 @@ $(document).ready(function() {
   var datatabelf = $('#datapegawaifinger').DataTable( {
                       "processing": true,
                       "serverSide": true,
+                      language: {
+                        lengthMenu: "Tampilkan _MENU_ Baris",
+                        zeroRecords: "Maaf - Data Tidak Ditemukan",
+                        info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                        infoEmpty: "Tidak Ada Data Tersedia",
+                        infoFiltered: "(disaring dari total _MAX_ data)",
+                        paginate: {
+                            first:"Awal",
+                            last:"Akhir",
+                            next:"Selanjutnya",
+                            previous:"Sebelumnya"
+                            },
+                        search:"Pencarian:",
+                        },
                       "ajax": "/pegawai/dtdatapegawai_m",
                       columns: [
                             { data: 'PIN'},

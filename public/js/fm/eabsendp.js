@@ -27,6 +27,20 @@
                             "processing": true,
                             "serverSide": true,
                             "ajax": url+instansi,
+                            language: {
+                              lengthMenu: "Tampilkan _MENU_ Baris",
+                              zeroRecords: "Maaf - Data Tidak Ditemukan",
+                              info: "Menampilkan _START_ sampai _END_ dari _TOTAL_ data",
+                              infoEmpty: "Tidak Ada Data Tersedia",
+                              infoFiltered: "(disaring dari total _MAX_ data)",
+                              paginate: {
+                                  first:"Awal",
+                                  last:"Akhir",
+                                  next:"Selanjutnya",
+                                  previous:"Sebelumnya"
+                                  },
+                              search:"Pencarian:",
+                              },
                             columns: [
                                   { data: 'id'},
                                   { data: 'nip' },

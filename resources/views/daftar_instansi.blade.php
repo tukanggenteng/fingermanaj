@@ -26,7 +26,7 @@
               @endif
             </div>
             <div class="box-body">
-              <button class="btn btn-primary" id="tambah" data-toggle="modal" data-target="#modal_add">Tambah Instansi <i class="fa fa-user"></i></button>
+              <button class="btn btn-primary" id="tambah" data-toggle="modal" data-target="#modal_add">Tambah Instansi <i class="fas fa-building"></i></button>
               <button class="btn btn-info" id="refresh">Refresh <i class="fa fa-refresh"></i></button>
               <hr>
               <table id="datainstansi" class="table table-bordered thead-dark table-striped table-hover">
