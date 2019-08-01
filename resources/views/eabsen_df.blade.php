@@ -114,7 +114,7 @@
 @section('js')
 <!--javascript custom section   -->
 <!-- code below -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="/js/unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="/js/fm/eabsendf.js"></script>
 <script>
 //komentar?

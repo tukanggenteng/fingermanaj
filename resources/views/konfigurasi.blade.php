@@ -337,7 +337,7 @@
 @stop
 
 @section('css')
-<link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+<link href="{{ asset('/css/gitcdn.github.io/bootstrap-toggle/2.2.2/bootstrap-toggle.min.css') }}" rel="stylesheet">
 <!--css custom section   -->
 <!-- code below -->
 <!-- <link rel="stylesheet" href="/css/admin_custom.css"> -->
@@ -346,7 +346,7 @@
 @section('js')
 <!--javascript custom section   -->
 <!-- code below -->
-<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+<script src="/js/unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="/js/gitcdn.github.io/bootstrap-toggle/2.2.2/bootstrap-toggle.min.js"></script>
 <script src="/js/fm/mesinkon.js"></script>
 @stop
