@@ -27,6 +27,7 @@
               <button class="btn btn-primary" data-toggle="modal" id="tambah_dpf" data-target="#modal_add_dpf">Tambah Data Pegawai yang sudah memiliki sidik jari <i class="fa fa-user"></i></button>
               <hr>
               <hr>
+                <input type="hidden" name="url_dp_server" id="url_dp_server" value="{{ $url_dp_server }}">
                 <div id="datadarieabsen" style="visibility:hidden;"></div>
                 <div id="aksitambahdata"></div>
                 <div id="progresstambah"></div>

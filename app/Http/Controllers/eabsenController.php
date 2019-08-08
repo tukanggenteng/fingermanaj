@@ -388,12 +388,14 @@ class eabsenController extends mesinFinger
       //cek koneksi biar fungsi ----------------------------------------------------------------
       $mesin = new mesinFinger;
       $kon = $mesin->connHealthCheck(session('set_ip'));
+      $url_dp_server = $this->urlaccess();
+
       if($kon=='dead')
       {
          return redirect()->route('mesin.konfig')->with('pesan', 'Alat fingerprintscan tidak bisa dihubungi, silakan setting ulang alamat IP !');
       }
       // ./cek koneksi biar fungsi ----------------------------------------------------------------
-      return view('eabsen_dp');
+      return view('eabsen_dp',[ 'url_dp_server' => $url_dp_server ]);
     }
 
     public function eabsen_uf()

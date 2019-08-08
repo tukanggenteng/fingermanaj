@@ -159,6 +159,7 @@
   // Tambah Data Pegawai yang sudah memiliki finger-----------------------------------------------------------
   $(document).on('click','#addpegawai_dpf',function (){
       var instansi=$('#instansi').val();
+      var url_dp_server=$('#url_dp_server').val();
       var url = '/cekpegawai_f_eabsen/';
 
       tabelDataPegawai();
@@ -169,7 +170,7 @@
       $("#datadarieabsen").removeAttr("style");
 
       var datainstansi = '<input type="hidden" name="datainstansi" id="datainstansi" value='+instansi+'>';
-      var url_dp = '<input type="hidden" name="url_dp" id="url_dp" value="http://eabsen.kalselprov.go.id/api/cekpegawai/">';
+      var url_dp = '<input type="hidden" name="url_dp" id="url_dp" value="http://'+url_dp_server+'/api/cekpegawai/">';
       var tombolaksi = '<button class="btn btn-warning form-control" name="tambahdata" id="tambahdata">Tambahkan data ke mesin fingerprint</button>'
       $("#aksitambahdata").html(datainstansi+url_dp+tombolaksi);
 
